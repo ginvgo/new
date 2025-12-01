@@ -3,11 +3,11 @@
 
 /* --- 全局基础设置 --- */
 body {
-    font-family: "Amazon Ember", Arial, sans-serif; /* 模拟亚马逊字体 */
-    background-color: #E3E6E6; /* 亚马逊标志性浅灰背景 */
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #F3F4F6;
     margin: 0;
     line-height: inherit;
-    color: #0F1111;
+    scroll-behavior: smooth;
 }
 
 /* --- 自定义滚动条 --- */
@@ -25,182 +25,98 @@ body {
     background: #999; 
 }
 
-/* --- 亚马逊品牌色系变量 --- */
-:root {
-    --amz-dark: #232F3E;
-    --amz-light: #37475A;
-    --amz-orange: #FF9900;
-    --amz-blue-link: #007185;
-    --amz-price-red: #B12704;
-    --amz-star-yellow: #F6993F;
-    --amz-btn-primary: #FFD814;
-    --amz-btn-secondary: #FFA41C;
-    --amz-bg-gray: #F0F2F2;
+/* --- 亚马逊品牌色系 --- */
+.amz-dark { background-color: #232F3E; }
+.amz-light { background-color: #37475A; }
+.amz-orange { background-color: #FF9900; }
+.amz-yellow { background-color: #FEBD69; }
+
+/* --- 动画效果 --- */
+@keyframes pulse-ring {
+    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 153, 0, 0); }
+    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0); }
+}
+.hotspot-pulse {
+    animation: pulse-ring 2s infinite;
 }
 
-/* --- 基础类与动画 --- */
-.amz-link { color: var(--amz-blue-link); text-decoration: none; }
-.amz-link:hover { text-decoration: underline; color: #C7511F; }
-
-.price-text { color: var(--amz-price-red); font-weight: 500; }
-.star-icon { color: var(--amz-star-yellow); }
-
-/* 选项卡样式 */
+/* --- 选项卡样式 (Deep Dive) --- */
 .tab-active {
-    border-bottom: 3px solid var(--amz-orange);
+    border-bottom: 3px solid #FF9900;
     color: #111;
     font-weight: 700;
-    background-color: #fff;
 }
 .tab-inactive {
     border-bottom: 3px solid transparent;
     color: #555;
-    background-color: transparent;
 }
 
-/* --- 热点 (Hotspot) 系统 --- */
-/* 静态热点，无脉冲 */
-.hotspot-point {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    border: 2px solid white;
-    transition: transform 0.2s;
-    font-weight: bold;
-    font-size: 14px;
-    color: white;
+/* --- 全景流量实验室 (Traffic Lab) 样式 --- */
+
+/* 实验室选中元素的高亮样式 */
+.lab-selected {
+    outline: 4px solid #3B82F6; /* blue-500 */
+    transform: scale(1.01);
+    transition: all 0.2s;
     z-index: 20;
-}
-.hotspot-point:hover {
-    transform: scale(1.1);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-/* 颜色区分 */
-.hotspot-paid { background-color: #F97316; } /* Orange */
-.hotspot-free { background-color: #22C55E; } /* Green */
-
-/* 悬浮提示框 (Tooltip) - 保持原有功能 */
-.hotspot-tooltip {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.2s, visibility 0.2s;
-    position: absolute;
-    z-index: 30;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-    max-width: 200px;
-    background-color: #232F3E; /* Amazon Dark */
-    color: white;
-    text-align: center;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+/* 开关样式 */
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #10B981;
 }
-.hotspot-tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #232F3E transparent transparent transparent;
-}
-.group:hover .hotspot-tooltip {
-    visibility: visible;
-    opacity: 1;
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #10B981;
 }
 
-/* --- X-Ray 透视模式 --- */
-/* 当容器拥有 .xray-active 类时生效 */
-.xray-active .xray-item-paid {
-    outline: 2px dashed #F97316;
-    background-color: rgba(255, 237, 213, 0.2);
+/* X-Ray 模式：付费流量高亮 */
+.xray-active .item-paid {
+    border: 2px solid #F97316 !important; /* orange-500 */
+    background-color: rgba(255, 237, 213, 0.4); /* orange-100 */
     position: relative;
 }
-.xray-active .xray-item-paid::before {
+.xray-active .item-paid::after {
     content: "PAID";
     position: absolute;
-    top: -10px;
+    top: 0;
     left: 0;
     background: #F97316;
     color: white;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: bold;
-    padding: 1px 4px;
-    border-radius: 2px;
+    padding: 2px 6px;
+    border-bottom-right-radius: 4px;
     z-index: 10;
 }
 
-.xray-active .xray-item-free {
-    outline: 2px dashed #22C55E;
-    background-color: rgba(220, 252, 231, 0.2);
+/* X-Ray 模式：免费流量高亮 */
+.xray-active .item-free {
+    border: 2px solid #22C55E !important; /* green-500 */
+    background-color: rgba(220, 252, 231, 0.4); /* green-100 */
     position: relative;
 }
-.xray-active .xray-item-free::before {
+.xray-active .item-free::after {
     content: "ORGANIC";
     position: absolute;
-    top: -10px;
+    top: 0;
     left: 0;
     background: #22C55E;
     color: white;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: bold;
-    padding: 1px 4px;
-    border-radius: 2px;
+    padding: 2px 6px;
+    border-bottom-right-radius: 4px;
     z-index: 10;
 }
 
-/* --- 模态框 (Modal) --- */
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(2px);
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
+/* 右侧面板滑入动画 */
+.panel-slide-in {
+    animation: slideIn 0.3s ease-out forwards;
 }
-.modal-backdrop.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-content {
-    background-color: white;
-    width: 90%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 12px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    transform: translateY(20px);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.modal-backdrop.active .modal-content {
-    transform: translateY(0);
-}
-
-/* --- 开关样式 --- */
-.toggle-checkbox:checked {
-    right: 0;
-    border-color: #007185;
-}
-.toggle-checkbox:checked + .toggle-label {
-    background-color: #007185;
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
 }

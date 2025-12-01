@@ -7,76 +7,27 @@ body {
     background-color: #F3F4F6;
     margin: 0;
     line-height: inherit;
+    color: #0F1111;
 }
 
-/* --- 自定义滚动条 (两个文件通用) --- */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-}
-::-webkit-scrollbar-thumb {
-    background: #ccc; 
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #999; 
-}
+/* --- 自定义滚动条 --- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
 
-/* --- 工具提示动画 (通用) --- */
-.tooltip-content {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.2s, visibility 0.2s;
-    position: absolute;
-    z-index: 50;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 280px;
-}
+/* 实验室内部滚动条微调 */
+.lab-scroll::-webkit-scrollbar { width: 6px; }
+.lab-scroll::-webkit-scrollbar-thumb { background-color: #CBD5E1; border-radius: 3px; }
 
-.group:hover .tooltip-content {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* --- 亚马逊品牌色系 (来自第一个文件) --- */
+/* --- 亚马逊品牌色系辅助类 --- */
 .amz-dark { background-color: #232F3E; }
 .amz-light { background-color: #37475A; }
 .amz-orange { background-color: #FF9900; }
 .amz-yellow { background-color: #FEBD69; }
-.amz-blue { color: #007185; }
 .text-amz-blue { color: #007185; }
-.bg-amz-button { background-color: #FFD814; border-color: #FCD200; }
 
-/* --- 动画效果 --- */
-/* Pulse Animation for Hotspots (Default Orange) */
-@keyframes pulse-ring {
-    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 153, 0, 0); }
-    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0); }
-}
-.hotspot-pulse {
-    animation: pulse-ring 2s infinite;
-}
-
-/* Specific Animations from File 2 */
-@keyframes pulse-ring-green {
-    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
-@keyframes pulse-ring-orange {
-    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); }
-    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-}
-.hotspot-pulse-green { animation: pulse-ring-green 2s infinite; }
-.hotspot-pulse-orange { animation: pulse-ring-orange 2s infinite; }
-
-/* --- 选项卡样式 --- */
+/* --- 选项卡样式 (Deep Dive Tabs) --- */
 .tab-active {
     border-bottom: 3px solid #FF9900;
     color: #111;
@@ -87,183 +38,50 @@ body {
     color: #555;
 }
 
-/* --- 开关样式 (Toggle) --- */
+/* --- 开关样式 (Toggle Switch) --- */
 .toggle-checkbox:checked {
     right: 0;
-    border-color: #10B981;
+    border-color: #3B82F6;
 }
 .toggle-checkbox:checked + .toggle-label {
-    background-color: #10B981;
+    background-color: #3B82F6;
 }
 
-/* --- 动态图片链接样式 (保留原文件完整性) --- */
-.dyn-img-link-wrapper-di-script {
-    anchor-scope: all;
-    display: contents;
-    position: relative;
-    z-index: 1;
+/* =========================================
+   全景流量实验室 (Traffic Lab Ultimate) 核心样式
+   ========================================= */
+
+/* 1. 布局与容器 */
+.lab-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+}
+@media (min-width: 1024px) {
+    .lab-container {
+        grid-template-columns: 260px 1fr 300px; /* 左控 - 中画 - 右显 */
+        height: 800px; /*在大屏固定高度以支持内部滚动*/
+    }
 }
 
-.dyn-img-link-wrapper-di-script img {
-    anchor-name: --photo;
-    display: block;
-    max-width: 100%;
-}
-
-.dyn-img-link-di-script {
-    z-index: 999999;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 9999px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    color: white;
-    height: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
-    width: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
-    padding: 4px;
-    position: absolute;
-    bottom: anchor(bottom);
-    left: anchor(left);
-    margin-left: 10px;
-    margin-bottom: 10px;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.dyn-img-link-di-script:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.dyn-img-attribution-button-di-script {
-    z-index: 999999;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 9999px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    color: white;
-    width: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
-    height: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
-    padding: 4px;
-    position: absolute;
-    position-anchor: --photo;
-    top: anchor(top);
-    right: anchor(right);
-    margin-top: 10px;
-    margin-right: 10px;
-    transition: background-color 0.2s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dyn-img-attribution-button-di-script:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.dyn-img-inline-attribution-di-script {
-    z-index: 999999;
-    font-size: 12px;
-    padding: 4px;
-    display: none;
-    position: absolute;
-    position-anchor: --photo;
-    bottom: anchor(bottom);
-    right: anchor(right);
-    margin-bottom: 8px;
-    margin-right: 8px;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: right;
-    white-space: nowrap;
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 9999px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    color: white;
-}
-
-
-
-/* --- 全景流量实验室 (Integrated Tool) --- */
-
-/* 选中元素的样式 */
-.lab-selected {
-    ring: 4px;
-    ring-color: #3B82F6; /* blue-500 */
-    transform: scale(1.02);
-    transition: all 0.2s;
-    z-index: 20;
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-
-/* X-Ray 模式：付费流量高亮 */
-.xray-active .item-paid {
-    border: 2px solid #F97316 !important; /* orange-500 */
-    background-color: rgba(255, 237, 213, 0.3); /* orange-100 */
-    position: relative;
-}
-.xray-active .item-paid::after {
-    content: "PAID";
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #F97316;
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-bottom-right-radius: 4px;
-}
-
-/* X-Ray 模式：免费流量高亮 */
-.xray-active .item-free {
-    border: 2px solid #22C55E !important; /* green-500 */
-    background-color: rgba(220, 252, 231, 0.3); /* green-100 */
-    position: relative;
-}
-.xray-active .item-free::after {
-    content: "ORGANIC";
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #22C55E;
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-bottom-right-radius: 4px;
-}
-
-/* 详情面板动画 */
-.panel-slide-in {
-    animation: slideIn 0.3s ease-out forwards;
-}
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-
-/* --- Amazon UI 高保真还原 --- */
-
-/* 价格样式 */
+/* 2. 亚马逊 UI 高保真模拟 (Amazon UI Kit) */
 .amz-price-symbol { font-size: 10px; vertical-align: top; top: 4px; position: relative; }
 .amz-price-whole { font-size: 21px; font-weight: 700; color: #0F1111; }
 .amz-price-fraction { font-size: 10px; vertical-align: top; top: 4px; position: relative; }
 
-/* Prime 标志模拟 */
 .amz-prime { color: #007185; font-weight: 700; font-style: italic; font-size: 11px; }
 .amz-prime::after { content: "✔prime"; font-family: sans-serif; }
 
-/* 按钮样式 */
-.amz-btn-primary { background: #FFD814; border-color: #FCD200; border-radius: 20px; color: #0F1111; }
+.amz-btn-primary { background: #FFD814; border: 1px solid #FCD200; border-radius: 20px; color: #0F1111; cursor: pointer; transition: background 0.2s; }
 .amz-btn-primary:hover { background: #F7CA00; }
-.amz-btn-secondary { background: #FFA41C; border-color: #FF8F00; border-radius: 20px; color: #0F1111; }
+
+.amz-btn-secondary { background: #FFA41C; border: 1px solid #FF8F00; border-radius: 20px; color: #0F1111; cursor: pointer; transition: background 0.2s; }
 .amz-btn-secondary:hover { background: #FA8900; }
 
-/* 链接文字 */
 .amz-link { color: #007185; text-decoration: none; }
 .amz-link:hover { text-decoration: underline; color: #C7511F; }
 
-/* --- 实验室 & X-Ray 效果 --- */
-
-/* 基础热点脉冲 (复用) */
+/* 3. 热点交互 (Hotspots & Tooltips) */
 .hotspot-point {
     position: absolute;
     width: 24px;
@@ -276,83 +94,105 @@ body {
     font-weight: bold;
     font-size: 14px;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     z-index: 50;
     transition: transform 0.2s;
 }
-.hotspot-point:hover { transform: scale(1.2); }
+.hotspot-point:hover { transform: scale(1.1); }
 
-/* 悬浮提示框位置修正 */
+/* 脉冲动画 (仅作用于圆点) */
+@keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 153, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 153, 0, 0); }
+}
+.hotspot-pulse { animation: pulse-ring 2s infinite; }
+
+/* 悬浮提示框 (静态，无脉冲) */
 .lab-tooltip {
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    bottom: 120%; /* 在热点上方 */
+    bottom: 140%; /* 默认在热点上方稍远 */
     left: 50%;
     transform: translateX(-50%);
-    width: 260px;
+    width: max-content;
+    max-width: 220px;
     background-color: #1F2937; /* Gray-900 */
     color: white;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
     font-size: 12px;
-    line-height: 1.5;
+    line-height: 1.4;
     z-index: 100;
-    transition: all 0.2s;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
-    pointer-events: none;
-    text-align: left;
+    transition: opacity 0.2s, bottom 0.2s; /* 平滑过渡 */
+    pointer-events: none; /* 防止遮挡鼠标 */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    text-align: center;
 }
+
+/* 悬浮时显示提示框 */
 .hotspot-point:hover .lab-tooltip {
     visibility: visible;
     opacity: 1;
-    bottom: 130%;
+    bottom: 125%; /* 下移一点，靠近热点 */
 }
-/* 小三角 */
+
+/* 提示框下方小三角 */
 .lab-tooltip::after {
     content: "";
     position: absolute;
     top: 100%;
     left: 50%;
-    margin-left: -6px;
-    border-width: 6px;
+    margin-left: -5px;
+    border-width: 5px;
     border-style: solid;
     border-color: #1F2937 transparent transparent transparent;
 }
 
-/* X-Ray 激活时的样式 */
-.xray-active .item-paid {
-    box-shadow: 0 0 0 2px #F97316 inset !important; /* 内描边不影响布局 */
-    background-color: rgba(255, 237, 213, 0.2);
+/* 4. 选中状态与 X-Ray 透视模式 */
+.item-wrapper {
+    position: relative;
+    border: 2px solid transparent; /* 预留边框位置防止抖动 */
+    border-radius: 8px;
+    transition: all 0.2s;
 }
+
+/* X-Ray 激活时：付费流量样式 */
+.xray-active .item-paid {
+    border-color: #F97316; /* Orange-500 */
+    background-color: rgba(255, 237, 213, 0.3);
+}
+
+/* X-Ray 激活时：免费流量样式 */
 .xray-active .item-free {
-    box-shadow: 0 0 0 2px #22C55E inset !important;
-    background-color: rgba(220, 252, 231, 0.2);
+    border-color: #22C55E; /* Green-500 */
+    background-color: rgba(220, 252, 231, 0.3);
 }
 
 /* X-Ray 标签 (仅在激活时显示) */
 .xray-badge {
     display: none;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -10px;
+    left: 10px;
     font-size: 10px;
-    font-weight: 900;
-    padding: 2px 6px;
-    border-bottom-right-radius: 6px;
-    z-index: 40;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 4px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 20;
+    pointer-events: none;
 }
-.xray-active .item-paid .xray-badge {
-    display: block;
-    background: #F97316;
-    color: white;
-    content: "PAID TRAFFIC";
+.xray-active .item-paid .xray-badge { display: block; background: #F97316; color: white; }
+.xray-active .item-free .xray-badge { display: block; background: #22C55E; color: white; }
+
+/* 5. 右侧面板动画 */
+#panel-content {
+    animation: slideInRight 0.3s ease-out;
 }
-.xray-active .item-free .xray-badge {
-    display: block;
-    background: #22C55E;
-    color: white;
-    content: "ORGANIC TRAFFIC";
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
 }

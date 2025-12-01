@@ -40,8 +40,36 @@ body {
 .hotspot-pulse {
     animation: pulse-ring 2s infinite;
 }
+/* 绿色脉冲 */
+.hotspot-pulse-green {
+    animation: pulse-ring-green 2s infinite;
+}
+@keyframes pulse-ring-green {
+    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
 
-/* --- 选项卡样式 (Deep Dive) --- */
+/* --- Tooltip 样式 (悬浮提示) --- */
+.tooltip-content {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s, visibility 0.2s;
+    position: absolute;
+    z-index: 50;
+    bottom: 100%;       /* 显示在上方 */
+    right: -10px;       /* 稍微靠右对齐 */
+    width: 220px;
+    margin-bottom: 10px;
+    pointer-events: none; /* 防止提示框挡住鼠标交互 */
+}
+/* 鼠标悬停在 group 上时显示 tooltip */
+.group:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- 选项卡样式 --- */
 .tab-active {
     border-bottom: 3px solid #FF9900;
     color: #111;
@@ -52,9 +80,7 @@ body {
     color: #555;
 }
 
-/* --- 全景流量实验室 (Traffic Lab) 样式 --- */
-
-/* 实验室选中元素的高亮样式 */
+/* --- 全景流量实验室样式 --- */
 .lab-selected {
     outline: 4px solid #3B82F6; /* blue-500 */
     transform: scale(1.01);
@@ -63,20 +89,50 @@ body {
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-/* 开关样式 */
-.toggle-checkbox:checked {
-    right: 0;
-    border-color: #10B981;
+/* === 修复后的 Toggle 开关样式 === */
+/* 隐藏实际的 checkbox */
+.toggle-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
+/* 轨道 (Track) */
+.toggle-label {
+    width: 48px;
+    height: 24px;
+    background-color: #D1D5DB; /* gray-300 */
+    border-radius: 9999px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+/* 滑块 (Knob) - 使用伪元素 */
+.toggle-label::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+/* 选中状态：轨道变色 */
 .toggle-checkbox:checked + .toggle-label {
-    background-color: #10B981;
+    background-color: #10B981; /* green-500 */
+}
+/* 选中状态：滑块移动 */
+.toggle-checkbox:checked + .toggle-label::after {
+    transform: translateX(24px);
 }
 
-/* X-Ray 模式：付费流量高亮 */
+/* --- X-Ray 模式高亮逻辑 --- */
 .xray-active .item-paid {
     border: 2px solid #F97316 !important; /* orange-500 */
     background-color: rgba(255, 237, 213, 0.4); /* orange-100 */
-    position: relative;
 }
 .xray-active .item-paid::after {
     content: "PAID";
@@ -92,11 +148,9 @@ body {
     z-index: 10;
 }
 
-/* X-Ray 模式：免费流量高亮 */
 .xray-active .item-free {
     border: 2px solid #22C55E !important; /* green-500 */
     background-color: rgba(220, 252, 231, 0.4); /* green-100 */
-    position: relative;
 }
 .xray-active .item-free::after {
     content: "ORGANIC";

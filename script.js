@@ -120,6 +120,33 @@ const deepDiveData = {
 // --- 全景流量实验室 (Traffic Lab) 逻辑 ---
 
 const labData = {
+
+    'sbv': {
+        type: 'paid',
+        title: 'Sponsored Brands Video',
+        desc: '品牌视频广告。通常出现在搜索结果中部或底部。自动播放的视频能极大地吸引注意力，暂停时显示“静音”标志。',
+        cost: 'CPC (按点击付费)',
+        potential: '极高 (视觉冲击)',
+        tip: '视频前3秒必须展示产品核心卖点。不要像拍电影一样铺垫，直接解决痛点。视频点击率通常是普通图片的2倍以上。'
+    },
+    'aplus': {
+        type: 'free',
+        title: 'A+ Content / Brand Story',
+        desc: '图文版商品详情。包含品牌故事(Brand Story)和A+页面。这是展示品牌调性、解释复杂功能的核心区域。',
+        cost: '免费 (需品牌备案)',
+        potential: '高 (提升转化)',
+        tip: 'Brand Story板块是可以左右滑动的，非常适合做店铺内互相导流（Cross-selling），把流量锁在自己的品牌闭环里。'
+    },
+    'compare': {
+        type: 'free',
+        title: 'Compare with similar items',
+        desc: '相似商品对比表。系统根据浏览记录抓取的竞品对比。如果不进行干预，系统往往会推荐更便宜的竞品。',
+        cost: '免费',
+        potential: '中 (流量防御)',
+        tip: '你无法关闭此功能，但可以通过优化Listing属性（如参数更全、功能更多）来让自己在对比中胜出。'
+    },
+
+    
     'sb': {
         type: 'paid',
         title: 'Sponsored Brands (SB)',

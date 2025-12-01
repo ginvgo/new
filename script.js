@@ -277,9 +277,9 @@ const lab = {
     },
 
     // 开启/关闭 X-Ray
-     toggleXray: function() {
+    toggleXray: function() {
         const container = document.getElementById('lab-canvas-container');
-        container.classList.toggle('xray-mode');
+        container.classList.toggle('xray-active');
     },
 
     // 选择某个元素

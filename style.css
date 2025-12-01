@@ -89,25 +89,31 @@ body {
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-/* === 修复后的 Toggle 开关样式 === */
-/* 隐藏实际的 checkbox */
+/* === 优化后的 Toggle 开关样式 (style.css) === */
+
+/* 隐藏实际 checkbox，但保留位置以便获取焦点 */
 .toggle-checkbox {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
 }
+
 /* 轨道 (Track) */
 .toggle-label {
-    width: 48px;
+    width: 44px;          /* 稍微缩短一点，比例更好 */
     height: 24px;
-    background-color: #D1D5DB; /* gray-300 */
+    background-color: #E5E7EB; /* gray-200: 默认灰色背景更明显 */
     border-radius: 9999px;
     position: relative;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06); /* 内部阴影，增加凹槽感 */
 }
-/* 滑块 (Knob) - 使用伪元素 */
+
+/* 滑块 (Knob) */
 .toggle-label::after {
     content: '';
     position: absolute;
@@ -117,16 +123,18 @@ body {
     height: 20px;
     background-color: white;
     border-radius: 50%;
-    transition: transform 0.2s ease-in-out;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); /* 优化动画曲线 */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3); /* 增加滑块立体感 */
 }
-/* 选中状态：轨道变色 */
+
+/* 选中状态：轨道变绿 */
 .toggle-checkbox:checked + .toggle-label {
     background-color: #10B981; /* green-500 */
 }
-/* 选中状态：滑块移动 */
+
+/* 选中状态：滑块右移 (44px宽 - 20px球 - 2px左边距 - 2px右边距 = 20px) */
 .toggle-checkbox:checked + .toggle-label::after {
-    transform: translateX(24px);
+    transform: translateX(20px);
 }
 
 /* --- X-Ray 模式高亮逻辑 --- */

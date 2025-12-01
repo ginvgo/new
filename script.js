@@ -1,87 +1,151 @@
-// --- 全景流量实验室数据源 ---
+// --- 全景流量实验室 (Traffic Lab) 逻辑 ---
+
 const labData = {
-    // === PAID TRAFFIC ===
     'sb': {
         type: 'paid',
-        title: 'Sponsored Brands (品牌推广)',
-        desc: '位于搜索结果最顶部的“品牌头条”。包含Logo、一段自定义标题和3个产品。这是打造品牌知名度和拦截竞品流量的最强入口。点击Logo会进入品牌旗舰店(Store)。',
+        title: 'Sponsored Brands (SB)',
+        desc: '品牌推广广告（旧称头条广告）。位于搜索结果页最顶部，包含品牌 Logo、自定义标题和三个精选产品。',
         cost: 'CPC (按点击付费)',
-        potential: '高 (品牌认知)',
-        tip: '务必测试不同的自定义标题(Headline)和主图。如果你的产品评分低于4星，不要开这个广告，否则转化率极低。'
+        potential: '高 (品牌认知 + 销售)',
+        content: `
+            <div class="space-y-4 text-sm text-gray-700">
+                <p>这是拦截流量的第一道防线。适合有多款变体或产品线的品牌卖家。</p>
+                <div class="bg-blue-50 p-3 rounded border border-blue-100">
+                    <strong class="text-blue-800 block mb-1">关键优势：</strong>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>位置霸权：</strong> 占据屏幕最上方，移动端几乎占满首屏。</li>
+                        <li><strong>自定义创意：</strong> 可以写吸睛的标语 (Headline) 和自定义图片。</li>
+                        <li><strong>品牌旗舰店：</strong> 点击 Logo 可直接跳转到 Storefront，防止流量外流。</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-orange-500 pl-3 py-1 bg-gray-50">
+                    <strong class="text-orange-600 text-xs uppercase">实战技巧</strong>
+                    <p class="text-xs mt-1">测试 "Lifestyle Image" (场景图) 作为主图，点击率通常比纯白底图高 20% 以上。</p>
+                </div>
+            </div>
+        `
     },
     'sbv': {
         type: 'paid',
-        title: 'Sponsored Brands Video (品牌视频)',
-        desc: '在搜索结果中层出现的自动播放视频广告。通常占据整行宽度，极为吸睛。移动端转化率通常高于桌面端。',
-        cost: 'CPC (按点击付费)',
-        potential: '极高 (视觉冲击)',
-        tip: '视频前3秒必须展示痛点或产品核心卖点。不要把视频做成纯粹的品牌形象片，要简单粗暴地展示功能。'
+        title: 'Sponsored Brands Video (SBV)',
+        desc: '品牌推广视频广告。在搜索结果中间展示一段自动播放的视频。',
+        cost: 'CPC',
+        potential: '极高 (点击率之王)',
+        content: `
+            <div class="space-y-4 text-sm text-gray-700">
+                <p>目前亚马逊上点击率 (CTR) 和转化率 (CVR) 表现最好的广告形式之一。</p>
+                <div class="bg-green-50 p-3 rounded border border-green-100">
+                    <strong class="text-green-800 block mb-1">为什么它有效？</strong>
+                    <p>在静止的图片搜索结果中，动态视频极其吸睛。大部分买家会停下来观看前 3 秒。</p>
+                </div>
+                <div class="border-l-4 border-orange-500 pl-3 py-1 bg-gray-50">
+                    <strong class="text-orange-600 text-xs uppercase">实战技巧</strong>
+                    <p class="text-xs mt-1">视频必须在静音状态下也能看懂！前 3 秒必须展示产品核心痛点或使用场景。</p>
+                </div>
+            </div>
+        `
     },
     'sp': {
         type: 'paid',
-        title: 'Sponsored Products (商品推广)',
-        desc: '最基础的“商品推广”。外观与自然排名几乎一致，仅多了一个灰色 "Sponsored" 标。这是亚马逊转化率最高、流量最大的广告形式。',
-        cost: 'CPC (按点击付费)',
-        potential: '极高 (直接销售)',
-        tip: '新品期建议开启自动广告(Auto)来跑词；成熟期利用手动广告(Manual)精准打击核心关键词。'
-    },
-    'sd': {
-        type: 'paid',
-        title: 'Sponsored Display (展示型推广)',
-        desc: '具有极强的“侵略性”，常出现在竞品详情页的五点描述下或购物车下方，直接抢夺正在考虑购买的客户。也可用于站外再营销。',
-        cost: 'CPC 或 vCPM',
-        potential: '中 (防御/进攻)',
-        tip: '利用SD广告进行“再营销(Retargeting)”，定向投放给看过你产品但没买的人，ROI通常不错。'
-    },
-    'related': {
-        type: 'paid',
-        title: 'Related Products (Ads)',
-        desc: '详情页底部的长条轮播区域。这里实际上大部分是竞品购买的 SP 广告位。是流量截流的乱战区。',
+        title: 'Sponsored Products (SP)',
+        desc: '商品推广广告。外观与自然排名几乎一致，仅多了一个灰色 "Sponsored" 标。',
         cost: 'CPC',
-        potential: '低 (捡漏)',
-        tip: '在这个位置，你的主图必须比旁边的人更吸睛，价格更有优势，否则很容易成为陪跑。'
+        potential: '极高 (直接出单)',
+        content: `
+            <div class="space-y-4 text-sm text-gray-700">
+                <p>亚马逊广告的基石。出现在搜索结果的顶部、中部、底部以及竞品详情页。</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-100 p-2 rounded">
+                        <div class="font-bold text-xs">自动广告 (Auto)</div>
+                        <div class="text-xs text-gray-500">用于跑词，系统自动匹配。</div>
+                    </div>
+                    <div class="bg-gray-100 p-2 rounded">
+                        <div class="font-bold text-xs">手动广告 (Manual)</div>
+                        <div class="text-xs text-gray-500">精准打击核心词，控制 ACOS。</div>
+                    </div>
+                </div>
+                <div class="border-l-4 border-orange-500 pl-3 py-1 bg-gray-50">
+                    <strong class="text-orange-600 text-xs uppercase">实战技巧</strong>
+                    <p class="text-xs mt-1">新品期建议 Auto 广告预算给足，利用它来验证亚马逊是否正确识别了你的产品类目。</p>
+                </div>
+            </div>
+        `
     },
-
-    // === ORGANIC TRAFFIC ===
     'organic': {
         type: 'free',
         title: 'Organic Ranking (自然排名)',
-        desc: '通过A10算法获得的免费排名。不花钱，但需要极高的历史销量、点击率和好评率来维持。是最稳定的长期利润来源。',
-        cost: '免费 (时间成本)',
-        potential: '稳定 (长期利润)',
-        tip: '自然排名是“结果”不是“手段”。不要试图“刷”排名，而是通过PPC广告出单推高销量后，自然排名自然会上升。'
+        desc: '通过 A10 算法获得的免费排名。不花钱，但需要极高的历史销量权重。',
+        cost: '0 (时间成本)',
+        potential: '稳定 (长期利润来源)',
+        content: `
+            <div class="space-y-4 text-sm text-gray-700">
+                <p>这是所有卖家梦寐以求的位置。不需要支付点击费，利润率最高。</p>
+                <div class="bg-blue-50 p-3 rounded border border-blue-100">
+                    <strong class="text-blue-800 block mb-1">影响排名的核心因素：</strong>
+                    <ul class="list-disc pl-5 space-y-1 text-xs">
+                        <li><strong>点击率 (CTR) & 转化率 (CVR)：</strong> 这是算法最看重的。</li>
+                        <li><strong>近期销量：</strong> 即使是老品，如果最近销量跌了，排名也会掉。</li>
+                        <li><strong>关键词相关性：</strong> 标题和五点描述必须埋词准确。</li>
+                    </ul>
+                </div>
+            </div>
+        `
     },
-    'editorial': {
-        type: 'free',
-        title: 'Editorial Recommendations',
-        desc: '编辑推荐。来自权威媒体（如CNN, Buzzfeed）的文章摘要。占据首页黄金位置，具有极强的背书效应。',
-        cost: '免费 / 公关费',
-        potential: '中 (信任背书)',
-        tip: '通常需要通过亚马逊联盟(Amazon Associates)的红人或媒体合作才能获得，门槛较高。'
+    'sd': {
+        type: 'paid',
+        title: 'Sponsored Display (SD)',
+        desc: '展示型推广。常出现在竞品详情页的五点描述下或购物车下方。',
+        cost: 'CPC / vCPM',
+        potential: '中 (防御/进攻/再营销)',
+        content: `
+            <div class="space-y-4 text-sm text-gray-700">
+                <p>具有极强的“侵略性”。它不像 SP 广告那样依赖关键词，而是依赖“人群”和“ASIN”。</p>
+                <div class="bg-purple-50 p-3 rounded border border-purple-100">
+                    <strong class="text-purple-800 block mb-1">三大玩法：</strong>
+                    <ul class="list-disc pl-5 space-y-1 text-xs">
+                        <li><strong>进攻竞品：</strong> 定位到比你贵、评分比你差的竞品页面上。</li>
+                        <li><strong>防御自家：</strong> 定位到自己的 ASIN 上，防止竞品蹭流量。</li>
+                        <li><strong>再营销 (Retargeting)：</strong> 追踪看过你产品但没买的人。</li>
+                    </ul>
+                </div>
+            </div>
+        `
     },
     'fbt': {
         type: 'free',
-        title: 'Frequently Bought Together',
-        desc: '经常一起购买。系统基于大数据自动生成的关联推荐。这是亚马逊最优质的免费关联流量。转化率极高。',
+        title: 'Frequently Bought Together (FBT)',
+        desc: '经常一起购买。系统基于大数据自动生成的关联推荐。',
         cost: '免费',
-        potential: '极高 (捆绑销售)',
-        tip: '不要试图只卖单品。通过后台设置虚拟捆绑包(Virtual Bundle)人为增加两个产品同时购买的概率，强制形成FBT。'
+        potential: '极高 (关联出单)',
+        content: `
+            <div class="space-y-4 text-sm text-gray-700">
+                <p>亚马逊最优质的免费流量入口。通常出现在详情页中部，转化率极高。</p>
+                <div class="bg-green-50 p-3 rounded border border-green-100">
+                    <strong class="text-green-800 block mb-1">如何获得 FBT？</strong>
+                    <p class="text-xs">你需要让亚马逊算法看到“A 和 B 经常被同一个订单购买”。</p>
+                </div>
+                <div class="border-l-4 border-orange-500 pl-3 py-1 bg-gray-50">
+                    <strong class="text-orange-600 text-xs uppercase">黑科技技巧</strong>
+                    <p class="text-xs mt-1">在后台设置 "Virtual Bundle" (虚拟捆绑包)，人为制造两个产品同时购买的数据，一段时间后系统会自动生成 FBT 关联。</p>
+                </div>
+            </div>
+        `
     },
-    'brandstory': {
+    'aplus': {
         type: 'free',
-        title: 'Brand Story (品牌故事)',
-        desc: '位于A+页面上方的一个横向滑动模块。可以链接到店铺的其他产品或分类页面，是详情页中难得的免费私域导流入口。',
+        title: 'A+ Content (图文详情页)',
+        desc: '通过丰富的图文、对比表格展示产品细节。',
         cost: '免费 (需品牌备案)',
-        potential: '高 (流量闭环)',
-        tip: '利用Brand Story展示你的产品全家福，让客户点击跳转到你店铺里的其他产品，而不是跳出页面去买竞品。'
-    },
-    'compare': {
-        type: 'free',
-        title: 'Compare with similar items',
-        desc: '系统自动生成的对比表。如果你的参数（如电池容量、配件数量）比竞品好，这里就是你的免费广告位。',
-        cost: '免费',
-        potential: '中 (参数对比)',
-        tip: '优化Listing的参数属性（Item Specifics），确保你的优势参数（如更轻、更持久）被系统正确抓取并展示在这里。'
+        potential: '高 (提升转化率)',
+        content: `
+            <div class="space-y-4 text-sm text-gray-700">
+                <p>A+ 页面不直接带来流量，但能显著提升流量进来后的<strong>转化率</strong> (CVR)。</p>
+                <div class="bg-gray-100 p-3 rounded">
+                    <strong class="block mb-1">对比表格 (Comparison Chart)</strong>
+                    <p class="text-xs text-gray-500">这是 A+ 中最有价值的模块。你可以列出自己店铺的其他产品进行对比，既能突出当前产品的优势，又能为自家其他产品引流，防止客户流失。</p>
+                </div>
+            </div>
+        `
     }
 };
 
@@ -89,73 +153,102 @@ const lab = {
     currentView: 'serp',
     currentFilter: 'all',
 
-    // 1. Switch View (SERP vs PDP)
+    // 切换视图 (SERP / PDP)
     switchView: function(viewName) {
         this.currentView = viewName;
         
-        // Hide/Show Canvas Areas
+        // 隐藏/显示内容
         document.getElementById('lab-view-serp').classList.add('hidden');
         document.getElementById('lab-view-pdp').classList.add('hidden');
         document.getElementById(`lab-view-${viewName}`).classList.remove('hidden');
 
-        // Update Button States
+        // 更新 Tab 样式
         const btnSerp = document.getElementById('lab-tab-serp');
         const btnPdp = document.getElementById('lab-tab-pdp');
         
-        const activeClass = ['bg-[#FF9900]', 'text-black'];
-        const inactiveClass = ['bg-[#232F3E]', 'text-gray-300', 'hover:text-white'];
+        const activeClass = ['bg-[#FF9900]', 'text-black', 'shadow'];
+        const inactiveClass = ['text-gray-300', 'hover:text-white', 'bg-transparent'];
 
         if(viewName === 'serp') {
-            btnSerp.className = `px-4 py-1.5 rounded text-xs font-bold transition ${activeClass.join(' ')}`;
-            btnPdp.className = `px-4 py-1.5 rounded text-xs font-bold transition ${inactiveClass.join(' ')}`;
+            btnSerp.classList.add(...activeClass);
+            btnSerp.classList.remove('bg-transparent', 'text-gray-300');
+            btnPdp.classList.remove(...activeClass);
+            btnPdp.classList.add(...inactiveClass);
         } else {
-            btnPdp.className = `px-4 py-1.5 rounded text-xs font-bold transition ${activeClass.join(' ')}`;
-            btnSerp.className = `px-4 py-1.5 rounded text-xs font-bold transition ${inactiveClass.join(' ')}`;
+            btnPdp.classList.add(...activeClass);
+            btnPdp.classList.remove('bg-transparent', 'text-gray-300');
+            btnSerp.classList.remove(...activeClass);
+            btnSerp.classList.add(...inactiveClass);
         }
         
-        // Re-apply filter to new view
         this.filter(this.currentFilter);
     },
 
-    // 2. Filter Logic (Paid/Free)
+    // 切换设备模拟 (Desktop / Mobile)
+    setDevice: function(device) {
+        const wrapper = document.getElementById('lab-canvas-wrapper');
+        const btnDesktop = document.getElementById('btn-device-desktop');
+        const btnMobile = document.getElementById('btn-device-mobile');
+        
+        if (device === 'mobile') {
+            wrapper.classList.add('mobile-mode');
+            btnMobile.classList.add('text-white');
+            btnMobile.classList.remove('text-gray-400');
+            btnDesktop.classList.remove('text-white');
+            btnDesktop.classList.add('text-gray-400');
+        } else {
+            wrapper.classList.remove('mobile-mode');
+            btnDesktop.classList.add('text-white');
+            btnDesktop.classList.remove('text-gray-400');
+            btnMobile.classList.remove('text-white');
+            btnMobile.classList.add('text-gray-400');
+        }
+    },
+
+    // 过滤器逻辑
     filter: function(type) {
         this.currentFilter = type;
         const container = document.getElementById('lab-canvas-container');
         const items = container.querySelectorAll('[data-type]');
         
-        // Update Filter Buttons
         ['all', 'paid', 'free'].forEach(k => {
             const btn = document.getElementById(`lab-filter-${k}`);
             if(k === type) {
-                btn.classList.add('bg-white', 'shadow', 'text-gray-900');
-                btn.classList.remove('opacity-60');
+                btn.classList.add('ring-2', 'ring-blue-400', 'bg-white', 'shadow', 'text-black');
+                btn.classList.remove('bg-gray-800', 'text-white', 'hover:bg-white', 'hover:shadow');
+                if(k === 'all') btn.classList.remove('text-white'); // Fix text color for all
             } else {
-                btn.classList.remove('bg-white', 'shadow', 'text-gray-900');
-                btn.classList.add('opacity-60');
+                btn.classList.remove('ring-2', 'ring-blue-400', 'bg-white', 'shadow', 'text-black');
+                if(k === 'all') btn.classList.add('bg-gray-800', 'text-white');
+                else btn.classList.add('hover:bg-white', 'hover:shadow');
             }
         });
 
-        // Toggle Items
         items.forEach(item => {
             const itemType = item.getAttribute('data-type');
-            const hotspot = item.querySelector('.hotspot-point');
-            
             if (type === 'all' || itemType === type) {
+                item.style.display = ''; 
                 item.style.opacity = '1';
                 item.style.filter = 'none';
-                if(hotspot) hotspot.style.pointerEvents = 'auto'; // Enable click
+                const hotspot = item.querySelector('.hotspot-point');
+                if(hotspot) hotspot.style.pointerEvents = 'auto';
             } else {
-                item.style.opacity = '0.1'; // Dim heavily
-                item.style.filter = 'grayscale(100%)';
-                if(hotspot) hotspot.style.pointerEvents = 'none'; // Disable click
+                item.style.opacity = '0.3';
+                item.style.filter = 'grayscale(100%) blur(1px)';
+                const hotspot = item.querySelector('.hotspot-point');
+                if(hotspot) hotspot.style.pointerEvents = 'none';
             }
         });
     },
 
-    // 3. X-Ray Toggle
+    // X-Ray 开关
     toggleXray: function() {
         const container = document.getElementById('lab-canvas-container');
         const toggleBtn = document.getElementById('xray-toggle');
+        // Toggle checkbox state if called from non-label click
+        if (event.target.tagName !== 'INPUT') {
+            toggleBtn.checked = !toggleBtn.checked;
+        }
         
         if (toggleBtn.checked) {
             container.classList.add('xray-active');
@@ -164,84 +257,111 @@ const lab = {
         }
     },
 
-    // 4. Modal Logic
+    // 模态框逻辑
     openModal: function(key) {
-        const data = labData[key];
-        if(!data) return;
+        const data = labData[key] || labData['sp'];
+        const modal = document.getElementById('modal-overlay');
+        const title = document.getElementById('modal-title');
+        const body = document.getElementById('modal-body');
 
-        const modal = document.getElementById('lab-modal');
-        const badge = document.getElementById('modal-badge');
+        // Set Content
+        title.innerHTML = `
+            <div class="flex items-center gap-2">
+                <span class="text-sm px-2 py-0.5 rounded ${data.type === 'paid' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'} uppercase font-bold tracking-wider">${data.type === 'paid' ? 'Paid Traffic' : 'Organic Traffic'}</span>
+                <span>${data.title}</span>
+            </div>
+        `;
         
-        // Populate Data
-        document.getElementById('modal-title').innerText = data.title;
-        document.getElementById('modal-desc').innerText = data.desc;
-        document.getElementById('modal-cost').innerText = data.cost;
-        document.getElementById('modal-potential').innerText = data.potential;
-        document.getElementById('modal-tip').innerText = data.tip;
+        body.innerHTML = `
+            <p class="text-gray-800 font-medium mb-4 text-base">${data.desc}</p>
+            <div class="flex gap-4 mb-6 text-sm border-b border-gray-100 pb-4">
+                <div>
+                    <span class="block text-xs text-gray-500">成本模式</span>
+                    <span class="font-bold">${data.cost}</span>
+                </div>
+                <div>
+                    <span class="block text-xs text-gray-500">潜力等级</span>
+                    <span class="font-bold">${data.potential}</span>
+                </div>
+            </div>
+            ${data.content}
+        `;
 
-        // Badge Style
-        if(data.type === 'paid') {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700';
-            badge.innerText = 'PAID TRAFFIC';
-        } else {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700';
-            badge.innerText = 'ORGANIC TRAFFIC';
-        }
-
-        // Show Modal
         modal.classList.add('active');
-        // Prevent background scroll
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden'; // Disable scroll
     },
 
-    closeModal: function() {
-        const modal = document.getElementById('lab-modal');
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
+    closeModal: function(e) {
+        // If e is present, check if click target is overlay
+        if (e && !e.target.classList.contains('modal-overlay')) return;
+        
+        document.getElementById('modal-overlay').classList.remove('active');
+        document.body.style.overflow = ''; // Enable scroll
     }
 };
 
-// --- Diagnostics Tool Logic ---
-function diagnose() {
-    const imp = document.getElementById('diag-imp').value;
-    const ctr = document.getElementById('diag-ctr').value;
-    const cvr = document.getElementById('diag-cvr').value;
-    const resBox = document.getElementById('diag-result');
-    
-    let msg = "";
-    
-    // Simple Logic
-    if (imp === 'low') {
-        msg = "🚨 <strong>问题：流量枯竭</strong><br>你的产品根本没被看到。<br>👉 <strong>建议：</strong>检查Listing关键词是否被收录；增加PPC广告预算；开启自动广告跑词。";
-    } else if (ctr === 'low') {
-        msg = "⚠️ <strong>问题：点击率低</strong><br>有曝光但没人点。<br>👉 <strong>建议：</strong>优化主图（差异化）；检查价格是否无竞争力；标题前50字符是否吸引人；检查Review星级。";
-    } else if (cvr === 'low') {
-        msg = "📉 <strong>问题：转化率低</strong><br>有人点但没人买。<br>👉 <strong>建议：</strong>优化五点描述和A+页面；检查是否有差评劝退；对比竞品是否有明显短板。";
+// --- Strategy Mixer Logic ---
+function updateStrategy() {
+    const val = parseInt(document.getElementById('stage-slider').value);
+    const stageLabel = document.getElementById('stage-label');
+    const paidEl = document.getElementById('paid-percent');
+    const freeEl = document.getElementById('free-percent');
+    const listEl = document.getElementById('strategy-list');
+
+    let paidPct, freePct, stageText, strategies;
+
+    if (val < 30) {
+        stageText = "新品推广期 (Launch)";
+        paidPct = Math.max(70, 100 - val);
+        freePct = 100 - paidPct;
+        strategies = [
+            `<li class="flex gap-2"><span class="text-orange-400 font-bold">SP广告 (Auto):</span> 必须开启，跑词。</li>`,
+            `<li class="flex gap-2"><span class="text-orange-400 font-bold">VINE计划:</span> 付费获取首批评论。</li>`
+        ];
+    } else if (val < 70) {
+        stageText = "销量增长期 (Growth)";
+        paidPct = 50; freePct = 50;
+        strategies = [
+            `<li class="flex gap-2"><span class="text-orange-400 font-bold">秒杀 (LD):</span> 冲刺 BSR 排名。</li>`,
+            `<li class="flex gap-2"><span class="text-green-400 font-bold">SEO优化:</span> 埋入高转化广告词。</li>`
+        ];
     } else {
-        msg = "✅ <strong>状态良好</strong><br>各项指标健康。<br>👉 <strong>建议：</strong>保持库存；尝试适当提价测试利润；开启站外引流扩大规模。";
+        stageText = "成熟盈利期 (Mature)";
+        paidPct = 30; freePct = 70;
+        strategies = [
+            `<li class="flex gap-2"><span class="text-green-400 font-bold">品牌复购:</span> 降低广告依赖。</li>`,
+            `<li class="flex gap-2"><span class="text-orange-400 font-bold">防御广告:</span> 保护品牌词流量。</li>`
+        ];
     }
 
-    resBox.innerHTML = msg;
-    resBox.classList.remove('hidden');
+    if(stageLabel) stageLabel.innerText = stageText;
+    if(paidEl) paidEl.innerText = `${Math.round(paidPct)}%`;
+    if(freeEl) freeEl.innerText = `${Math.round(freePct)}%`;
+    if(listEl) listEl.innerHTML = strategies.join('');
 }
 
-// --- Init ---
+// --- Diagnostic Tool ---
+function diagnose() {
+    const imp = document.getElementById('diag-impressions').value;
+    const ctr = document.getElementById('diag-ctr').value;
+    const cvr = document.getElementById('diag-cvr').value;
+    const resultBox = document.getElementById('diag-result');
+    
+    let msg = "";
+    if (imp === 'low') msg = "🚨 <strong>流量入口太窄。</strong><br>建议：增加广告预算，检查类目节点是否准确，或尝试站外引流。";
+    else if (ctr === 'low') msg = "⚠️ <strong>主图/标题吸引力不足。</strong><br>建议：测试差异化首图，检查价格是否过高，Review评分是否过低。";
+    else if (cvr === 'low') msg = "📉 <strong>Listing 内功不足。</strong><br>建议：优化五点描述和 A+ 页面，检查是否有差评劝退。";
+    else msg = "🚀 <strong>状态良好！</strong><br>建议：保持库存，不要断货。可以尝试适当提价测试利润空间。";
+
+    if(resultBox) {
+        resultBox.innerHTML = msg;
+        resultBox.classList.remove('hidden');
+    }
+}
+
+// --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Init Lab
     lab.switchView('serp');
     lab.filter('all');
-
-    // 2. Click outside modal to close
-    document.getElementById('lab-modal').addEventListener('click', (e) => {
-        if (e.target.id === 'lab-modal') {
-            lab.closeModal();
-        }
-    });
-
-    // 3. Escape key to close modal
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            lab.closeModal();
-        }
-    });
+    updateStrategy();
 });

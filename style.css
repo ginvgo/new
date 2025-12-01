@@ -3,62 +3,85 @@
 
 /* --- 全局基础设置 --- */
 body {
-    font-family: "Amazon Ember", Arial, sans-serif; /* 模拟亚马逊字体 */
+    font-family: 'Noto Sans SC', sans-serif;
     background-color: #F3F4F6;
     margin: 0;
     line-height: inherit;
-    color: #0F1111;
+    overflow-x: hidden; /* 防止移动端模拟时溢出 */
 }
 
-/* --- 滚动条优化 --- */
-::-webkit-scrollbar { width: 8px; height: 8px; }
+/* --- 自定义滚动条 --- */
+::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #999; }
 
-/* --- 亚马逊 UI 组件高保真还原 --- */
+/* --- 亚马逊品牌色系 --- */
+.amz-dark { background-color: #232F3E; }
+.amz-light { background-color: #37475A; }
+.amz-orange { background-color: #FF9900; }
+.amz-yellow { background-color: #FEBD69; }
+.amz-blue { color: #007185; }
+.text-amz-blue { color: #007185; }
+.text-amz-red { color: #B12704; }
 
-/* 价格 */
-.amz-price-symbol { font-size: 10px; vertical-align: top; top: 0.2em; position: relative; }
-.amz-price-whole { font-size: 21px; font-weight: 700; color: #0F1111; }
-.amz-price-fraction { font-size: 10px; vertical-align: top; top: 0.2em; position: relative; }
+/* --- Amazon UI 高保真还原 (通用组件) --- */
+/* 价格样式 */
+.amz-price-block { display: inline-flex; align-items: flex-start; }
+.amz-price-symbol { font-size: 0.6em; margin-top: 0.3em; }
+.amz-price-whole { font-size: 1.3em; font-weight: 700; color: #0F1111; line-height: 1; }
+.amz-price-fraction { font-size: 0.6em; margin-top: 0.3em; }
 
-/* Prime 标 */
-.amz-prime { color: #007185; font-weight: 700; font-style: italic; font-size: 11px; user-select: none; }
+/* Prime 标志 */
+.amz-prime { color: #007185; font-weight: 700; font-style: italic; font-size: 11px; display: inline-block; }
 .amz-prime::after { content: "✔prime"; font-family: sans-serif; }
 
-/* 按钮 */
+/* 按钮样式 */
 .amz-btn-primary { 
-    background: #FFD814; 
-    border: 1px solid #FCD200; 
-    border-radius: 20px; 
-    color: #0F1111; 
-    cursor: pointer;
+    background: #FFD814; border: 1px solid #FCD200; border-radius: 20px; 
+    color: #0F1111; cursor: pointer; transition: background 0.2s;
     box-shadow: 0 2px 5px rgba(213,217,217,.5);
-    transition: background 0.1s;
 }
 .amz-btn-primary:hover { background: #F7CA00; }
 
 .amz-btn-secondary { 
-    background: #FFA41C; 
-    border: 1px solid #FF8F00; 
-    border-radius: 20px; 
-    color: #0F1111; 
-    cursor: pointer;
+    background: #FFA41C; border: 1px solid #FF8F00; border-radius: 20px; 
+    color: #0F1111; cursor: pointer; transition: background 0.2s;
     box-shadow: 0 2px 5px rgba(213,217,217,.5);
-    transition: background 0.1s;
 }
 .amz-btn-secondary:hover { background: #FA8900; }
 
-/* 链接与文字 */
-.amz-link { color: #007185; text-decoration: none; }
+/* 链接文字 */
+.amz-link { color: #007185; text-decoration: none; cursor: pointer; }
 .amz-link:hover { text-decoration: underline; color: #C7511F; }
-.text-amz-orange { color: #C7511F; } 
-.text-amz-green { color: #007600; }
 
-/* --- 实验室核心交互样式 --- */
+/* --- 全景流量实验室 & 交互 --- */
 
-/* 1. 热点圆点 (带脉冲) */
+/* 画布容器 (支持桌面/移动端切换) */
+.lab-canvas-wrapper {
+    background-color: #E3E6E6; /* Amazon background grey */
+    transition: all 0.3s ease;
+    margin: 0 auto;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    min-height: 700px;
+    max-height: 800px;
+}
+
+/* 移动端模拟器样式 */
+.lab-canvas-wrapper.mobile-mode {
+    max-width: 375px;
+    border: 8px solid #333;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+/* 移动端模式下的字体调整 */
+.lab-canvas-wrapper.mobile-mode .text-xl { font-size: 1.1rem; }
+.lab-canvas-wrapper.mobile-mode .amz-price-whole { font-size: 1.1em; }
+
+/* 热点圆点 (Pulse 动画) */
 @keyframes pulse-ring {
     0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7); }
     70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(255, 153, 0, 0); }
@@ -74,114 +97,115 @@ body {
     justify-content: center;
     color: white;
     font-weight: bold;
+    font-size: 14px;
     cursor: pointer;
-    z-index: 50;
-    transition: transform 0.2s, background-color 0.2s;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    z-index: 50;
+    transition: transform 0.2s;
 }
-.hotspot-point:hover { transform: scale(1.15); }
-.hotspot-pulse-orange { background-color: #F97316; animation: pulse-ring 2s infinite; }
-.hotspot-pulse-green { background-color: #22C55E; animation: pulse-ring 2s infinite; }
+.hotspot-point:hover { transform: scale(1.2); }
 
-/* 2. 悬浮提示框 (静止，无脉冲) */
+/* 颜色变体 */
+.hotspot-orange { background-color: #F97316; animation: pulse-ring 2s infinite; }
+.hotspot-green { background-color: #22C55E; animation: pulse-ring 2s infinite; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+
+/* 悬浮提示框 (静态，无脉冲) */
 .lab-tooltip {
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    bottom: 130%; /* 在热点上方 */
+    bottom: 140%; 
     left: 50%;
     transform: translateX(-50%);
-    width: max-content;
-    max-width: 200px;
-    background-color: #232F3E; /* Amazon Dark Blue */
+    width: 200px;
+    background-color: rgba(17, 24, 39, 0.95);
     color: white;
-    padding: 6px 10px;
-    border-radius: 4px;
+    padding: 8px 12px;
+    border-radius: 6px;
     font-size: 11px;
-    font-weight: normal;
     line-height: 1.4;
     z-index: 100;
     transition: opacity 0.2s;
     pointer-events: none;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    white-space: normal;
 }
-/* 鼠标悬浮热点时显示 */
-.hotspot-point:hover .lab-tooltip {
-    visibility: visible;
-    opacity: 1;
-}
-/* 小三角箭头 */
+/* 小三角 */
 .lab-tooltip::after {
     content: "";
     position: absolute;
     top: 100%;
     left: 50%;
-    margin-left: -4px;
-    border-width: 4px;
+    margin-left: -5px;
+    border-width: 5px;
     border-style: solid;
-    border-color: #232F3E transparent transparent transparent;
+    border-color: rgba(17, 24, 39, 0.95) transparent transparent transparent;
+}
+.hotspot-point:hover .lab-tooltip {
+    visibility: visible;
+    opacity: 1;
 }
 
-/* --- X-Ray 透视模式样式 --- */
+/* --- 模态框 (点击热点后弹出) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    backdrop-filter: blur(4px);
+}
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 16px;
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+/* --- X-Ray 透视效果 --- */
 .xray-active .item-paid {
-    box-shadow: inset 0 0 0 2px #F97316 !important;
-    background-color: rgba(255, 237, 213, 0.15) !important;
+    box-shadow: inset 0 0 0 3px #F97316 !important;
+    background-color: rgba(255, 237, 213, 0.1);
 }
 .xray-active .item-free {
-    box-shadow: inset 0 0 0 2px #22C55E !important;
-    background-color: rgba(220, 252, 231, 0.15) !important;
+    box-shadow: inset 0 0 0 3px #22C55E !important;
+    background-color: rgba(220, 252, 231, 0.1);
 }
 .xray-badge {
     display: none;
     position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 9px;
-    font-weight: 800;
-    padding: 2px 6px;
-    border-bottom-right-radius: 4px;
+    top: 0; left: 0;
+    font-size: 10px; font-weight: 800;
+    padding: 3px 8px;
+    border-bottom-right-radius: 8px;
     z-index: 40;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    pointer-events: none;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
 }
-.xray-active .item-paid .xray-badge { display: block; background: #F97316; color: white; content: "PAID"; }
-.xray-active .item-free .xray-badge { display: block; background: #22C55E; color: white; content: "ORGANIC"; }
-
-/* --- 弹窗模态框 (Modal) --- */
-.lab-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+.xray-active .item-paid .xray-badge {
+    display: block; background: #F97316; color: white; content: "PAID";
 }
-.lab-modal-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-.lab-modal-content {
-    background: white;
-    width: 90%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 12px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-}
-.lab-modal-overlay.active .lab-modal-content {
-    transform: scale(1);
+.xray-active .item-free .xray-badge {
+    display: block; background: #22C55E; color: white; content: "ORGANIC";
 }
 
-/* --- 开关样式 (Toggle) --- */
-.toggle-checkbox:checked { right: 0; border-color: #22C55E; }
-.toggle-checkbox:checked + .toggle-label { background-color: #22C55E; }
+/* --- 通用 Tab 样式 --- */
+.tab-active { border-bottom: 3px solid #FF9900; color: #111; font-weight: 700; }
+.tab-inactive { border-bottom: 3px solid transparent; color: #555; }

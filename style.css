@@ -3,135 +3,108 @@
 
 /* --- 全局基础设置 --- */
 body {
-    font-family: 'Noto Sans SC', sans-serif;
-    background-color: #F3F4F6;
+    font-family: "Amazon Ember", Arial, sans-serif; /* 模拟亚马逊字体 */
+    background-color: #E3E6E6; /* 亚马逊标志性浅灰背景 */
     margin: 0;
     line-height: inherit;
-    overflow-x: hidden; /* 防止移动端模拟时溢出 */
+    color: #0F1111;
 }
 
 /* --- 自定义滚动条 --- */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #999; }
-
-/* --- 亚马逊品牌色系 --- */
-.amz-dark { background-color: #232F3E; }
-.amz-light { background-color: #37475A; }
-.amz-orange { background-color: #FF9900; }
-.amz-yellow { background-color: #FEBD69; }
-.amz-blue { color: #007185; }
-.text-amz-blue { color: #007185; }
-.text-amz-red { color: #B12704; }
-
-/* --- Amazon UI 高保真还原 (通用组件) --- */
-/* 价格样式 */
-.amz-price-block { display: inline-flex; align-items: flex-start; }
-.amz-price-symbol { font-size: 0.6em; margin-top: 0.3em; }
-.amz-price-whole { font-size: 1.3em; font-weight: 700; color: #0F1111; line-height: 1; }
-.amz-price-fraction { font-size: 0.6em; margin-top: 0.3em; }
-
-/* Prime 标志 */
-.amz-prime { color: #007185; font-weight: 700; font-style: italic; font-size: 11px; display: inline-block; }
-.amz-prime::after { content: "✔prime"; font-family: sans-serif; }
-
-/* 按钮样式 */
-.amz-btn-primary { 
-    background: #FFD814; border: 1px solid #FCD200; border-radius: 20px; 
-    color: #0F1111; cursor: pointer; transition: background 0.2s;
-    box-shadow: 0 2px 5px rgba(213,217,217,.5);
+::-webkit-scrollbar {
+    width: 8px;
 }
-.amz-btn-primary:hover { background: #F7CA00; }
-
-.amz-btn-secondary { 
-    background: #FFA41C; border: 1px solid #FF8F00; border-radius: 20px; 
-    color: #0F1111; cursor: pointer; transition: background 0.2s;
-    box-shadow: 0 2px 5px rgba(213,217,217,.5);
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
 }
-.amz-btn-secondary:hover { background: #FA8900; }
+::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #999; 
+}
 
-/* 链接文字 */
-.amz-link { color: #007185; text-decoration: none; cursor: pointer; }
+/* --- 亚马逊品牌色系变量 --- */
+:root {
+    --amz-dark: #232F3E;
+    --amz-light: #37475A;
+    --amz-orange: #FF9900;
+    --amz-blue-link: #007185;
+    --amz-price-red: #B12704;
+    --amz-star-yellow: #F6993F;
+    --amz-btn-primary: #FFD814;
+    --amz-btn-secondary: #FFA41C;
+    --amz-bg-gray: #F0F2F2;
+}
+
+/* --- 基础类与动画 --- */
+.amz-link { color: var(--amz-blue-link); text-decoration: none; }
 .amz-link:hover { text-decoration: underline; color: #C7511F; }
 
-/* --- 全景流量实验室 & 交互 --- */
+.price-text { color: var(--amz-price-red); font-weight: 500; }
+.star-icon { color: var(--amz-star-yellow); }
 
-/* 画布容器 (支持桌面/移动端切换) */
-.lab-canvas-wrapper {
-    background-color: #E3E6E6; /* Amazon background grey */
-    transition: all 0.3s ease;
-    margin: 0 auto;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    min-height: 700px;
-    max-height: 800px;
+/* 选项卡样式 */
+.tab-active {
+    border-bottom: 3px solid var(--amz-orange);
+    color: #111;
+    font-weight: 700;
+    background-color: #fff;
+}
+.tab-inactive {
+    border-bottom: 3px solid transparent;
+    color: #555;
+    background-color: transparent;
 }
 
-/* 移动端模拟器样式 */
-.lab-canvas-wrapper.mobile-mode {
-    max-width: 375px;
-    border: 8px solid #333;
-    border-radius: 24px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-/* 移动端模式下的字体调整 */
-.lab-canvas-wrapper.mobile-mode .text-xl { font-size: 1.1rem; }
-.lab-canvas-wrapper.mobile-mode .amz-price-whole { font-size: 1.1em; }
-
-/* 热点圆点 (Pulse 动画) */
-@keyframes pulse-ring {
-    0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(255, 153, 0, 0); }
-    100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0); }
-}
+/* --- 热点 (Hotspot) 系统 --- */
+/* 静态热点，无脉冲 */
 .hotspot-point {
-    position: absolute;
     width: 24px;
     height: 24px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    border: 2px solid white;
+    transition: transform 0.2s;
     font-weight: bold;
     font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    z-index: 50;
-    transition: transform 0.2s;
+    color: white;
+    z-index: 20;
 }
-.hotspot-point:hover { transform: scale(1.2); }
+.hotspot-point:hover {
+    transform: scale(1.1);
+}
 
-/* 颜色变体 */
-.hotspot-orange { background-color: #F97316; animation: pulse-ring 2s infinite; }
-.hotspot-green { background-color: #22C55E; animation: pulse-ring 2s infinite; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+/* 颜色区分 */
+.hotspot-paid { background-color: #F97316; } /* Orange */
+.hotspot-free { background-color: #22C55E; } /* Green */
 
-/* 悬浮提示框 (静态，无脉冲) */
-.lab-tooltip {
+/* 悬浮提示框 (Tooltip) - 保持原有功能 */
+.hotspot-tooltip {
     visibility: hidden;
     opacity: 0;
+    transition: opacity 0.2s, visibility 0.2s;
     position: absolute;
-    bottom: 140%; 
+    z-index: 30;
+    bottom: 120%;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
-    background-color: rgba(17, 24, 39, 0.95);
+    width: max-content;
+    max-width: 200px;
+    background-color: #232F3E; /* Amazon Dark */
     color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    line-height: 1.4;
-    z-index: 100;
-    transition: opacity 0.2s;
-    pointer-events: none;
     text-align: center;
-    white-space: normal;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
-/* 小三角 */
-.lab-tooltip::after {
+.hotspot-tooltip::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -139,73 +112,95 @@ body {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: rgba(17, 24, 39, 0.95) transparent transparent transparent;
+    border-color: #232F3E transparent transparent transparent;
 }
-.hotspot-point:hover .lab-tooltip {
+.group:hover .hotspot-tooltip {
     visibility: visible;
     opacity: 1;
 }
 
-/* --- 模态框 (点击热点后弹出) --- */
-.modal-overlay {
+/* --- X-Ray 透视模式 --- */
+/* 当容器拥有 .xray-active 类时生效 */
+.xray-active .xray-item-paid {
+    outline: 2px dashed #F97316;
+    background-color: rgba(255, 237, 213, 0.2);
+    position: relative;
+}
+.xray-active .xray-item-paid::before {
+    content: "PAID";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    background: #F97316;
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 2px;
+    z-index: 10;
+}
+
+.xray-active .xray-item-free {
+    outline: 2px dashed #22C55E;
+    background-color: rgba(220, 252, 231, 0.2);
+    position: relative;
+}
+.xray-active .xray-item-free::before {
+    content: "ORGANIC";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    background: #22C55E;
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 2px;
+    z-index: 10;
+}
+
+/* --- 模态框 (Modal) --- */
+.modal-backdrop {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 50;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s;
-    backdrop-filter: blur(4px);
+    pointer-events: none;
+    transition: opacity 0.3s;
 }
-.modal-overlay.active {
+.modal-backdrop.active {
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
 }
+
 .modal-content {
-    background: white;
+    background-color: white;
     width: 90%;
     max-width: 600px;
-    border-radius: 16px;
-    overflow: hidden;
-    transform: translateY(20px);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 12px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.modal-overlay.active .modal-content {
+.modal-backdrop.active .modal-content {
     transform: translateY(0);
 }
 
-/* --- X-Ray 透视效果 --- */
-.xray-active .item-paid {
-    box-shadow: inset 0 0 0 3px #F97316 !important;
-    background-color: rgba(255, 237, 213, 0.1);
+/* --- 开关样式 --- */
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #007185;
 }
-.xray-active .item-free {
-    box-shadow: inset 0 0 0 3px #22C55E !important;
-    background-color: rgba(220, 252, 231, 0.1);
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #007185;
 }
-.xray-badge {
-    display: none;
-    position: absolute;
-    top: 0; left: 0;
-    font-size: 10px; font-weight: 800;
-    padding: 3px 8px;
-    border-bottom-right-radius: 8px;
-    z-index: 40;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-}
-.xray-active .item-paid .xray-badge {
-    display: block; background: #F97316; color: white; content: "PAID";
-}
-.xray-active .item-free .xray-badge {
-    display: block; background: #22C55E; color: white; content: "ORGANIC";
-}
-
-/* --- 通用 Tab 样式 --- */
-.tab-active { border-bottom: 3px solid #FF9900; color: #111; font-weight: 700; }
-.tab-inactive { border-bottom: 3px solid transparent; color: #555; }

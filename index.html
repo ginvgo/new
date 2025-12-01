@@ -3,50 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>亚马逊流量全景图 - 卖家实战指南</title>
+    <title>亚马逊全景流量实验室</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & Icons -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0">
-    <!-- 引入自定义 CSS -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <!-- Header / Hero -->
-    <header class="amz-dark text-white shadow-lg relative overflow-hidden">
-        <div class="container mx-auto px-4 py-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div class="md:w-3/5">
-                <div class="flex items-center gap-2 mb-2 text-amz-yellow">
+    <!-- Header -->
+    <header class="bg-[#232F3E] text-white shadow-lg relative overflow-hidden">
+        <div class="container mx-auto px-4 py-8 relative z-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-3/5 mb-6 md:mb-0">
+                <div class="flex items-center gap-2 mb-2 text-[#FEBD69]">
                     <span class="material-symbols-outlined">school</span>
-                    <span class="font-bold tracking-wide uppercase text-sm">卖家实战大师班</span>
+                    <span class="font-bold tracking-wide uppercase text-sm">卖家实战指南</span>
                 </div>
-                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">亚马逊流量<span class="text-[#FF9900]">全景图</span></h1>
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">全景流量<span class="text-[#FF9900]">实验室</span></h1>
                 <p class="text-gray-300 text-lg mb-6 leading-relaxed max-w-2xl">
-                    流量是销量的生命线。本指南将带你拆解从 <span class="text-white font-semibold">搜索 (Search)</span> 到 <span class="text-white font-semibold">关联 (Association)</span> 的每一个入口，并深度解析 <span class="text-green-400 font-bold">免费流量</span> 与 <span class="text-orange-400 font-bold">付费流量</span> 的最佳配比策略。
+                    通过高保真模拟器，像 X 光一样透视亚马逊页面。深度解析每一个流量入口的属性（免费/付费）与运营策略。
                 </p>
-                <div class="flex flex-wrap gap-3">
-                    <button onclick="document.getElementById('integrated-tool').scrollIntoView({behavior: 'smooth'})" class="bg-[#FF9900] hover:bg-[#ffad33] text-white font-bold py-3 px-6 rounded-full transition shadow-lg flex items-center gap-2">
-                        <span class="material-symbols-outlined">science</span>
-                        进入流量实验室
-                    </button>
-                    <button onclick="document.getElementById('strategy-tools').scrollIntoView({behavior: 'smooth'})" class="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-full transition shadow-lg flex items-center gap-2 backdrop-blur-sm">
-                        <span class="material-symbols-outlined">calculate</span>
-                        策略工具
-                    </button>
-                </div>
+                <button onclick="document.getElementById('integrated-tool').scrollIntoView({behavior: 'smooth'})" class="bg-[#FF9900] hover:bg-[#ffad33] text-[#0F1111] font-bold py-3 px-8 rounded-full transition shadow-lg flex items-center gap-2">
+                    <span class="material-symbols-outlined">science</span>
+                    进入实验室
+                </button>
             </div>
-
-            <!-- 功能导航模块 (替换原图) -->
-            <div class="md:w-2/5 w-full bg-[#131921] rounded-xl shadow-2xl border-4 border-gray-700/50 p-6 flex flex-col justify-center h-auto md:h-80 relative overflow-hidden">
-                <!-- 背景装饰 -->
+            
+            <!-- 导航模块 -->
+            <div class="md:w-2/5 w-full bg-[#131921] rounded-xl shadow-2xl border-4 border-gray-700/50 p-6 flex flex-col justify-center relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF9900] opacity-5 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
-                
                 <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2 border-b border-gray-700 pb-2 z-10">
                     <span class="material-symbols-outlined text-[#FF9900]">map</span>
-                    <span>全景导航系统</span>
+                    <span>快速导航</span>
                 </h3>
-                
                 <nav class="flex flex-col gap-2 z-10">
                     <a href="#core-pillars" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
                         <div class="flex items-center gap-3">
@@ -55,27 +46,17 @@
                         </div>
                         <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
                     </a>
-
                     <a href="#integrated-tool" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">science</span>
-                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">全景流量实验室 (核心)</span>
+                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">全景流量实验室</span>
                         </div>
                         <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
                     </a>
-
-                    <a href="#deep-dive" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
-                        <div class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">school</span>
-                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">深度策略解析</span>
-                        </div>
-                        <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
-                    </a>
-
                     <a href="#strategy-tools" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">construction</span>
-                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">实战工具集</span>
+                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">诊断工具</span>
                         </div>
                         <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
                     </a>
@@ -84,519 +65,400 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="container mx-auto px-4 py-12 space-y-16">
 
-        <!-- PART 1: Traffic Pillars (Overview) -->
+        <!-- PART 1: Core Pillars -->
         <section id="core-pillars" class="scroll-mt-24">
             <div class="text-center mb-10">
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">五大核心流量支柱</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">亚马逊的流量并非单一来源，而是由这五个维度交织而成的生态系统。</p>
+                <p class="text-gray-600 max-w-2xl mx-auto">亚马逊的流量生态系统由这五个维度交织而成。</p>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                <!-- Card 1: Search -->
-                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('search')">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
-                        <span class="material-symbols-outlined text-3xl">search</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">搜索流量</h3>
-                    <p class="text-sm text-gray-500 mb-3">Organic Search</p>
-                    <p class="text-gray-600 text-sm">自然排名是免费且最精准的流量。核心在于关键词权重与Listing质量得分。</p>
+                <!-- Cards (Static) -->
+                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-500 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-600"><span class="material-symbols-outlined text-3xl">search</span></div>
+                    <h3 class="text-xl font-bold mb-2">搜索流量</h3><p class="text-sm text-gray-500">Organic Search</p>
                 </div>
-
-                <!-- Card 2: Ads -->
-                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-orange-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('ads')">
-                    <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4 text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition">
-                        <span class="material-symbols-outlined text-3xl">campaign</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">广告流量</h3>
-                    <p class="text-sm text-gray-500 mb-3">Paid Traffic (PPC)</p>
-                    <p class="text-gray-600 text-sm">SP/SB/SD三大广告体系。付费买排名，是新品冷启动和抢占坑位的关键。</p>
+                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-orange-500 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4 text-orange-600"><span class="material-symbols-outlined text-3xl">campaign</span></div>
+                    <h3 class="text-xl font-bold mb-2">广告流量</h3><p class="text-sm text-gray-500">Paid Traffic</p>
                 </div>
-
-                <!-- Card 3: Association -->
-                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-purple-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('association')">
-                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition">
-                        <span class="material-symbols-outlined text-3xl">hub</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">关联流量</h3>
-                    <p class="text-sm text-gray-500 mb-3">Recommendations</p>
-                    <p class="text-gray-600 text-sm">"看了又看"、"买了又买"。利用互补品和竞品页面截流，转化率极高。</p>
+                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-purple-500 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 text-purple-600"><span class="material-symbols-outlined text-3xl">hub</span></div>
+                    <h3 class="text-xl font-bold mb-2">关联流量</h3><p class="text-sm text-gray-500">Recommendations</p>
                 </div>
-
-                <!-- Card 4: Browse/Events -->
-                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-green-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('browse')">
-                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4 text-green-600 group-hover:bg-green-600 group-hover:text-white transition">
-                        <span class="material-symbols-outlined text-3xl">category</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">类目与活动</h3>
-                    <p class="text-sm text-gray-500 mb-3">Browse &amp; Deals</p>
-                    <p class="text-gray-600 text-sm">类目节点导航、BSR榜单、LD/BD秒杀活动。通过促销冲刺销量的爆发点。</p>
+                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-green-500 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4 text-green-600"><span class="material-symbols-outlined text-3xl">category</span></div>
+                    <h3 class="text-xl font-bold mb-2">类目活动</h3><p class="text-sm text-gray-500">Events & Browse</p>
                 </div>
-
-                <!-- Card 5: External -->
-                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-pink-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('external')">
-                    <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-4 text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition">
-                        <span class="material-symbols-outlined text-3xl">share</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">站外流量</h3>
-                    <p class="text-sm text-gray-500 mb-3">External Sources</p>
-                    <p class="text-gray-600 text-sm">TikTok, Facebook, Influencers. 建立品牌私域，突破站内流量瓶颈。</p>
+                <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-pink-500 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-4 text-pink-600"><span class="material-symbols-outlined text-3xl">share</span></div>
+                    <h3 class="text-xl font-bold mb-2">站外流量</h3><p class="text-sm text-gray-500">External</p>
                 </div>
             </div>
         </section>
 
-        <!-- PART 2: 终极全景流量实验室 (Traffic Lab Ultimate) -->
+        <!-- PART 2: Traffic Lab (High-Fidelity) -->
         <section id="integrated-tool" class="scroll-mt-24">
-            <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
                 
-                <!-- Header -->
-                <div class="bg-[#232F3E] text-white px-6 py-4 flex flex-col md:flex-row justify-between items-center border-b border-gray-700">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-[#FF9900] text-3xl">science</span>
+                <!-- Lab Header -->
+                <div class="bg-[#232F3E] text-white p-5 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-700">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white/10 p-3 rounded-full">
+                            <span class="material-symbols-outlined text-[#FF9900] text-2xl">science</span>
+                        </div>
                         <div>
-                            <h2 class="text-xl font-bold">全景流量实验室</h2>
-                            <p class="text-xs text-gray-400">Hover看定义，Click看策略，X-Ray看本质</p>
+                            <h2 class="text-xl font-bold">全景流量实验室 (Traffic Lab)</h2>
+                            <p class="text-gray-400 text-xs mt-1">点击热点查看详情，开启 X-Ray 区分免费/付费流量。</p>
                         </div>
                     </div>
-                    <!-- View Switcher -->
-                    <div class="flex bg-[#37475A] p-1 rounded-lg">
-                        <button onclick="lab.switchView('serp')" id="lab-tab-serp" class="px-5 py-1.5 rounded-md text-xs font-bold transition bg-[#FF9900] text-black shadow">搜索结果页 (SERP)</button>
-                        <button onclick="lab.switchView('pdp')" id="lab-tab-pdp" class="px-5 py-1.5 rounded-md text-xs font-bold transition text-gray-300 hover:text-white">商品详情页 (PDP)</button>
+                    
+                    <div class="flex items-center gap-4 bg-[#37475A] p-2 rounded-lg border border-gray-600">
+                        <!-- View Switcher -->
+                        <div class="flex bg-[#232F3E] rounded p-1">
+                            <button onclick="lab.switchView('serp')" id="lab-tab-serp" class="px-4 py-1.5 rounded text-xs font-bold transition bg-[#FF9900] text-black">搜索页 SERP</button>
+                            <button onclick="lab.switchView('pdp')" id="lab-tab-pdp" class="px-4 py-1.5 rounded text-xs font-bold transition text-gray-300 hover:text-white">详情页 PDP</button>
+                        </div>
+                        <div class="w-px h-6 bg-gray-600"></div>
+                        <!-- X-Ray Toggle -->
+                        <div class="flex items-center gap-2 cursor-pointer" onclick="lab.toggleXray()">
+                            <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="xray-toggle" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 left-0 transition-all duration-300"/>
+                                <label for="xray-toggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-400 cursor-pointer"></label>
+                            </div>
+                            <span class="text-xs font-bold text-gray-300 select-none">X-Ray 透视</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 3-Column Layout -->
-                <div class="lab-container bg-gray-100">
+                <!-- Filter Bar -->
+                <div class="bg-gray-100 border-b border-gray-200 px-6 py-2 flex gap-4 text-xs font-medium text-gray-600 overflow-x-auto">
+                    <span class="uppercase tracking-wide text-gray-400 py-1">滤镜:</span>
+                    <button onclick="lab.filter('all')" id="lab-filter-all" class="px-3 py-1 rounded-full bg-gray-800 text-white transition">全部显示</button>
+                    <button onclick="lab.filter('paid')" id="lab-filter-paid" class="px-3 py-1 rounded-full hover:bg-white hover:shadow transition flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-500"></span> 仅看付费</button>
+                    <button onclick="lab.filter('free')" id="lab-filter-free" class="px-3 py-1 rounded-full hover:bg-white hover:shadow transition flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span> 仅看免费</button>
+                </div>
+
+                <!-- Canvas -->
+                <div class="bg-white relative min-h-[700px] overflow-y-auto max-h-[800px] scroll-smooth" id="lab-canvas-container">
                     
-                    <!-- COL 1: Left Controls (Sticky on Desktop) -->
-                    <div class="bg-white border-r border-gray-200 p-5 flex flex-col gap-6 overflow-y-auto">
-                        <!-- X-Ray Toggle -->
-                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-bold text-gray-700 text-sm flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-blue-600">radiology</span> X-Ray 透视
-                                </span>
-                                <div class="relative inline-block w-10 align-middle select-none">
-                                    <input type="checkbox" id="xray-toggle" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 left-0 transition-all duration-300" onclick="lab.toggleXray()"/>
-                                    <label for="xray-toggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer"></label>
+                    <!-- ====== VIEW 1: SERP ====== -->
+                    <div id="lab-view-serp" class="pb-12 transition-opacity duration-300">
+                        <!-- Amazon Header Simulation -->
+                        <div class="bg-[#131921] p-3 sticky top-0 z-40 shadow-md">
+                            <div class="max-w-[1200px] mx-auto flex items-center gap-4">
+                                <span class="text-white font-bold text-2xl tracking-tighter">amazon</span>
+                                <div class="flex-1 h-10 bg-white rounded flex items-center overflow-hidden">
+                                    <div class="bg-gray-100 px-3 h-full flex items-center text-xs text-gray-500 border-r border-gray-300">All</div>
+                                    <input type="text" value="running shoes for men" class="flex-1 px-3 outline-none text-gray-700 font-medium" readonly>
+                                    <div class="bg-[#FEBD69] hover:bg-[#F3A847] w-12 h-full flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-gray-800">search</span></div>
                                 </div>
                             </div>
-                            <p class="text-[10px] text-gray-500">
-                                高亮区分 <span class="text-orange-500 font-bold">付费(Paid)</span> 与 <span class="text-green-600 font-bold">免费(Organic)</span> 流量。
-                            </p>
-                        </div>
-
-                        <!-- Filters -->
-                        <div>
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-3">流量筛选</h4>
-                            <div class="space-y-2">
-                                <button onclick="lab.filter('all')" id="btn-filter-all" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium border border-blue-200 bg-blue-50 text-blue-700 flex justify-between items-center">
-                                    全部显示 <span class="material-symbols-outlined text-sm">visibility</span>
-                                </button>
-                                <button onclick="lab.filter('paid')" id="btn-filter-paid" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium border border-transparent hover:bg-gray-50 text-gray-600 flex justify-between items-center transition">
-                                    仅看付费 <span class="material-symbols-outlined text-sm">attach_money</span>
-                                </button>
-                                <button onclick="lab.filter('free')" id="btn-filter-free" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium border border-transparent hover:bg-gray-50 text-gray-600 flex justify-between items-center transition">
-                                    仅看免费 <span class="material-symbols-outlined text-sm">spa</span>
-                                </button>
+                            <div class="max-w-[1200px] mx-auto mt-2 text-white text-xs flex gap-4 font-medium overflow-x-auto whitespace-nowrap">
+                                <span>All</span> <span>Today's Deals</span> <span>Customer Service</span> <span>Registry</span> <span>Gift Cards</span> <span>Sell</span>
                             </div>
                         </div>
 
-                        <!-- Hint -->
-                        <div class="mt-auto p-3 bg-blue-50 rounded text-xs text-blue-800 border border-blue-100">
-                            <strong class="block mb-1">💡 操作提示：</strong>
-                            点击中间页面的 <span class="inline-block w-2 h-2 rounded-full bg-orange-500"></span> 或 <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span> 圆点，右侧面板将显示详细策略。
+                        <div class="max-w-[1200px] mx-auto p-4 flex gap-4">
+                            <!-- Sidebar -->
+                            <div class="hidden md:block w-56 space-y-4 pr-4 border-r border-gray-200 flex-shrink-0">
+                                <div class="font-bold text-sm">Department</div>
+                                <div class="text-sm pl-2">Men's Running Shoes</div>
+                                <div class="font-bold text-sm mt-4">Reviews</div>
+                                <div class="text-yellow-500 text-sm">★★★★☆ & Up</div>
+                                <div class="font-bold text-sm mt-4">Price</div>
+                                <div class="text-sm pl-2">$25 to $50</div>
+                            </div>
+
+                            <!-- Results -->
+                            <div class="flex-1 space-y-4 min-w-0">
+                                <!-- 1. Sponsored Brands -->
+                                <div class="border border-gray-200 rounded relative p-4 item-paid transition-all duration-300" data-type="paid">
+                                    <span class="xray-badge">Sponsored Brands</span>
+                                    <div class="text-[11px] text-gray-500 mb-2">Sponsored</div>
+                                    <div class="flex gap-6 items-center">
+                                        <div class="w-24 border-r border-gray-200 pr-4 text-center shrink-0">
+                                            <div class="font-bold text-lg text-[#0F1111]">NIKE</div>
+                                            <div class="text-xs text-gray-500">Just Do It</div>
+                                        </div>
+                                        <div class="flex-1 flex gap-4 overflow-hidden">
+                                            <img src="https://placehold.co/150x150?text=Shoe+1" class="w-32 h-32 object-contain mix-blend-multiply">
+                                            <img src="https://placehold.co/150x150?text=Shoe+2" class="w-32 h-32 object-contain mix-blend-multiply">
+                                            <img src="https://placehold.co/150x150?text=Shoe+3" class="w-32 h-32 object-contain mix-blend-multiply">
+                                        </div>
+                                        <div class="text-sm font-bold amz-link cursor-pointer hidden md:block">Shop the collection</div>
+                                    </div>
+                                    <div class="hotspot-point bg-orange-500 hotspot-pulse-orange absolute top-2 right-2" onclick="lab.openModal('sb')">
+                                        <span class="material-symbols-outlined text-sm">ads_click</span>
+                                        <div class="lab-tooltip">Sponsored Brands (SB)<br>品牌头条广告</div>
+                                    </div>
+                                </div>
+
+                                <!-- 2. SB Video (New) -->
+                                <div class="border border-gray-200 rounded relative p-4 item-paid transition-all duration-300 flex gap-4" data-type="paid">
+                                    <span class="xray-badge">SB Video</span>
+                                    <div class="w-1/2 bg-gray-100 flex items-center justify-center relative rounded overflow-hidden">
+                                        <span class="material-symbols-outlined text-4xl text-gray-400">play_circle</span>
+                                        <div class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1 rounded">0:30</div>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <div class="text-[11px] text-gray-500 mb-1">Sponsored</div>
+                                        <div class="flex gap-2">
+                                            <img src="https://placehold.co/80x80?text=Prod" class="w-16 h-16 object-contain border rounded">
+                                            <div>
+                                                <div class="text-sm font-bold line-clamp-2">Performance Runner Video Ad</div>
+                                                <div class="font-bold text-lg">$89.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hotspot-point bg-orange-500 hotspot-pulse-orange absolute top-2 right-2" onclick="lab.openModal('sbv')">
+                                        <span class="material-symbols-outlined text-sm">movie</span>
+                                        <div class="lab-tooltip">SB Video<br>品牌视频广告</div>
+                                    </div>
+                                </div>
+
+                                <!-- 3. SP Ad -->
+                                <div class="border border-gray-200 rounded relative flex gap-4 p-4 item-paid transition-all duration-300 hover:bg-gray-50" data-type="paid">
+                                    <span class="xray-badge">Sponsored Product</span>
+                                    <div class="w-48 bg-gray-50 flex items-center justify-center p-2 shrink-0">
+                                        <img src="https://placehold.co/200x200?text=SP+Ad+Shoe" class="h-32 object-contain mix-blend-multiply">
+                                    </div>
+                                    <div class="flex-1 py-1">
+                                        <div class="text-[11px] text-gray-500 mb-1">Sponsored</div>
+                                        <h3 class="text-lg font-medium text-[#0F1111] leading-snug hover:text-[#C7511F] cursor-pointer">
+                                            SpeedRunner Pro Men's Lightweight Running Shoes
+                                        </h3>
+                                        <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-sm">★★★★☆</span><span class="text-amz-link text-xs">1,240</span></div>
+                                        <div class="mt-2"><span class="amz-price-symbol">$</span><span class="amz-price-whole">45</span><span class="amz-price-fraction">99</span></div>
+                                        <div class="text-sm text-gray-500 mt-1">Delivery <span class="font-bold text-[#0F1111]">Tomorrow</span></div>
+                                    </div>
+                                    <div class="hotspot-point bg-orange-500 hotspot-pulse-orange absolute top-4 right-4" onclick="lab.openModal('sp')">
+                                        <span class="material-symbols-outlined text-sm">attach_money</span>
+                                        <div class="lab-tooltip">Sponsored Products (SP)<br>商品推广广告</div>
+                                    </div>
+                                </div>
+
+                                <!-- 4. Organic -->
+                                <div class="border border-gray-200 rounded relative flex gap-4 p-4 item-free transition-all duration-300 hover:bg-gray-50" data-type="free">
+                                    <span class="xray-badge">Organic Ranking</span>
+                                    <div class="w-48 bg-gray-50 flex items-center justify-center p-2 relative shrink-0">
+                                        <div class="absolute top-0 left-0 bg-[#C45500] text-white text-[10px] font-bold px-2 py-1 z-10 skew-x-[-10deg] ml-[-4px]">Best Seller</div>
+                                        <img src="https://placehold.co/200x200?text=Organic+Shoe" class="h-32 object-contain mix-blend-multiply">
+                                    </div>
+                                    <div class="flex-1 py-1">
+                                        <h3 class="text-lg font-medium text-[#0F1111] leading-snug hover:text-[#C7511F] cursor-pointer">
+                                            ASICS Men's Gel-Venture 8 Running Shoes
+                                        </h3>
+                                        <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-sm">★★★★★</span><span class="text-amz-link text-xs">24,560</span></div>
+                                        <div class="mt-2 flex items-baseline gap-2">
+                                            <div><span class="amz-price-symbol">$</span><span class="amz-price-whole">59</span><span class="amz-price-fraction">95</span></div>
+                                            <span class="amz-prime"></span>
+                                        </div>
+                                    </div>
+                                    <div class="hotspot-point bg-green-500 hotspot-pulse-green absolute top-4 right-4" onclick="lab.openModal('organic')">
+                                        <span class="material-symbols-outlined text-sm">spa</span>
+                                        <div class="lab-tooltip">Natural Search (自然排名)<br>A10算法核心流量</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- COL 2: Center Canvas (Amazon Simulation) -->
-                    <div id="lab-canvas" class="relative overflow-y-auto lab-scroll bg-gray-100 p-4 scroll-smooth">
-                        
-                        <!-- ====== VIEW: SERP ====== -->
-                        <div id="view-serp" class="max-w-[800px] mx-auto space-y-4">
-                            <!-- Amazon Search Bar Mock -->
-                            <div class="bg-[#131921] p-3 rounded sticky top-0 z-30 shadow-lg">
-                                <div class="flex gap-2 h-10">
-                                    <div class="bg-gray-100 px-2 flex items-center rounded-l text-xs text-gray-600 border-r">All</div>
-                                    <input type="text" value="noise cancelling headphones" class="flex-1 px-3 outline-none" readonly>
-                                    <div class="bg-[#FEBD69] w-12 flex items-center justify-center rounded-r cursor-pointer"><span class="material-symbols-outlined">search</span></div>
-                                </div>
-                            </div>
-
-                            <!-- 1. SB Ad (Header) -->
-                            <div class="item-wrapper item-paid bg-white p-4 rounded shadow-sm group" onclick="lab.select('sb')" data-type="paid">
-                                <div class="xray-badge">Sponsored Brands</div>
-                                <div class="text-[10px] text-gray-500 mb-2">Sponsored</div>
-                                <div class="flex gap-4 items-center">
-                                    <div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center font-bold text-gray-400 text-xs">LOGO</div>
-                                    <div class="flex-1">
-                                        <div class="font-bold text-sm mb-1">Premium Audio Experience</div>
-                                        <div class="flex gap-2">
-                                            <img src="https://placehold.co/80x80?text=Prod1" class="rounded">
-                                            <img src="https://placehold.co/80x80?text=Prod2" class="rounded">
-                                            <img src="https://placehold.co/80x80?text=Prod3" class="rounded">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Hotspot -->
-                                <div class="hotspot-point bg-orange-500 hotspot-pulse absolute top-2 right-2">
-                                    <span class="material-symbols-outlined text-[16px]">ads_click</span>
-                                    <div class="lab-tooltip">Sponsored Brands<br>(点击查看策略)</div>
-                                </div>
-                            </div>
-
-                            <!-- 2. SB Video (New!) -->
-                            <div class="item-wrapper item-paid bg-white p-4 rounded shadow-sm group" onclick="lab.select('sb_video')" data-type="paid">
-                                <div class="xray-badge">SB Video</div>
-                                <div class="text-[10px] text-gray-500 mb-1">Sponsored</div>
-                                <div class="flex flex-col md:flex-row gap-4">
-                                    <div class="w-full md:w-1/2 bg-black rounded flex items-center justify-center h-40 relative group-hover:opacity-90 transition">
-                                        <span class="material-symbols-outlined text-white text-4xl">play_circle</span>
-                                    </div>
-                                    <div class="w-full md:w-1/2 pt-2">
-                                        <div class="text-sm font-bold mb-1">See it in action</div>
-                                        <img src="https://placehold.co/60x60?text=Prod" class="float-left mr-2 mb-2 border rounded">
-                                        <div class="text-sm line-clamp-3">Experience the ultimate silence with our new active noise cancelling technology...</div>
-                                        <button class="mt-2 border border-gray-300 rounded px-3 py-1 text-xs">Shop CyberAudio</button>
-                                    </div>
-                                </div>
-                                <div class="hotspot-point bg-orange-500 hotspot-pulse absolute top-2 right-2">
-                                    <span class="material-symbols-outlined text-[16px]">play_circle</span>
-                                    <div class="lab-tooltip">SB Video Ad<br>(点击查看策略)</div>
-                                </div>
-                            </div>
-
-                            <!-- 3. Organic Result -->
-                            <div class="item-wrapper item-free bg-white p-4 rounded shadow-sm group flex gap-4" onclick="lab.select('organic')" data-type="free">
-                                <div class="xray-badge">Organic</div>
-                                <div class="w-40 relative flex-shrink-0">
-                                    <div class="absolute -left-4 top-0 bg-[#C45500] text-white text-[10px] px-2 py-1 font-bold skew-x-[-10deg]">Best Seller</div>
-                                    <img src="https://placehold.co/150x150?text=Organic" class="w-full object-contain">
-                                </div>
-                                <div class="flex-1">
-                                    <div class="text-lg font-medium leading-snug hover:text-[#C7511F] cursor-pointer">Sony WH-1000XM5 Wireless Noise Cancelling Headphones</div>
-                                    <div class="flex items-center gap-1 my-1"><span class="text-yellow-500 text-sm">★★★★★</span> <span class="text-xs text-blue-700">24,102</span></div>
-                                    <div class="flex items-baseline gap-1"><span class="amz-price-symbol">$</span><span class="amz-price-whole">348</span><span class="amz-price-fraction">00</span> <span class="amz-prime"></span></div>
-                                    <div class="text-xs text-gray-500 mt-1">FREE delivery <strong>Tomorrow, Jan 24</strong></div>
-                                </div>
-                                <div class="hotspot-point bg-green-500 hotspot-pulse absolute bottom-4 right-4">
-                                    <span class="material-symbols-outlined text-[16px]">spa</span>
-                                    <div class="lab-tooltip">Natural Ranking<br>(点击查看策略)</div>
-                                </div>
-                            </div>
-
-                            <!-- 4. SP Ad (Inline) -->
-                            <div class="item-wrapper item-paid bg-white p-4 rounded shadow-sm group flex gap-4 border border-gray-200" onclick="lab.select('sp')" data-type="paid">
-                                <div class="xray-badge">Sponsored Product</div>
-                                <div class="w-40 flex-shrink-0 flex items-center justify-center bg-gray-50">
-                                    <img src="https://placehold.co/150x150?text=SP+Ad" class="w-32 object-contain mix-blend-multiply">
-                                </div>
-                                <div class="flex-1">
-                                    <div class="text-[10px] text-gray-500 mb-0.5">Sponsored</div>
-                                    <div class="text-lg font-medium leading-snug hover:text-[#C7511F] cursor-pointer">Bose QuietComfort 45 Bluetooth Wireless Noise Cancelling Headphones</div>
-                                    <div class="flex items-center gap-1 my-1"><span class="text-yellow-500 text-sm">★★★★☆</span> <span class="text-xs text-blue-700">8,500</span></div>
-                                    <div class="flex items-baseline gap-1"><span class="amz-price-symbol">$</span><span class="amz-price-whole">279</span><span class="amz-price-fraction">00</span> <span class="amz-prime"></span></div>
-                                </div>
-                                <div class="hotspot-point bg-orange-500 hotspot-pulse absolute top-4 right-4">
-                                    <span class="material-symbols-outlined text-[16px]">attach_money</span>
-                                    <div class="lab-tooltip">Sponsored Products<br>(点击查看策略)</div>
-                                </div>
-                            </div>
-                            
-                            <!-- 5. Bottom Ad (New!) -->
-                            <div class="item-wrapper item-paid bg-white p-4 rounded shadow-sm group flex flex-col items-center justify-center text-center mt-8 border-t" onclick="lab.select('bottom_ad')" data-type="paid">
-                                <div class="xray-badge">Bottom of Search</div>
-                                <div class="text-[10px] text-gray-500 mb-2">Sponsored</div>
-                                <img src="https://placehold.co/728x90?text=Banner+Ad+(Bottom+of+Search)" class="w-full max-w-lg rounded shadow-sm">
-                                <div class="hotspot-point bg-orange-500 hotspot-pulse absolute top-2 right-2">
-                                    <span class="material-symbols-outlined text-[16px]">ad_units</span>
-                                    <div class="lab-tooltip">Bottom Ads<br>(点击查看策略)</div>
-                                </div>
-                            </div>
+                    <!-- ====== VIEW 2: PDP ====== -->
+                    <div id="lab-view-pdp" class="pb-12 hidden transition-opacity duration-300">
+                        <!-- Breadcrumbs -->
+                        <div class="bg-gray-100 px-4 py-2 text-xs text-[#565959] flex gap-1">
+                            <span>Sports</span> <span>›</span> <span class="font-bold text-[#C7511F]">Running</span>
                         </div>
 
-                        <!-- ====== VIEW: PDP ====== -->
-                        <div id="view-pdp" class="max-w-[1000px] mx-auto space-y-6 hidden">
-                            
-                            <!-- Top Fold -->
-                            <div class="flex flex-col md:flex-row gap-6 bg-white p-4 rounded shadow-sm">
-                                <div class="w-full md:w-[40%]">
-                                    <img src="https://placehold.co/400x400?text=Product+Image" class="w-full rounded border">
+                        <div class="max-w-[1200px] mx-auto p-4">
+                            <!-- Top Section -->
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-[40%] sticky top-4">
+                                    <img src="https://placehold.co/500x500?text=Product+Hero" class="w-full rounded border border-gray-200 mb-4">
                                 </div>
-                                <div class="w-full md:w-[35%] space-y-2 relative">
-                                    <h1 class="text-xl font-medium leading-snug">Pro-Gamer Wireless Headset 7.1 Surround</h1>
-                                    <div class="text-sm text-amz-link">Visit Store</div>
-                                    <div class="border-t border-b py-2 my-2">
+                                <div class="w-full md:w-[40%] space-y-3">
+                                    <h1 class="text-2xl font-medium text-[#0F1111] leading-tight">Pro-Gamer Wireless Headset, 7.1 Surround</h1>
+                                    <div class="text-sm text-amz-link">Visit the CyberAudio Store</div>
+                                    <div class="flex items-center gap-2 border-b border-gray-200 pb-4">
+                                        <span class="text-yellow-500 text-sm">★★★★☆</span>
+                                        <span class="text-amz-link text-sm">2,341 ratings</span>
+                                    </div>
+                                    <div class="py-2">
                                         <span class="amz-price-symbol">$</span><span class="amz-price-whole">79</span><span class="amz-price-fraction">99</span>
+                                        <span class="amz-prime ml-2"></span>
                                     </div>
-                                    <!-- SD Inline (New placement) -->
-                                    <div class="item-wrapper item-paid mt-4 border border-gray-300 p-2 rounded bg-gray-50" onclick="lab.select('sd')" data-type="paid">
-                                        <div class="xray-badge">SD Inline</div>
-                                        <div class="text-[10px] text-gray-500">Sponsored</div>
-                                        <div class="flex gap-2 items-center">
-                                            <img src="https://placehold.co/40x40?text=Ad" class="rounded border">
-                                            <div class="text-xs font-bold text-amz-link">Competitor Model X</div>
+                                    <ul class="list-disc pl-5 space-y-1 text-sm text-[#0F1111]">
+                                        <li>IMMERSIVE SOUND: 50mm drivers.</li>
+                                        <li>ALL-DAY COMFORT: Memory foam.</li>
+                                    </ul>
+
+                                    <!-- SD Ad Inline -->
+                                    <div class="mt-6 border border-gray-300 rounded p-2 bg-white item-paid relative" data-type="paid">
+                                        <span class="xray-badge">SD Inline</span>
+                                        <div class="text-[10px] text-gray-500 mb-1">Sponsored</div>
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://placehold.co/50x50/orange/white?text=Ad" class="w-12 h-12 rounded border border-gray-200">
+                                            <div>
+                                                <div class="text-xs font-bold text-amz-link">Competitor Headset</div>
+                                                <div class="text-xs font-bold text-red-700">$69.99</div>
+                                            </div>
+                                            <button class="ml-auto text-xs bg-[#FFD814] px-2 py-1 rounded-full border border-[#FCD200]">View</button>
                                         </div>
-                                        <div class="hotspot-point bg-orange-500 hotspot-pulse absolute -top-2 -right-2">
-                                            <span class="material-symbols-outlined text-[14px]">ads_click</span>
-                                            <div class="lab-tooltip">SD (Inline)<br>(点击查看策略)</div>
+                                        <div class="hotspot-point bg-orange-500 hotspot-pulse-orange absolute -top-3 -right-3" onclick="lab.openModal('sd')">
+                                            <span class="material-symbols-outlined text-sm">ads_click</span>
+                                            <div class="lab-tooltip">Sponsored Display (SD)<br>五点下方拦截广告</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w-full md:w-[25%] border rounded p-4 relative">
-                                    <div class="text-xl font-bold text-[#B12704]">$79.99</div>
-                                    <div class="text-sm my-2"><span class="amz-prime"></span></div>
-                                    <button class="amz-btn-primary w-full py-1 text-sm mb-2 shadow-sm">Add to Cart</button>
-                                    <button class="amz-btn-secondary w-full py-1 text-sm shadow-sm">Buy Now</button>
-                                    <!-- SD Buybox (Existing) -->
-                                    <div class="item-wrapper item-paid mt-4 border-t pt-2" onclick="lab.select('sd')" data-type="paid">
-                                        <div class="xray-badge">SD BuyBox</div>
-                                        <div class="text-[10px] text-gray-500">Sponsored</div>
-                                        <img src="https://placehold.co/200x100?text=SD+Ad" class="w-full rounded">
-                                        <div class="hotspot-point bg-orange-500 hotspot-pulse absolute top-2 right-2">
-                                            <span class="material-symbols-outlined text-[14px]">ads_click</span>
-                                            <div class="lab-tooltip">SD (Buy Box)<br>(点击查看策略)</div>
+                                <div class="w-full md:w-[20%]">
+                                    <div class="border border-gray-300 rounded-lg p-4 shadow-sm bg-white relative">
+                                        <div class="text-xl font-bold text-red-700 mb-2">$79.99</div>
+                                        <div class="text-sm text-[#0F1111] mb-4"><span class="amz-prime"></span> & FREE Returns</div>
+                                        <button class="amz-btn-primary w-full py-2 text-sm shadow-sm mb-2">Add to Cart</button>
+                                        <button class="amz-btn-secondary w-full py-2 text-sm shadow-sm">Buy Now</button>
+                                    </div>
+                                    <!-- SD Ad BuyBox -->
+                                    <div class="mt-4 border border-gray-300 rounded p-2 bg-white item-paid relative" data-type="paid">
+                                        <span class="xray-badge">SD Buybox</span>
+                                        <div class="text-[10px] text-gray-500 mb-1">Sponsored</div>
+                                        <img src="https://placehold.co/200x200/orange/white?text=Ad" class="w-full mb-1">
+                                        <div class="hotspot-point bg-orange-500 hotspot-pulse-orange absolute top-1 right-1" onclick="lab.openModal('sd')">
+                                            <span class="material-symbols-outlined text-sm">ads_click</span>
+                                            <div class="lab-tooltip">SD Ad (BuyBox)<br>购物车下方广告</div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-8 border-gray-200">
+
+                            <!-- Brand Story (New) -->
+                            <div class="border border-gray-200 rounded p-6 bg-white relative item-free mb-8" data-type="free">
+                                <span class="xray-badge">Brand Story</span>
+                                <h3 class="font-bold text-lg mb-4">From the brand</h3>
+                                <div class="flex gap-4 overflow-x-auto">
+                                    <img src="https://placehold.co/300x400/333/fff?text=Brand+Story+Card+1" class="rounded h-64">
+                                    <img src="https://placehold.co/300x400/444/fff?text=Brand+Story+Card+2" class="rounded h-64">
+                                </div>
+                                <div class="hotspot-point bg-green-500 hotspot-pulse-green absolute top-4 right-4" onclick="lab.openModal('brandstory')">
+                                    <span class="material-symbols-outlined text-sm">history_edu</span>
+                                    <div class="lab-tooltip">Brand Story (品牌故事)<br>A+页面上方的免费品牌入口</div>
                                 </div>
                             </div>
 
                             <!-- FBT -->
-                            <div class="item-wrapper item-free bg-white p-4 rounded shadow-sm border border-gray-200 relative" onclick="lab.select('fbt')" data-type="free">
-                                <div class="xray-badge">FBT</div>
-                                <h3 class="font-bold text-[#C7511F] mb-4">Frequently bought together</h3>
-                                <div class="flex items-center gap-4">
-                                    <img src="https://placehold.co/80x80?text=Main" class="border"> + <img src="https://placehold.co/80x80?text=Acc" class="border">
-                                </div>
-                                <div class="hotspot-point bg-green-500 hotspot-pulse absolute top-4 right-4">
-                                    <span class="material-symbols-outlined text-[16px]">link</span>
-                                    <div class="lab-tooltip">Frequently Bought Together<br>(点击查看策略)</div>
-                                </div>
-                            </div>
-
-                            <!-- Brands Related (SB) - New! -->
-                            <div class="item-wrapper item-paid bg-white p-4 rounded shadow-sm relative" onclick="lab.select('brands_related')" data-type="paid">
-                                <div class="xray-badge">SB Related</div>
-                                <h3 class="font-bold mb-2 text-sm">Brands related to this category on Amazon <span class="text-gray-400 font-normal text-xs">(Sponsored)</span></h3>
-                                <div class="flex gap-4 overflow-x-auto pb-2">
-                                    <div class="border rounded p-2 w-40 flex-shrink-0 text-center">
-                                        <div class="font-bold text-sm mb-2">Razer</div>
-                                        <img src="https://placehold.co/100x100?text=Razer" class="mx-auto">
-                                    </div>
-                                    <div class="border rounded p-2 w-40 flex-shrink-0 text-center">
-                                        <div class="font-bold text-sm mb-2">Logitech</div>
-                                        <img src="https://placehold.co/100x100?text=Logi" class="mx-auto">
+                            <div class="border border-gray-200 rounded p-6 bg-white relative item-free mb-8" data-type="free">
+                                <span class="xray-badge">FBT</span>
+                                <h3 class="font-bold text-lg text-[#CC6600] mb-4">Frequently bought together</h3>
+                                <div class="flex flex-wrap items-center gap-6">
+                                    <img src="https://placehold.co/100x100?text=Main" class="w-24 h-24 object-contain">
+                                    <span class="text-2xl text-gray-400">+</span>
+                                    <img src="https://placehold.co/100x100?text=Case" class="w-24 h-24 object-contain">
+                                    <div class="ml-4">
+                                        <div class="text-lg font-bold text-[#B12704]">$99.99</div>
+                                        <button class="amz-btn-primary px-4 py-1 text-xs shadow-sm mt-2">Add both to Cart</button>
                                     </div>
                                 </div>
-                                <div class="hotspot-point bg-orange-500 hotspot-pulse absolute top-4 right-4">
-                                    <span class="material-symbols-outlined text-[16px]">view_carousel</span>
-                                    <div class="lab-tooltip">Brands Related (SB)<br>(点击查看策略)</div>
+                                <div class="hotspot-point bg-green-500 hotspot-pulse-green absolute top-4 right-4" onclick="lab.openModal('fbt')">
+                                    <span class="material-symbols-outlined text-sm">link</span>
+                                    <div class="lab-tooltip">FBT (经常一起购买)<br>最强免费关联流量</div>
                                 </div>
                             </div>
 
-                            <!-- Compare Table (Organic) - New! -->
-                            <div class="item-wrapper item-free bg-white p-4 rounded shadow-sm relative" onclick="lab.select('compare_table')" data-type="free">
-                                <div class="xray-badge">Organic Table</div>
-                                <h3 class="font-bold mb-4">Compare with similar items</h3>
-                                <div class="grid grid-cols-4 gap-2 text-xs text-center">
-                                    <div class="col-span-1"></div>
-                                    <div class="font-bold text-[#C7511F]">This Item</div>
-                                    <div class="font-bold text-amz-link">Competitor A</div>
-                                    <div class="font-bold text-amz-link">Competitor B</div>
-                                    <!-- Rows -->
-                                    <div class="text-left font-bold text-gray-500">Price</div>
-                                    <div class="text-[#B12704] font-bold">$79.99</div>
-                                    <div>$85.00</div>
-                                    <div>$65.00</div>
-                                    <div class="text-left font-bold text-gray-500">Rating</div>
-                                    <div>4.5</div>
-                                    <div>4.2</div>
-                                    <div>3.9</div>
+                            <!-- Compare Table (New) -->
+                            <div class="border border-gray-200 rounded p-6 bg-white relative item-free mb-8" data-type="free">
+                                <span class="xray-badge">Compare</span>
+                                <h3 class="font-bold text-lg mb-4">Compare with similar items</h3>
+                                <div class="grid grid-cols-4 text-xs gap-2">
+                                    <div class="font-bold">This Item</div>
+                                    <div>Competitor A</div>
+                                    <div>Competitor B</div>
+                                    <div>Competitor C</div>
                                 </div>
-                                <div class="hotspot-point bg-green-500 hotspot-pulse absolute top-4 right-4">
-                                    <span class="material-symbols-outlined text-[16px]">table_chart</span>
-                                    <div class="lab-tooltip">Compare Table<br>(点击查看策略)</div>
-                                </div>
-                            </div>
-                            
-                            <!-- A+ Content (Organic) - New! -->
-                            <div class="item-wrapper item-free bg-white p-4 rounded shadow-sm relative text-center" onclick="lab.select('aplus')" data-type="free">
-                                <div class="xray-badge">A+ Content</div>
-                                <h3 class="font-bold text-left mb-2">From the brand</h3>
-                                <img src="https://placehold.co/800x300?text=A++Content+Story" class="w-full rounded shadow-sm">
-                                <div class="hotspot-point bg-green-500 hotspot-pulse absolute top-4 right-4">
-                                    <span class="material-symbols-outlined text-[16px]">chrome_reader_mode</span>
-                                    <div class="lab-tooltip">A+ Content / Brand Story<br>(点击查看策略)</div>
+                                <div class="hotspot-point bg-green-500 hotspot-pulse-green absolute top-4 right-4" onclick="lab.openModal('compare')">
+                                    <span class="material-symbols-outlined text-sm">compare_arrows</span>
+                                    <div class="lab-tooltip">Compare Table (对比表)<br>系统生成的免费流量入口</div>
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-
-                    <!-- COL 3: Right Details Panel (Sticky) -->
-                    <div class="bg-white border-l border-gray-200 shadow-xl z-20 flex flex-col h-full">
-                        <!-- Empty State -->
-                        <div id="panel-empty" class="flex-1 flex flex-col items-center justify-center p-8 text-center text-gray-400">
-                            <span class="material-symbols-outlined text-6xl mb-4 text-gray-200">touch_app</span>
-                            <h3 class="font-bold text-gray-600 mb-2">等待选择</h3>
-                            <p class="text-sm">点击左侧模拟页面的热点，<br>在此查看详细策略分析。</p>
-                        </div>
-
-                        <!-- Content State -->
-                        <div id="panel-content" class="hidden flex-col h-full overflow-y-auto">
-                            <div class="bg-[#232F3E] text-white p-6 sticky top-0">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span id="detail-badge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-orange-500 text-white">PAID</span>
+                            <!-- Related Ads -->
+                            <div class="border border-gray-200 rounded p-6 bg-white relative item-paid" data-type="paid">
+                                <span class="xray-badge">Related (Ads)</span>
+                                <h3 class="font-bold text-lg mb-4">Products related to this item <span class="text-xs font-normal text-gray-500">(Sponsored)</span></h3>
+                                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                                    <div class="space-y-1"><img src="https://placehold.co/150x150?text=Ad+1" class="w-full h-32 object-contain"><div class="text-xs text-amz-link line-clamp-2">Mouse</div><div class="font-bold">$25.99</div></div>
+                                    <div class="space-y-1"><img src="https://placehold.co/150x150?text=Ad+2" class="w-full h-32 object-contain"><div class="text-xs text-amz-link line-clamp-2">Keyboard</div><div class="font-bold">$45.99</div></div>
+                                    <div class="space-y-1"><img src="https://placehold.co/150x150?text=Ad+3" class="w-full h-32 object-contain"><div class="text-xs text-amz-link line-clamp-2">Pad</div><div class="font-bold">$12.99</div></div>
+                                    <div class="space-y-1"><img src="https://placehold.co/150x150?text=Ad+4" class="w-full h-32 object-contain"><div class="text-xs text-amz-link line-clamp-2">Stand</div><div class="font-bold">$19.99</div></div>
+                                    <div class="space-y-1 opacity-50"><div class="w-full h-32 bg-gray-100 flex items-center justify-center text-xs">More...</div></div>
                                 </div>
-                                <h3 id="detail-title" class="text-xl font-bold leading-tight">Sponsored Brands</h3>
-                            </div>
-                            
-                            <div class="p-6 space-y-6">
-                                <div>
-                                    <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">定义 (Definition)</h4>
-                                    <p id="detail-desc" class="text-sm text-gray-700 leading-relaxed bg-gray-50 p-3 rounded border border-gray-100">...</p>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="bg-blue-50 p-3 rounded border border-blue-100">
-                                        <div class="text-[10px] text-blue-600 font-bold uppercase mb-1">扣费模式</div>
-                                        <div id="detail-cost" class="text-sm font-bold text-gray-800">CPC</div>
-                                    </div>
-                                    <div class="bg-purple-50 p-3 rounded border border-purple-100">
-                                        <div class="text-[10px] text-purple-600 font-bold uppercase mb-1">转化潜力</div>
-                                        <div id="detail-potential" class="text-sm font-bold text-gray-800">High</div>
-                                    </div>
-                                </div>
-
-                                <div class="border-l-4 border-[#FF9900] pl-4 py-1">
-                                    <h4 class="text-xs font-bold text-[#FF9900] uppercase mb-1">🔥 运营必杀技 (Strategy)</h4>
-                                    <p id="detail-tip" class="text-xs text-gray-600 italic leading-relaxed">...</p>
+                                <div class="hotspot-point bg-orange-500 hotspot-pulse-orange absolute top-4 right-4" onclick="lab.openModal('related')">
+                                    <span class="material-symbols-outlined text-sm">shopping_bag</span>
+                                    <div class="lab-tooltip">Related Products (SP)<br>竞品截流广告位</div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
                 </div>
             </div>
         </section>
-
-        <!-- PART 3: Deep Dive Tabs -->
-        <section id="deep-dive" class="bg-white rounded-xl shadow-lg p-6 md:p-10 scroll-mt-24">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">深度解析：流量获取策略</h2>
-            
-            <!-- Tabs -->
-            <div class="flex overflow-x-auto gap-6 mb-6 border-b border-gray-200 text-sm md:text-base font-medium whitespace-nowrap">
-                <button onclick="showDeepDive('search')" id="tab-search" class="pb-3 px-2 transition-colors tab-active">搜索流量 (Search)</button>
-                <button onclick="showDeepDive('ads')" id="tab-ads" class="pb-3 px-2 transition-colors tab-inactive">广告流量 (Ads)</button>
-                <button onclick="showDeepDive('association')" id="tab-association" class="pb-3 px-2 transition-colors tab-inactive">关联流量 (Association)</button>
-                <button onclick="showDeepDive('browse')" id="tab-browse" class="pb-3 px-2 transition-colors tab-inactive">活动与类目 (Events)</button>
-                <button onclick="showDeepDive('external')" id="tab-external" class="pb-3 px-2 transition-colors tab-inactive">站外流量 (External)</button>
+        
+        <!-- PART 3: Diagnostics Tool -->
+        <section id="strategy-tools">
+            <div class="bg-gray-800 rounded-2xl shadow-xl p-8 text-white max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[#FF9900]">health_and_safety</span> 流量健康自检</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-gray-700/50 p-4 rounded-lg"><label class="text-xs text-gray-400">曝光量</label><select id="diag-imp" class="w-full bg-gray-800 rounded mt-1 p-2 text-sm"><option value="low">低</option><option value="high">高</option></select></div>
+                    <div class="bg-gray-700/50 p-4 rounded-lg"><label class="text-xs text-gray-400">点击率</label><select id="diag-ctr" class="w-full bg-gray-800 rounded mt-1 p-2 text-sm"><option value="low">低</option><option value="high">高</option></select></div>
+                    <div class="bg-gray-700/50 p-4 rounded-lg"><label class="text-xs text-gray-400">转化率</label><select id="diag-cvr" class="w-full bg-gray-800 rounded mt-1 p-2 text-sm"><option value="low">低</option><option value="high">高</option></select></div>
+                </div>
+                <button onclick="diagnose()" class="bg-[#FF9900] text-black font-bold py-2 px-6 rounded w-full md:w-auto">开始诊断</button>
+                <div id="diag-result" class="mt-4 p-4 bg-white/10 rounded hidden border border-white/20 text-sm"></div>
             </div>
-
-            <!-- Content Area -->
-            <div id="content-area" class="min-h-[200px] text-gray-700 leading-relaxed" style="opacity: 1;">
-                <!-- Default content loaded via JS -->
-            </div>
-        </section>
-
-        <!-- PART 4: Strategy Tools (Mixer + Diagnostics) -->
-        <section id="strategy-tools" class="grid grid-cols-1 lg:grid-cols-2 gap-8 scroll-mt-24">
-            
-            <!-- Tool A: Strategy Mixer -->
-            <div class="bg-gray-800 rounded-2xl shadow-xl p-8 text-white h-full">
-                <div class="flex items-center gap-2 text-[#FF9900] mb-2">
-                    <span class="material-symbols-outlined">tune</span>
-                    <h2 class="text-xl font-bold">流量配比计算器</h2>
-                </div>
-                <p class="text-gray-300 text-sm mb-6">
-                    不同的产品阶段，免费流量和付费流量的依赖程度不同。拖动滑块选择你的产品阶段，获取推荐策略。
-                </p>
-                
-                <div class="space-y-6">
-                    <div>
-                        <label class="flex justify-between text-sm font-bold mb-2">
-                            <span>产品生命周期阶段</span>
-                            <span class="text-[#FF9900]" id="stage-label">新品推广期 (Launch)</span>
-                        </label>
-                        <input type="range" min="0" max="100" value="10" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-[#FF9900]" id="stage-slider" oninput="updateStrategy()">
-                        <div class="flex justify-between text-xs text-gray-500 mt-1">
-                            <span>新品 (Launch)</span>
-                            <span>成熟品 (Mature)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gray-700/50 rounded-xl p-6 border border-gray-600 mt-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="text-center w-1/2 border-r border-gray-600">
-                            <div class="text-3xl font-bold text-orange-400" id="paid-percent">76%</div>
-                            <div class="text-sm text-gray-300">建议付费流量占比</div>
-                        </div>
-                        <div class="text-center w-1/2">
-                            <div class="text-3xl font-bold text-green-400" id="free-percent">24%</div>
-                            <div class="text-sm text-gray-300">建议免费流量占比</div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <h3 class="font-bold text-lg border-b border-gray-600 pb-2">本阶段运营重心：</h3>
-                        <ul class="space-y-3 text-sm" id="strategy-list">
-                            <!-- Populated by JS -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tool B: Diagnostic Tool -->
-            <div class="bg-gradient-to-r from-[#232F3E] to-[#37475A] rounded-2xl shadow-xl p-8 text-white h-full flex flex-col justify-center">
-                <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[#FF9900]">health_and_safety</span>
-                    流量健康自检工具
-                </h2>
-                <p class="text-gray-300 mb-6">如果销量停滞不前，通常是以下三个环节出了问题。输入你的大致表现：</p>
-                
-                <div class="grid grid-cols-1 gap-4 mb-4">
-                    <div class="bg-gray-700/50 p-4 rounded-lg flex items-center justify-between">
-                        <label class="text-xs text-gray-400">曝光量 (Impressions)</label>
-                        <select id="diag-impressions" class="bg-gray-800 rounded border border-gray-600 px-3 py-1 text-sm focus:border-[#FF9900] outline-none text-white">
-                            <option value="low">低 (很少人看到)</option>
-                            <option value="high">高 (很多人看到)</option>
-                        </select>
-                    </div>
-                    <div class="bg-gray-700/50 p-4 rounded-lg flex items-center justify-between">
-                        <label class="text-xs text-gray-400">点击率 (CTR)</label>
-                        <select id="diag-ctr" class="bg-gray-800 rounded border border-gray-600 px-3 py-1 text-sm focus:border-[#FF9900] outline-none text-white">
-                            <option value="low">低 (&lt; 0.3%)</option>
-                            <option value="high">高 (&gt; 0.5%)</option>
-                        </select>
-                    </div>
-                    <div class="bg-gray-700/50 p-4 rounded-lg flex items-center justify-between">
-                        <label class="text-xs text-gray-400">转化率 (CVR)</label>
-                        <select id="diag-cvr" class="bg-gray-800 rounded border border-gray-600 px-3 py-1 text-sm focus:border-[#FF9900] outline-none text-white">
-                            <option value="low">低 (&lt; 5%)</option>
-                            <option value="high">高 (&gt; 10%)</option>
-                        </select>
-                    </div>
-                </div>
-                <button onclick="diagnose()" class="bg-[#FF9900] hover:bg-[#ffad33] text-white font-bold py-2 px-6 rounded-md transition w-full mb-4">开始诊断</button>
-                
-                <div id="diag-result" class="bg-white/10 rounded-xl p-4 border border-white/20 hidden">
-                    <h3 class="font-bold text-sm mb-1 text-[#FF9900]">诊断结果：</h3>
-                    <p id="diag-text" class="text-xs leading-relaxed"></p>
-                </div>
-            </div>
-
         </section>
 
     </main>
 
-    <footer class="bg-gray-800 text-gray-400 py-8 mt-12 text-center text-sm">
-        <p>© 2025 亚马逊运营实战指南 | 本页面仅供教育参考，非亚马逊官方页面</p>
-    </footer>
+    <!-- Modal Template -->
+    <div id="lab-modal" class="lab-modal-overlay">
+        <div class="lab-modal-content">
+            <div class="bg-gray-50 p-6 border-b border-gray-200 flex justify-between items-start sticky top-0 z-10">
+                <div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span id="modal-badge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider"></span>
+                        <span class="text-xs text-gray-400">Traffic Source Details</span>
+                    </div>
+                    <h3 id="modal-title" class="text-2xl font-bold text-gray-900 leading-tight"></h3>
+                </div>
+                <button onclick="lab.closeModal()" class="text-gray-400 hover:text-gray-600"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="p-8 space-y-6">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest">定义 (Definition)</h4>
+                    <p id="modal-desc" class="text-gray-700 leading-relaxed text-base"></p>
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                        <div class="text-xs text-blue-600 font-bold mb-1 uppercase">计费/成本模式</div>
+                        <div id="modal-cost" class="text-lg font-bold text-gray-900"></div>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
+                        <div class="text-xs text-purple-600 font-bold mb-1 uppercase">转化潜力</div>
+                        <div id="modal-potential" class="text-lg font-bold text-gray-900"></div>
+                    </div>
+                </div>
+                <div class="border-l-4 border-[#FF9900] pl-6 py-2 bg-orange-50/50 rounded-r-lg">
+                    <h4 class="text-xs font-bold text-[#FF9900] uppercase mb-2 tracking-widest">实战技巧 (Pro Tip)</h4>
+                    <p id="modal-tip" class="text-sm text-gray-700 italic font-medium"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- 引入自定义 JS -->
     <script src="script.js"></script>
 </body>
 </html>

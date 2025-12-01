@@ -177,3 +177,64 @@ body {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     color: white;
 }
+
+
+
+/* --- 全景流量实验室 (Integrated Tool) --- */
+
+/* 选中元素的样式 */
+.lab-selected {
+    ring: 4px;
+    ring-color: #3B82F6; /* blue-500 */
+    transform: scale(1.02);
+    transition: all 0.2s;
+    z-index: 20;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* X-Ray 模式：付费流量高亮 */
+.xray-active .item-paid {
+    border: 2px solid #F97316 !important; /* orange-500 */
+    background-color: rgba(255, 237, 213, 0.3); /* orange-100 */
+    position: relative;
+}
+.xray-active .item-paid::after {
+    content: "PAID";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #F97316;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-bottom-right-radius: 4px;
+}
+
+/* X-Ray 模式：免费流量高亮 */
+.xray-active .item-free {
+    border: 2px solid #22C55E !important; /* green-500 */
+    background-color: rgba(220, 252, 231, 0.3); /* green-100 */
+    position: relative;
+}
+.xray-active .item-free::after {
+    content: "ORGANIC";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #22C55E;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-bottom-right-radius: 4px;
+}
+
+/* 详情面板动画 */
+.panel-slide-in {
+    animation: slideIn 0.3s ease-out forwards;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}

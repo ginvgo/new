@@ -29,9 +29,9 @@
                 </button>
             </div>
             
-            <!-- Navigation Module (Replacing Image) -->
+            <!-- Navigation Module -->
             <div class="md:w-2/5 w-full bg-[#131921] rounded-xl shadow-2xl border-4 border-gray-700/50 mt-6 md:mt-0 p-6 flex flex-col justify-center h-auto relative overflow-hidden">
-                <!-- 背景装饰效果 -->
+                <!-- 背景装饰 -->
                 <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF9900] opacity-5 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
                 
                 <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2 border-b border-gray-700 pb-2 z-10">
@@ -90,7 +90,7 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                <!-- Card 1: Search -->
+                <!-- Cards (略微缩减代码长度，内容与之前一致) -->
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('search')">
                     <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
                         <span class="material-symbols-outlined text-3xl">search</span>
@@ -99,8 +99,6 @@
                     <p class="text-sm text-gray-500 mb-3">Organic Search</p>
                     <p class="text-gray-600 text-sm">自然排名是免费且最精准的流量。</p>
                 </div>
-
-                <!-- Card 2: Ads -->
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-orange-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('ads')">
                     <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4 text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition">
                         <span class="material-symbols-outlined text-3xl">campaign</span>
@@ -109,8 +107,6 @@
                     <p class="text-sm text-gray-500 mb-3">Paid Traffic (PPC)</p>
                     <p class="text-gray-600 text-sm">SP/SB/SD广告，付费买排名。</p>
                 </div>
-
-                <!-- Card 3: Association -->
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-purple-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('association')">
                     <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition">
                         <span class="material-symbols-outlined text-3xl">hub</span>
@@ -119,8 +115,6 @@
                     <p class="text-sm text-gray-500 mb-3">Recommendations</p>
                     <p class="text-gray-600 text-sm">"看了又看"、"买了又买"。</p>
                 </div>
-
-                <!-- Card 4: Browse/Events -->
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-green-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('browse')">
                     <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4 text-green-600 group-hover:bg-green-600 group-hover:text-white transition">
                         <span class="material-symbols-outlined text-3xl">category</span>
@@ -129,8 +123,6 @@
                     <p class="text-sm text-gray-500 mb-3">Browse &amp; Deals</p>
                     <p class="text-gray-600 text-sm">类目节点、BSR榜单、秒杀活动。</p>
                 </div>
-
-                <!-- Card 5: External -->
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-pink-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('external')">
                     <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-4 text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition">
                         <span class="material-symbols-outlined text-3xl">share</span>
@@ -142,7 +134,7 @@
             </div>
         </section>
 
-        <!-- PART 2: MERGED TRAFFIC LAB (New Tool) -->
+        <!-- PART 2: MERGED TRAFFIC LAB (Traffic Lab) -->
         <section id="integrated-tool" class="scroll-mt-24">
             <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
                 
@@ -174,16 +166,17 @@
                     <!-- Column 1: Control Panel (Left) -->
                     <div class="lg:col-span-3 bg-gray-50 border-r border-gray-200 p-6 flex flex-col gap-8">
                         
-                        <!-- X-Ray Toggle -->
+                        <!-- X-Ray Toggle (Fixed Structure) -->
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                             <div class="flex items-center justify-between mb-2">
                                 <label class="font-bold text-gray-800 flex items-center gap-2">
                                     <span class="material-symbols-outlined text-blue-600">radiology</span>
                                     X-Ray 透视模式
                                 </label>
-                                <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-                                    <input type="checkbox" name="toggle" id="xray-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 left-0 transition-all duration-300" onclick="lab.toggleXray()"/>
-                                    <label for="xray-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                <!-- 正确的 Checkbox + Label 结构，配合 CSS 实现滑动 -->
+                                <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                                    <input type="checkbox" name="toggle" id="xray-toggle" class="toggle-checkbox" onclick="lab.toggleXray()"/>
+                                    <label for="xray-toggle" class="toggle-label"></label>
                                 </div>
                             </div>
                             <p class="text-xs text-gray-500 leading-relaxed">
@@ -238,7 +231,14 @@
                             </div>
 
                             <!-- Item 1: SB Ad (Paid) -->
-                            <div class="bg-white p-4 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid group" onclick="lab.select('sb')" data-type="paid">
+                            <div class="bg-white p-4 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid group relative" onclick="lab.select('sb')" data-type="paid">
+                                <!-- Hotspot + Tooltip -->
+                                <div class="absolute -top-2 -right-2 z-20">
+                                    <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>Sponsored Brands</strong><br>位于顶部的品牌广告，包含Logo和三个产品。
+                                    </div>
+                                </div>
                                 <div class="text-[10px] text-gray-400 mb-2">Sponsored</div>
                                 <div class="flex gap-2 items-center">
                                     <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-[10px]">LOGO</div>
@@ -252,7 +252,14 @@
                             </div>
 
                             <!-- Item 2: SP Ad (Paid) -->
-                            <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid flex gap-3 group" onclick="lab.select('sp')" data-type="paid">
+                            <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid flex gap-3 group relative" onclick="lab.select('sp')" data-type="paid">
+                                <!-- Hotspot + Tooltip -->
+                                <div class="absolute -top-2 -right-2 z-20">
+                                    <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>Sponsored Products</strong><br>伪装成搜索结果的商品广告。
+                                    </div>
+                                </div>
                                 <img src="https://placehold.co/120x120/orange/white?text=SP+Ad" class="w-24 h-24 object-contain">
                                 <div class="flex-1">
                                     <div class="h-4 bg-gray-300 w-3/4 rounded mb-1"></div>
@@ -263,7 +270,14 @@
                             </div>
 
                             <!-- Item 3: Organic (Free) -->
-                            <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-free flex gap-3 group" onclick="lab.select('organic')" data-type="free">
+                            <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-free flex gap-3 group relative" onclick="lab.select('organic')" data-type="free">
+                                <!-- Hotspot + Tooltip -->
+                                <div class="absolute -top-2 -right-2 z-20">
+                                    <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>Organic Ranking</strong><br>基于A10算法的自然排名。
+                                    </div>
+                                </div>
                                 <div class="relative">
                                     <img src="https://placehold.co/120x120/22c55e/white?text=Organic" class="w-24 h-24 object-contain">
                                     <div class="absolute top-0 left-0 bg-[#C45500] text-white text-[9px] px-1">Best Seller</div>
@@ -276,7 +290,14 @@
                             </div>
 
                              <!-- Item 4: Editorial (Free) -->
-                             <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-free group border border-gray-100" onclick="lab.select('editorial')" data-type="free">
+                             <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-free group border border-gray-100 relative" onclick="lab.select('editorial')" data-type="free">
+                                 <!-- Hotspot + Tooltip -->
+                                 <div class="absolute -top-2 -right-2 z-20">
+                                    <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>Editorial Recs</strong><br>第三方媒体文章推荐。
+                                    </div>
+                                </div>
                                 <div class="flex gap-3">
                                     <div class="w-1/3">
                                         <h4 class="font-bold text-xs mb-2">Editorial recommendations</h4>
@@ -290,7 +311,7 @@
                             </div>
 
                              <!-- Item 5: SP Ad Bottom (Paid) -->
-                             <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid flex gap-3 group opacity-80" onclick="lab.select('sp')" data-type="paid">
+                             <div class="bg-white p-3 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid flex gap-3 group opacity-80 relative" onclick="lab.select('sp')" data-type="paid">
                                 <img src="https://placehold.co/120x120/orange/white?text=SP+Ad" class="w-24 h-24 object-contain">
                                 <div class="flex-1">
                                     <div class="h-4 bg-gray-300 w-2/3 rounded mb-1"></div>
@@ -317,7 +338,14 @@
                                             <div class="h-2 bg-gray-200 w-3/4"></div>
                                         </div>
                                         <!-- SD Ad -->
-                                        <div class="mt-4 border border-gray-200 p-2 rounded bg-gray-50 cursor-pointer item-paid hover:shadow-md transition" onclick="lab.select('sd')" data-type="paid">
+                                        <div class="mt-4 border border-gray-200 p-2 rounded bg-gray-50 cursor-pointer item-paid hover:shadow-md transition group relative" onclick="lab.select('sd')" data-type="paid">
+                                            <!-- Hotspot + Tooltip -->
+                                            <div class="absolute -top-2 -right-2 z-20">
+                                                <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                                <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                                    <strong>Sponsored Display</strong><br>五点描述下的竞品广告。
+                                                </div>
+                                            </div>
                                             <div class="text-[9px] text-gray-400 mb-1">Sponsored</div>
                                             <div class="flex items-center gap-2">
                                                 <img src="https://placehold.co/40x40/orange/white?text=SD" class="w-8 h-8 rounded">
@@ -329,7 +357,14 @@
                             </div>
 
                             <!-- FBT -->
-                            <div class="bg-white p-4 rounded shadow-sm cursor-pointer hover:shadow-md transition item-free border-t-4 border-green-500" onclick="lab.select('fbt')" data-type="free">
+                            <div class="bg-white p-4 rounded shadow-sm cursor-pointer hover:shadow-md transition item-free border-t-4 border-green-500 group relative" onclick="lab.select('fbt')" data-type="free">
+                                <!-- Hotspot + Tooltip -->
+                                <div class="absolute -top-2 -right-2 z-20">
+                                    <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>FBT (关联购买)</strong><br>系统生成的免费强关联流量。
+                                    </div>
+                                </div>
                                 <h4 class="font-bold text-sm text-orange-700 mb-2">Frequently bought together</h4>
                                 <div class="flex items-center gap-2 justify-center">
                                     <div class="w-16 h-16 bg-gray-100 border"></div>
@@ -339,7 +374,14 @@
                             </div>
 
                             <!-- Related Items (Ads) -->
-                            <div class="bg-white p-4 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid" onclick="lab.select('related')" data-type="paid">
+                            <div class="bg-white p-4 rounded shadow-sm cursor-pointer hover:shadow-md transition item-paid group relative" onclick="lab.select('related')" data-type="paid">
+                                <!-- Hotspot + Tooltip -->
+                                <div class="absolute -top-2 -right-2 z-20">
+                                    <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>Related Products (SP)</strong><br>详情页底部的竞品广告位。
+                                    </div>
+                                </div>
                                 <h4 class="font-bold text-sm mb-2">Products related to this item <span class="text-xs font-normal text-gray-400">(Sponsored)</span></h4>
                                 <div class="grid grid-cols-4 gap-2">
                                     <div class="aspect-square bg-gray-100 border"></div>
@@ -423,9 +465,9 @@
 
         <!-- PART 4: Strategy Tools (Mixer + Diagnostics) -->
         <section id="strategy-tools" class="scroll-mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            <!-- Tool A: Strategy Mixer -->
-            <div class="bg-gray-800 rounded-2xl shadow-xl p-8 text-white h-full">
+            <!-- Content same as previous, no changes here -->
+             <!-- Tool A: Strategy Mixer -->
+             <div class="bg-gray-800 rounded-2xl shadow-xl p-8 text-white h-full">
                 <div class="flex items-center gap-2 text-[#FF9900] mb-2">
                     <span class="material-symbols-outlined">tune</span>
                     <h2 class="text-xl font-bold">流量配比计算器</h2>
@@ -507,7 +549,6 @@
                     <p id="diag-text" class="text-xs leading-relaxed"></p>
                 </div>
             </div>
-
         </section>
 
     </main>

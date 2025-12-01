@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0');
+
+/* --- 全局基础设置 --- */
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #F3F4F6;
+    margin: 0;
+    line-height: inherit;
+}
+
+/* --- 自定义滚动条 (两个文件通用) --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #999; 
+}
+
+/* --- 工具提示动画 (通用) --- */
+.tooltip-content {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s, visibility 0.2s;
+    position: absolute;
+    z-index: 50;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+}
+
+.group:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- 亚马逊品牌色系 (来自第一个文件) --- */
+.amz-dark { background-color: #232F3E; }
+.amz-light { background-color: #37475A; }
+.amz-orange { background-color: #FF9900; }
+.amz-yellow { background-color: #FEBD69; }
+.amz-blue { color: #007185; }
+.text-amz-blue { color: #007185; }
+.bg-amz-button { background-color: #FFD814; border-color: #FCD200; }
+
+/* --- 动画效果 --- */
+/* Pulse Animation for Hotspots (Default Orange) */
+@keyframes pulse-ring {
+    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 153, 0, 0); }
+    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 153, 0, 0); }
+}
+.hotspot-pulse {
+    animation: pulse-ring 2s infinite;
+}
+
+/* Specific Animations from File 2 */
+@keyframes pulse-ring-green {
+    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+@keyframes pulse-ring-orange {
+    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); }
+    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+}
+.hotspot-pulse-green { animation: pulse-ring-green 2s infinite; }
+.hotspot-pulse-orange { animation: pulse-ring-orange 2s infinite; }
+
+/* --- 选项卡样式 --- */
+.tab-active {
+    border-bottom: 3px solid #FF9900;
+    color: #111;
+    font-weight: 700;
+}
+.tab-inactive {
+    border-bottom: 3px solid transparent;
+    color: #555;
+}
+
+/* --- 开关样式 (Toggle) --- */
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #10B981;
+}
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #10B981;
+}
+
+/* --- 动态图片链接样式 (保留原文件完整性) --- */
+.dyn-img-link-wrapper-di-script {
+    anchor-scope: all;
+    display: contents;
+    position: relative;
+    z-index: 1;
+}
+
+.dyn-img-link-wrapper-di-script img {
+    anchor-name: --photo;
+    display: block;
+    max-width: 100%;
+}
+
+.dyn-img-link-di-script {
+    z-index: 999999;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 9999px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    color: white;
+    height: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
+    width: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
+    padding: 4px;
+    position: absolute;
+    bottom: anchor(bottom);
+    left: anchor(left);
+    margin-left: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.dyn-img-link-di-script:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dyn-img-attribution-button-di-script {
+    z-index: 999999;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 9999px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    color: white;
+    width: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
+    height: clamp(13px, calc(max(anchor-size(width), anchor-size(height)) * 0.3), 21px);
+    padding: 4px;
+    position: absolute;
+    position-anchor: --photo;
+    top: anchor(top);
+    right: anchor(right);
+    margin-top: 10px;
+    margin-right: 10px;
+    transition: background-color 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dyn-img-attribution-button-di-script:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dyn-img-inline-attribution-di-script {
+    z-index: 999999;
+    font-size: 12px;
+    padding: 4px;
+    display: none;
+    position: absolute;
+    position-anchor: --photo;
+    bottom: anchor(bottom);
+    right: anchor(right);
+    margin-bottom: 8px;
+    margin-right: 8px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+    white-space: nowrap;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 9999px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    color: white;
+}

@@ -1,140 +1,115 @@
-// --- Data for Deep Dive Section ---
-const deepDiveData = {
-    search: {
-        title: "搜索流量 (Search Traffic)",
-        content: `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h4 class="font-bold text-lg text-gray-900 mb-2">原理：A10算法</h4>
-                    <p class="mb-4 text-sm">亚马逊的搜索引擎核心目的是"让用户买到最想要的产品"。它主要通过以下因素决定排名：</p>
-                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
-                        <li><strong>关键词相关性：</strong> 标题、五点、Search Terms是否包含用户搜索词。</li>
-                        <li><strong>历史转化率：</strong> 同样的曝光下，谁卖得更多，谁排名越高。</li>
-                        <li><strong>近期销量权重：</strong> 即使是老品，如果近期销量下滑，排名也会掉。</li>
-                    </ul>
-                </div>
-                <div class="bg-blue-50 p-5 rounded-lg border border-blue-100">
-                    <h4 class="font-bold text-blue-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">lightbulb</span> 运营策略</h4>
-                    <ul class="space-y-3 text-sm text-blue-800">
-                        <li><strong>埋词 (SEO)：</strong> 利用工具(Helium 10/JS)反查竞品流量词，埋入Listing标题和ST中。</li>
-                        <li><strong>长尾词打法：</strong> 新品不要硬刚大词(如 "Headphones")，先打长尾词(如 "White wireless headphones for running")，积累权重。</li>
-                        <li><strong>Review维护：</strong> 评分低于4.0会严重影响自然流量的点击率。</li>
-                    </ul>
-                </div>
-            </div>
-        `
+/**
+ * 亚马逊全景流量实验室 - 核心逻辑脚本
+ */
+
+// ==========================================
+// 1. 实验室数据源 (Traffic Lab Data)
+// ==========================================
+const labData = {
+    // --- SERP (搜索结果页) 流量位 ---
+    'sb': {
+        type: 'paid',
+        title: 'Sponsored Brands (SB)',
+        desc: '品牌推广广告。占据搜索结果页最黄金的顶部位置，通常展示品牌Logo、一段自定义标题和3款产品。是建立品牌认知和拦截竞品流量的第一道防线。',
+        cost: 'CPC (按点击付费)',
+        potential: '高 (品牌曝光)',
+        tip: '务必测试“自定义主图”(Custom Image)，比仅展示产品图的点击率高出 2 倍以上。适合有多款变体或产品线的品牌。'
     },
-    ads: {
-        title: "广告流量 (Paid Traffic)",
-        content: `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h4 class="font-bold text-lg text-gray-900 mb-2">三大广告体系</h4>
-                    <ul class="space-y-3 text-sm text-gray-600 mb-4">
-                        <li><strong class="text-orange-600">Sponsored Products (SP):</strong> 关键词/ASIN定位。最基础也最重要，直接伪装成搜索结果。</li>
-                        <li><strong class="text-orange-600">Sponsored Brands (SB):</strong> 品牌头条广告。位于搜索页最上方，包含Logo、标题和3个产品，适合推品牌。</li>
-                        <li><strong class="text-orange-600">Sponsored Display (SD):</strong> 展示型广告。可定位到竞品详情页的购物车下方，甚至站外(Twitch等)进行再营销(Retargeting)。</li>
-                    </ul>
-                </div>
-                <div class="bg-orange-50 p-5 rounded-lg border border-orange-100">
-                    <h4 class="font-bold text-orange-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">trending_up</span> 投放技巧</h4>
-                    <ul class="space-y-3 text-sm text-orange-800">
-                        <li><strong>自动广告：</strong> 新品期必开，用于跑词(Harvesting Keywords)。</li>
-                        <li><strong>精准否定：</strong> 定期下载Search Term Report，把只花钱不转化的词加入Negative Keywords。</li>
-                        <li><strong>进攻竞品：</strong> 使用SD广告定位到比你贵、评分比你低的竞品ASIN详情页上，"以优打劣"。</li>
-                    </ul>
-                </div>
-            </div>
-        `
+    'sb_video': {
+        type: 'paid',
+        title: 'Sponsored Brands Video',
+        desc: '品牌推广视频。在搜索结果中间展示自动播放的视频。由于占据版面大且动态吸睛，目前是亚马逊转化率极高的红利流量入口。',
+        cost: 'CPC',
+        potential: '极高 (高点击/高转化)',
+        tip: '视频前3秒必须展示痛点或产品核心卖点。不要使用纯PPT式的图片轮播，那样会被买家直接划走。'
     },
-    association: {
-        title: "关联流量 (Recommendation)",
-        content: `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h4 class="font-bold text-lg text-gray-900 mb-2">让亚马逊主动推荐你</h4>
-                    <p class="mb-4 text-sm">关联流量是系统根据用户行为轨迹(浏览、加购、购买)自动匹配的免费流量。一旦形成关联，流量非常稳定。</p>
-                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
-                        <li><strong>Frequently Bought Together (FBT):</strong> 买了又买。通常是互补品（如手电筒+电池）。</li>
-                        <li><strong>Compare with similar items:</strong> 系统抓取的相似品对比。</li>
-                        <li><strong>Customers who viewed this...:</strong> 看了又看。</li>
-                    </ul>
-                </div>
-                <div class="bg-purple-50 p-5 rounded-lg border border-purple-100">
-                    <h4 class="font-bold text-purple-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">link</span> 蹭流量大法</h4>
-                    <ul class="space-y-3 text-sm text-purple-800">
-                        <li><strong>强制关联：</strong> 通过设置Bundle促销（购买A+B打折），人为制造"一起购买"的数据，久了系统就会自动生成FBT。</li>
-                        <li><strong>广告定投：</strong> 长期用SP广告定位某个大牌竞品ASIN，出单多了，系统会判定你们强相关，从而给予免费关联推荐。</li>
-                    </ul>
-                </div>
-            </div>
-        `
+    'sp': {
+        type: 'paid',
+        title: 'Sponsored Products (SP)',
+        desc: '商品推广广告。外观与自然搜索结果几乎一致，仅多了一个灰色的 "Sponsored" 标。这是亚马逊目前流量最大、转化最直接的广告形式。',
+        cost: 'CPC',
+        potential: '极高 (直接出单)',
+        tip: '新品期建议开启自动广告(Auto)跑词；成熟期利用手动广告(Manual)精准打击核心大词。'
     },
-    browse: {
-        title: "类目与活动 (Browse & Events)",
-        content: `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h4 class="font-bold text-lg text-gray-900 mb-2">节点与榜单</h4>
-                    <p class="mb-2 text-sm">部分老派买家习惯通过左侧的类目树(Category Tree)层层筛选寻找产品。</p>
-                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
-                        <li><strong>节点准确性：</strong> 放错类目会导致流量归零。</li>
-                        <li><strong>BSR榜单：</strong> 销量好的产品会有#1 Best Seller标，点击率翻倍。</li>
-                        <li><strong>New Release：</strong> 新品榜单，这是新品弯道超车的机会。</li>
-                    </ul>
-                </div>
-                <div class="bg-green-50 p-5 rounded-lg border border-green-100">
-                    <h4 class="font-bold text-green-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">event</span> 促销活动</h4>
-                    <ul class="space-y-3 text-sm text-green-800">
-                        <li><strong>Coupon：</strong> 绿色优惠券标，能显著提升CTR。</li>
-                        <li><strong>Lightning Deal (LD):</strong> 秒杀活动。虽然要收费，但能在短时间内拉升BSR排名，排名上升后会带来更多自然流量。</li>
-                        <li><strong>Prime Exclusive Discount:</strong> Prime专享折扣，大促期间必做。</li>
-                    </ul>
-                </div>
-            </div>
-        `
+    'organic': {
+        type: 'free',
+        title: 'Organic Ranking (自然排名)',
+        desc: '通过A10算法获得的免费排名。不花钱，但需要历史销量、点击率(CTR)和转化率(CVR)的长期积累。',
+        cost: '时间成本 / 0元',
+        potential: '稳定 (长期利润)',
+        tip: '自然排名是“结果”不是“手段”。通过PPC广告推高销量和BSR排名后，自然排名会自动上升。'
     },
-    external: {
-        title: "站外流量 (External Traffic)",
-        content: `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h4 class="font-bold text-lg text-gray-900 mb-2">突破瓶颈的关键</h4>
-                    <p class="mb-4 text-sm">当站内PPC变得太贵，或者自然排名卡住时，站外流量是破局点。</p>
-                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
-                        <li><strong>Deal Sites:</strong> 如Slickdeals，适合清库存或推爆款。</li>
-                        <li><strong>Social Media:</strong> TikTok/Instagram Reels视频带货。</li>
-                        <li><strong>Influencers:</strong> Amazon Associates (红人) 发布的带货文章。</li>
-                    </ul>
-                </div>
-                <div class="bg-pink-50 p-5 rounded-lg border border-pink-100">
-                    <h4 class="font-bold text-pink-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">savings</span> 品牌引流奖励计划</h4>
-                    <p class="text-sm text-pink-800 mb-2"><strong>Brand Referral Bonus:</strong> 亚马逊官方政策。如果你从站外(如Facebook广告)引流到亚马逊并产生销售，亚马逊会返还平均10%的销售佣金！</p>
-                    <p class="text-xs text-pink-700">这意味着你的站外广告成本大幅降低，变相提高了利润率。</p>
-                </div>
-            </div>
-        `
+    'bottom_ad': {
+        type: 'paid',
+        title: 'Bottom of Search Ads',
+        desc: '搜索页底部的广告位。虽然流量不如顶部和中部，但CPC成本通常较低，适合捡漏预算有限的流量。',
+        cost: 'CPC (较低)',
+        potential: '低 (捡漏)',
+        tip: '适合预算有限的卖家，或者作为防御性投放，防止竞品在页面底部截流。'
+    },
+
+    // --- PDP (商品详情页) 流量位 ---
+    'sd': {
+        type: 'paid',
+        title: 'Sponsored Display (SD)',
+        desc: '展示型推广。具有极强的“侵略性”，常出现在五点描述下方或购物车下方，直接抢夺正在考虑购买的客户。',
+        cost: 'CPC / vCPM',
+        potential: '中 (进攻/防御)',
+        tip: '利用SD广告进行“再营销(Retargeting)”，定向投放给看过你产品但没买的人，ROI通常不错。'
+    },
+    'fbt': {
+        type: 'free',
+        title: 'Frequently Bought Together (FBT)',
+        desc: '经常一起购买。系统基于大数据自动生成的关联推荐。这是亚马逊最优质的免费关联流量，转化率极高。',
+        cost: '免费',
+        potential: '极高 (捆绑销售)',
+        tip: '不要只卖单品。通过后台设置虚拟捆绑包(Virtual Bundle)人为增加两个产品同时购买的概率。'
+    },
+    'brands_related': {
+        type: 'paid',
+        title: 'Brands Related to This (SB)',
+        desc: '详情页上的品牌推广。通常以“与此相关的品牌”形式出现，展示竞品的Logo和产品链接。',
+        cost: 'CPC',
+        potential: '中 (竞品截流)',
+        tip: '这属于SB广告的 Product Targeting (商品定位) 功能。可以定向投放到头部竞品的详情页上，截取对手流量。'
+    },
+    'compare_table': {
+        type: 'free',
+        title: 'Compare with similar items',
+        desc: '对比表格。亚马逊自动生成的同类产品参数对比表。这是用户流失的重灾区，也可能是流量来源。',
+        cost: '免费',
+        potential: '高 (参数党最爱)',
+        tip: '确保你的 Listing 参数填写完整且有竞争力。如果你比竞品贵且参数差，用户会通过这个表格直接跳去竞品页面。'
+    },
+    'aplus': {
+        type: 'free',
+        title: 'A+ Content / Brand Story',
+        desc: '图文版品牌描述。位于页面中部。其中的“标准对比图表(Standard Comparison Chart)”模块可以给自己的其他产品引流。',
+        cost: '免费 (需品牌备案)',
+        potential: '高 (店铺闭环)',
+        tip: '利用 A+ 对比图表模块，将流量引导至你店铺里更高客单价或利润款的产品，形成流量闭环，防止跳失。'
     }
 };
-// --- 整合版全景流量实验室逻辑 ---
 
+// ==========================================
+// 2. 实验室交互逻辑 (Lab Logic)
+// ==========================================
 const lab = {
     currentView: 'serp',
     currentFilter: 'all',
 
-    // 切换视图 (SERP / PDP)
+    // 切换视图: SERP vs PDP
     switchView: function(viewName) {
         this.currentView = viewName;
         
-        // 隐藏/显示 Canvas 内容
-        document.getElementById('lab-view-serp').classList.add('hidden');
-        document.getElementById('lab-view-pdp').classList.add('hidden');
-        document.getElementById(`lab-view-${viewName}`).classList.remove('hidden');
+        // 1. 切换中间画布显示
+        document.getElementById('view-serp').classList.add('hidden');
+        document.getElementById('view-pdp').classList.add('hidden');
+        document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
-        // 更新按钮状态
+        // 2. 更新顶部按钮样式
         const btnSerp = document.getElementById('lab-tab-serp');
         const btnPdp = document.getElementById('lab-tab-pdp');
-        
         const activeClass = ['bg-[#FF9900]', 'text-black', 'shadow'];
         const inactiveClass = ['text-gray-300', 'hover:text-white', 'bg-transparent'];
 
@@ -150,70 +125,101 @@ const lab = {
             btnSerp.classList.add(...inactiveClass);
         }
         
-        // 切换视图时保持滤镜状态
-        this.filter(this.currentFilter);
+        // 3. 重置状态
+        this.showEmptyState();
+        this.filter(this.currentFilter); // 重新应用当前的滤镜
     },
 
-    // 过滤器逻辑 (All/Paid/Free)
+    // 选中流量位 -> 更新右侧面板
+    select: function(key) {
+        const data = labData[key];
+        if(!data) return;
+
+        // 1. 高亮选中的元素 (视觉反馈)
+        const allItems = document.querySelectorAll('.item-wrapper');
+        allItems.forEach(el => el.classList.remove('item-selected'));
+        // 注意：这里简单通过点击触发，若需精确对应 DOM 可增加 ID 匹配，此处主要依靠 CSS hover 效果和面板更新
+        
+        // 2. 显示内容面板
+        document.getElementById('panel-empty').classList.add('hidden');
+        document.getElementById('panel-content').classList.remove('hidden');
+        
+        // 3. 填充数据
+        document.getElementById('detail-title').innerText = data.title;
+        document.getElementById('detail-desc').innerText = data.desc;
+        document.getElementById('detail-cost').innerText = data.cost;
+        document.getElementById('detail-potential').innerText = data.potential;
+        document.getElementById('detail-tip').innerText = data.tip;
+
+        // 4. 更新 Badge 颜色
+        const badge = document.getElementById('detail-badge');
+        if(data.type === 'paid') {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-orange-500 text-white';
+            badge.innerText = 'PAID TRAFFIC';
+        } else {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-green-500 text-white';
+            badge.innerText = 'ORGANIC TRAFFIC';
+        }
+    },
+    
+    // 显示右侧空状态
+    showEmptyState: function() {
+        document.getElementById('panel-empty').classList.remove('hidden');
+        document.getElementById('panel-content').classList.add('hidden');
+    },
+
+    // 滤镜逻辑: 全部 / 仅付费 / 仅免费
     filter: function(type) {
         this.currentFilter = type;
-        const container = document.getElementById('lab-canvas-container');
-        const items = container.querySelectorAll('[data-type]');
+        const items = document.querySelectorAll('[data-type]');
         
-        // 更新按钮样式
+        // 1. 更新左侧按钮样式
         ['all', 'paid', 'free'].forEach(k => {
-            const btn = document.getElementById(`lab-filter-${k}`);
+            const btn = document.getElementById(`btn-filter-${k}`);
             if(k === type) {
-                btn.classList.add('ring-2', 'ring-blue-400', 'bg-white', 'shadow');
-                btn.classList.remove('opacity-60');
+                btn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-200');
+                btn.classList.remove('border-transparent', 'text-gray-600');
             } else {
-                btn.classList.remove('ring-2', 'ring-blue-400', 'bg-white', 'shadow');
-                btn.classList.add('opacity-60');
+                btn.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-200');
+                btn.classList.add('border-transparent', 'text-gray-600');
             }
         });
 
-        // 控制元素显示/透明度
+        // 2. 控制画布元素显隐
         items.forEach(item => {
             const itemType = item.getAttribute('data-type');
-            if (type === 'all' || itemType === type) {
+            const hotspot = item.querySelector('.hotspot-point');
+
+            if(type === 'all' || itemType === type) {
+                // 显示
                 item.style.opacity = '1';
                 item.style.filter = 'none';
-                // 恢复热点交互
-                const hotspot = item.querySelector('.hotspot-point');
-                if(hotspot) hotspot.style.pointerEvents = 'auto';
+                if(hotspot) hotspot.style.pointerEvents = 'auto'; // 启用热点点击
             } else {
-                item.style.opacity = '0.2';
+                // 变淡 (Dimmed)
+                item.style.opacity = '0.3';
                 item.style.filter = 'grayscale(100%)';
-                // 禁用被过滤掉的热点
-                const hotspot = item.querySelector('.hotspot-point');
-                if(hotspot) hotspot.style.pointerEvents = 'none';
+                if(hotspot) hotspot.style.pointerEvents = 'none'; // 禁用热点点击
             }
         });
     },
 
-    // X-Ray 开关
+    // X-Ray 透视开关
     toggleXray: function() {
-        const container = document.getElementById('lab-canvas-container');
-        const toggleBtn = document.getElementById('xray-toggle');
+        const checkbox = document.getElementById('xray-toggle');
+        const canvas = document.getElementById('lab-canvas'); // 控制整个画布容器
         
-        // 简单的 class 切换，样式由 CSS 控制
-        if (toggleBtn.checked) {
-            container.classList.add('xray-active');
+        if(checkbox.checked) {
+            canvas.classList.add('xray-active');
         } else {
-            container.classList.remove('xray-active');
+            canvas.classList.remove('xray-active');
         }
     }
 };
 
-// 初始化
-document.addEventListener('DOMContentLoaded', () => {
-    // 默认显示 SERP
-    lab.switchView('serp');
-    lab.filter('all');
-});
-
-/* 保留底部的策略混合器和诊断工具逻辑 (原 Script 保持不变) */
-// --- Logic for Deep Dive Tabs (保留) ---
+// ==========================================
+// 3. 深度解析模块 (Deep Dive Tabs)
+// ==========================================
 const deepDiveData = {
     search: {
         title: "搜索流量 (Search Traffic)",
@@ -239,17 +245,101 @@ const deepDiveData = {
             </div>
         `
     },
-    // ... (保留其他 deepDiveData 内容，ads, association 等) ...
     ads: {
         title: "广告流量 (Paid Traffic)",
-        content: `<div class="p-4 bg-orange-50 text-orange-900 rounded">SP/SB/SD 三大广告体系是新品冷启动的关键。</div>`
+        content: `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold text-lg text-gray-900 mb-2">PPC 广告核心逻辑</h4>
+                    <p class="mb-4 text-sm">付费流量是新品获取曝光的唯一快速通道。不投广告，新品几乎没有自然流量。</p>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
+                        <li><strong>SP (商品推广):</strong> 最基础，转化最好。先开Auto跑词，再开Manual打大词。</li>
+                        <li><strong>SB (品牌推广):</strong> 适合推品牌，拦截竞品。视频广告 (SBV) 是目前红利。</li>
+                        <li><strong>SD (展示推广):</strong> 适合再营销，把看过你产品没买的人找回来。</li>
+                    </ul>
+                </div>
+                <div class="bg-orange-50 p-5 rounded-lg border border-orange-100">
+                    <h4 class="font-bold text-orange-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">trending_up</span> 预算建议</h4>
+                    <ul class="space-y-3 text-sm text-orange-800">
+                        <li><strong>新品期：</strong> 广告占比可能高达 80% 以上，ACOS 偏高是正常的。</li>
+                        <li><strong>成长期：</strong> 随着自然排名上升，逐渐降低广告预算占比。</li>
+                        <li><strong>成熟期：</strong> 广告主要用于防守（投自家品牌词）和进攻（投竞品词）。</li>
+                    </ul>
+                </div>
+            </div>
+        `
     },
     association: {
-         title: "关联流量 (Recommendation)",
-         content: `<div class="p-4 bg-purple-50 text-purple-900 rounded">FBT和关联推荐是转化率最高的免费流量。</div>`
+        title: "关联流量 (Recommendation)",
+        content: `
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold text-lg text-gray-900 mb-2">让系统自动推荐你</h4>
+                    <p class="mb-4 text-sm">关联流量是转化率最高的流量来源，因为用户的购买意向非常明确。</p>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
+                        <li><strong>FBT (买了又买):</strong> 互补品关联。例如：手电筒 + 电池。</li>
+                        <li><strong>Compare with (看了又看):</strong> 竞品替代关联。系统会自动抓取参数相似的产品。</li>
+                    </ul>
+                </div>
+                <div class="bg-purple-50 p-5 rounded-lg border border-purple-100">
+                    <h4 class="font-bold text-purple-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">hub</span> 获取技巧</h4>
+                    <p class="text-sm text-purple-800 mb-2"><strong>强制关联法：</strong></p>
+                    <ul class="space-y-3 text-sm text-purple-800">
+                        <li>1. 使用 SP 广告定位到互补品的 ASIN 页面。</li>
+                        <li>2. 设置 "Virtual Bundle" (虚拟捆绑包)，人为制造一起购买的数据。</li>
+                        <li>3. 站外 Deal 同时推两个产品，增加同时下单量。</li>
+                    </ul>
+                </div>
+            </div>
+        `
     },
-    browse: { title: "类目与活动", content: "..." },
-    external: { title: "站外流量", content: "..." }
+    browse: {
+        title: "类目与活动 (Events)",
+        content: `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold text-lg text-gray-900 mb-2">促销活动</h4>
+                    <p class="mb-4 text-sm">活动是短期冲刺销量的最佳手段。</p>
+                     <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
+                        <li><strong>Coupon (优惠券):</strong> 绿色标签非常醒目，能显著提升点击率 (CTR)。</li>
+                        <li><strong>Lightning Deal (LD 秒杀):</strong> 短时间大流量，不仅能清库存，还能瞬间拉升 BSR 排名。</li>
+                        <li><strong>Prime Exclusive Discount:</strong> 大促期间 (会员日/黑五) 必备。</li>
+                    </ul>
+                </div>
+                <div class="bg-green-50 p-5 rounded-lg border border-green-100">
+                    <h4 class="font-bold text-green-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">category</span> 类目节点</h4>
+                    <p class="text-sm text-green-800">
+                        <strong>节点选择技巧：</strong><br>
+                        不要只盯着大类目。尝试寻找竞争较小、但精准的“长尾小类目”。<br>
+                        获得小类目的 <span class="font-bold">#1 Best Seller</span> 标，比在大类目排第 50 名更有价值，因为那个橙色徽章能大幅提升转化率。
+                    </p>
+                </div>
+            </div>
+        `
+    },
+    external: {
+        title: "站外流量 (External)",
+        content: `
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold text-lg text-gray-900 mb-2">何时做站外？</h4>
+                    <p class="mb-4 text-sm">当站内广告成本 (CPC) 太高，或者新品需要第一波销量冲击时。</p>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 mb-4">
+                        <li><strong>Deal Sites:</strong> Slickdeals, Dealnews。适合低价清库存或推爆款。</li>
+                        <li><strong>TikTok/Ins:</strong> 适合外观新奇特、有演示属性的产品。</li>
+                        <li><strong>Influencers:</strong> 亚马逊联盟红人。</li>
+                    </ul>
+                </div>
+                <div class="bg-pink-50 p-5 rounded-lg border border-pink-100">
+                    <h4 class="font-bold text-pink-800 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">savings</span> 品牌引流奖励 (BRB)</h4>
+                    <p class="text-sm text-pink-800 mb-2">
+                        亚马逊官方政策：如果你从站外（如 Facebook 广告、邮件营销）引流到亚马逊并产生销售，亚马逊会返还平均 <strong>10%</strong> 的销售佣金。
+                    </p>
+                    <p class="text-xs text-pink-700">这相当于变相降低了你的站外广告成本。务必使用 Amazon Attribution 链接来追踪。 </p>
+                </div>
+            </div>
+        `
+    }
 };
 
 function showDeepDive(key) {
@@ -279,383 +369,11 @@ function showDeepDive(key) {
     }
 }
 
-// --- Strategy Mixer Logic (保留) ---
-function updateStrategy() {
-    const val = parseInt(document.getElementById('stage-slider').value);
-    const stageLabel = document.getElementById('stage-label');
-    const paidEl = document.getElementById('paid-percent');
-    const freeEl = document.getElementById('free-percent');
-    const listEl = document.getElementById('strategy-list');
+// ==========================================
+// 4. 策略混合器 & 诊断工具 (Tools)
+// ==========================================
 
-    let paidPct, freePct, stageText, strategies;
-
-    if (val < 30) {
-        stageText = "新品推广期 (Launch)";
-        paidPct = Math.max(70, 100 - val);
-        freePct = 100 - paidPct;
-        strategies = [`<li>SP广告 (Auto) 跑词</li>`, `<li>VINE 计划</li>`];
-    } else if (val < 70) {
-        stageText = "销量增长期 (Growth)";
-        paidPct = 50; freePct = 50;
-        strategies = [`<li>SP广告 (Manual) 精准投放</li>`, `<li>秒杀活动冲排名</li>`];
-    } else {
-        stageText = "成熟盈利期 (Mature)";
-        paidPct = 30; freePct = 70;
-        strategies = [`<li>品牌防御广告</li>`, `<li>DSP 再营销</li>`];
-    }
-
-    if(stageLabel) stageLabel.innerText = stageText;
-    if(paidEl) paidEl.innerText = `${Math.round(paidPct)}%`;
-    if(freeEl) freeEl.innerText = `${Math.round(freePct)}%`;
-    if(listEl) listEl.innerHTML = strategies.join('');
-}
-
-// --- Diagnostic Tool (保留) ---
-function diagnose() {
-    const imp = document.getElementById('diag-impressions').value;
-    const resultBox = document.getElementById('diag-result');
-    const resultText = document.getElementById('diag-text');
-    let message = imp === 'low' ? "流量太少，检查关键词收录和广告预算。" : "流量正常，检查点击率和转化率。";
-    if(resultText) resultText.innerHTML = message;
-    if(resultBox) resultBox.classList.remove('hidden');
-}
-
-const lab = {
-    currentView: 'serp',
-    currentFilter: 'all',
-    
-    init: function() {
-        this.updateStats();
-    },
-
-    // 切换视图 (SERP / PDP)
-    switchView: function(viewName) {
-        this.currentView = viewName;
-        
-        // Update Canvas
-        document.getElementById('lab-view-serp').classList.add('hidden');
-        document.getElementById('lab-view-pdp').classList.add('hidden');
-        document.getElementById(`lab-view-${viewName}`).classList.remove('hidden');
-
-        // Update Tabs
-        const btnSerp = document.getElementById('lab-tab-serp');
-        const btnPdp = document.getElementById('lab-tab-pdp');
-        
-        const activeClass = ['bg-[#FF9900]', 'text-white', 'shadow'];
-        const inactiveClass = ['text-gray-300', 'hover:text-white'];
-
-        if(viewName === 'serp') {
-            btnSerp.classList.add(...activeClass);
-            btnSerp.classList.remove(...inactiveClass);
-            btnPdp.classList.remove(...activeClass);
-            btnPdp.classList.add(...inactiveClass);
-        } else {
-            btnPdp.classList.add(...activeClass);
-            btnPdp.classList.remove(...inactiveClass);
-            btnSerp.classList.remove(...activeClass);
-            btnSerp.classList.add(...inactiveClass);
-        }
-
-        // Reset Selection
-        this.resetInfoPanel();
-        this.updateStats();
-    },
-
-    // 切换过滤器
-    filter: function(type) {
-        this.currentFilter = type;
-        const container = document.getElementById('lab-canvas-container');
-        const items = container.querySelectorAll('[data-type]');
-        
-        // Update Filter Buttons Style
-        ['all', 'paid', 'free'].forEach(k => {
-            const btn = document.getElementById(`lab-filter-${k}`);
-            if(k === type) {
-                btn.classList.add('ring-2', 'ring-blue-200', 'bg-blue-50', 'text-blue-700');
-                btn.classList.remove('bg-white', 'text-gray-600');
-            } else {
-                btn.classList.remove('ring-2', 'ring-blue-200', 'bg-blue-50', 'text-blue-700');
-                btn.classList.add('bg-white', 'text-gray-600');
-            }
-        });
-
-        // Show/Hide Items
-        items.forEach(item => {
-            const itemType = item.getAttribute('data-type');
-            if (type === 'all' || itemType === type) {
-                item.style.display = ''; // Show
-                item.style.opacity = '1';
-            } else {
-                item.style.opacity = '0.2'; // Dim instead of hide to keep layout
-                // item.style.display = 'none'; // Optional: Completely hide
-            }
-        });
-    },
-
-    // 开启/关闭 X-Ray
-    toggleXray: function() {
-        const container = document.getElementById('lab-canvas-container');
-        container.classList.toggle('xray-active');
-    },
-
-    // 选择某个元素
-    select: function(key) {
-        const data = labData[key];
-        if(!data) return;
-
-        // 1. Highlight Visual Item
-        const allItems = document.querySelectorAll('[data-type]');
-        allItems.forEach(el => el.classList.remove('lab-selected'));
-        
-        // Find the specific item clicked (using event target would be better but simple logic here)
-        // We add styling to the active element manually via onclick in HTML, 
-        // but here we ensure global cleanup.
-        const activeElement = document.activeElement;
-        // Check if the click target corresponds to the key logic (simplified)
-        
-        // 2. Update Info Panel
-        document.getElementById('lab-info-placeholder').classList.add('hidden');
-        const contentPanel = document.getElementById('lab-info-content');
-        contentPanel.classList.remove('hidden');
-        
-        // Remove and re-add animation class
-        contentPanel.classList.remove('panel-slide-in');
-        void contentPanel.offsetWidth; // trigger reflow
-        contentPanel.classList.add('panel-slide-in');
-
-        // Populate Data
-        document.getElementById('info-title').innerText = data.title;
-        document.getElementById('info-desc').innerText = data.desc;
-        document.getElementById('info-cost').innerText = data.cost;
-        document.getElementById('info-potential').innerText = data.potential;
-        document.getElementById('info-tip').innerText = data.tip;
-
-        const badge = document.getElementById('info-badge');
-        if(data.type === 'paid') {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700';
-            badge.innerText = 'PAID TRAFFIC';
-        } else {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700';
-            badge.innerText = 'ORGANIC TRAFFIC';
-        }
-    },
-
-    resetInfoPanel: function() {
-        document.getElementById('lab-info-placeholder').classList.remove('hidden');
-        document.getElementById('lab-info-content').classList.add('hidden');
-    },
-
-    updateStats: function() {
-        // Calculate visible items based on current view
-        const container = document.getElementById(`lab-view-${this.currentView}`);
-        const paid = container.querySelectorAll('[data-type="paid"]').length;
-        const free = container.querySelectorAll('[data-type="free"]').length;
-
-        document.getElementById('stat-paid-count').innerText = paid;
-        document.getElementById('stat-free-count').innerText = free;
-    }
-};
-
-// Initialize Lab
-document.addEventListener('DOMContentLoaded', () => {
-    lab.init();
-});
-// --- Data for Hotspots Info ---
-const hotspotInfo = {
-    'sb-ads': {
-        title: "Sponsored Brands (品牌推广)",
-        desc: "占据搜索结果页最黄金的顶部位置。通常展示品牌Logo、一段自定义标题和3款产品。",
-        tip: "适合有多款变体或产品线的品牌。记得测试不同的自定义标题(Headline)和主图，点击率差异巨大。"
-    },
-    'sp-ads': {
-        title: "Sponsored Products (商品推广)",
-        desc: "外观与自然搜索结果几乎一样，仅带灰色'Sponsored'小标。出现在搜索结果的头部、中部、底部及竞品详情页。",
-        tip: "这是转化率最高的广告类型。新品初期建议开启'Auto'自动广告跑词，再转'Manual'手动精准投放。"
-    },
-    'organic': {
-        title: "Organic Ranking (自然排名)",
-        desc: "基于A10算法的自然搜索结果。不需付费，但需要极高的销量权重和关键词相关性。",
-        tip: "主图决定点击率(CTR)，价格和评论决定转化率(CVR)。只有这两个指标好，自然排名才会稳。"
-    },
-    'editorial': {
-        title: "Editorial Recommendations (编辑推荐)",
-        desc: "来自第三方权威媒体(如CNN, Buzzfeed)的文章摘要。占据搜索结果首页极其显眼的版面。",
-        tip: "这是目前门槛较高的流量入口。通常需要联系加入亚马逊Onsite Associates计划的媒体或通过服务商进行PR投放。"
-    },
-    'sd-ads': {
-        title: "Sponsored Display (展示型推广)",
-        desc: "出现在五点描述下方或购物车下方的Banner位。具有极强的侵略性。",
-        tip: "利用SD广告进行'再营销(Retargeting)'，定向投放给那些看过你产品但没买的客户，ROI通常不错。"
-    },
-    'fbt': {
-        title: "Frequently Bought Together (FBT)",
-        desc: "详情页中部的打包购买推荐。这是亚马逊最强大的关联流量入口。",
-        tip: "不要试图只卖单品。通过Listing文案引导，或者直接在后台设置Virtual Bundle，人为增加两个产品同时购买的概率。"
-    },
-    'related': {
-        title: "Related Products / 4-Stars",
-        desc: "详情页底部的长条轮播区域。这里是竞品广告的乱战区。",
-        tip: "在这里，你的主图必须比旁边的人更吸睛，价格更有优势。否则你的流量会被竞品抢走。"
-    }
-};
-
-// --- Logic for Tool 1: Visual Anatomy ---
-function switchAnatomyView(viewName) {
-    const serpView = document.getElementById('view-anatomy-serp');
-    const pdpView = document.getElementById('view-anatomy-pdp');
-    const btnSerp = document.getElementById('btn-anatomy-serp');
-    const btnPdp = document.getElementById('btn-anatomy-pdp');
-    const infoPanel = document.getElementById('info-panel');
-
-    // Hide info panel when switching
-    infoPanel.classList.add('hidden');
-
-    if (viewName === 'serp') {
-        serpView.classList.remove('hidden');
-        pdpView.classList.add('hidden');
-        
-        btnSerp.classList.remove('text-gray-500', 'hover:text-gray-700');
-        btnSerp.classList.add('bg-white', 'text-gray-800', 'shadow');
-        
-        btnPdp.classList.add('text-gray-500', 'hover:text-gray-700');
-        btnPdp.classList.remove('bg-white', 'text-gray-800', 'shadow');
-    } else {
-        serpView.classList.add('hidden');
-        pdpView.classList.remove('hidden');
-
-        btnPdp.classList.remove('text-gray-500', 'hover:text-gray-700');
-        btnPdp.classList.add('bg-white', 'text-gray-800', 'shadow');
-        
-        btnSerp.classList.add('text-gray-500', 'hover:text-gray-700');
-        btnSerp.classList.remove('bg-white', 'text-gray-800', 'shadow');
-    }
-}
-
-// --- Logic for Hotspot Click ---
-function openInfo(key) {
-    const data = hotspotInfo[key];
-    const panel = document.getElementById('info-panel');
-    
-    document.getElementById('panel-title').innerText = data.title;
-    document.getElementById('panel-desc').innerText = data.desc;
-    document.getElementById('panel-tip').innerText = data.tip;
-    
-    panel.classList.remove('hidden');
-    // Smooth scroll to panel
-    panel.scrollIntoView({behavior: 'smooth', block: 'end'});
-}
-
-// --- Logic for Tool 2: Cost Filter ---
-let currentFilter = 'all';
-
-function applyFilter(type) {
-    currentFilter = type;
-    const containers = document.querySelectorAll('.hotspot-container');
-    const btns = {
-        all: document.getElementById('filter-all'),
-        free: document.getElementById('filter-free'),
-        paid: document.getElementById('filter-paid')
-    };
-
-    // Update Button States
-    Object.keys(btns).forEach(key => {
-        if(key === type) {
-            btns[key].classList.remove('opacity-50');
-            btns[key].classList.add('opacity-100', 'ring-2', 'ring-offset-1', 'ring-gray-300');
-        } else {
-            btns[key].classList.add('opacity-50');
-            btns[key].classList.remove('opacity-100', 'ring-2', 'ring-offset-1', 'ring-gray-300');
-        }
-    });
-
-    // Update Elements Visibility
-    containers.forEach(el => {
-        const elType = el.getAttribute('data-type');
-        if (type === 'all' || elType === type) {
-            el.classList.remove('opacity-20', 'grayscale');
-            el.classList.add('opacity-100');
-            // Ensure pointer events are active
-            el.querySelector('.hotspot-marker').style.pointerEvents = 'auto';
-        } else {
-            el.classList.remove('opacity-100');
-            el.classList.add('opacity-20', 'grayscale');
-            // Disable clicking on dimmed elements
-            el.querySelector('.hotspot-marker').style.pointerEvents = 'none';
-        }
-    });
-}
-
-function switchCostView(viewName) {
-    const serpView = document.getElementById('view-cost-serp');
-    const pdpView = document.getElementById('view-cost-pdp');
-    const btnSerp = document.getElementById('btn-cost-serp');
-    const btnPdp = document.getElementById('btn-cost-pdp');
-
-    if (viewName === 'serp') {
-        serpView.classList.remove('hidden');
-        pdpView.classList.add('hidden');
-        
-        btnSerp.classList.remove('text-gray-500', 'hover:text-gray-700');
-        btnSerp.classList.add('bg-white', 'text-gray-800', 'shadow');
-        
-        btnPdp.classList.add('text-gray-500', 'hover:text-gray-700');
-        btnPdp.classList.remove('bg-white', 'text-gray-800', 'shadow');
-    } else {
-        serpView.classList.add('hidden');
-        pdpView.classList.remove('hidden');
-
-        btnPdp.classList.remove('text-gray-500', 'hover:text-gray-700');
-        btnPdp.classList.add('bg-white', 'text-gray-800', 'shadow');
-        
-        btnSerp.classList.add('text-gray-500', 'hover:text-gray-700');
-        btnSerp.classList.remove('bg-white', 'text-gray-800', 'shadow');
-    }
-    // Re-apply current filter to new view elements
-    applyFilter(currentFilter);
-}
-
-
-// --- Logic for Deep Dive Tabs ---
-function showDeepDive(key) {
-    const data = deepDiveData[key];
-    const contentArea = document.getElementById('content-area');
-    const deepDiveSection = document.getElementById('deep-dive');
-    
-    // Update Tab Styles
-    ['search', 'ads', 'association', 'browse', 'external'].forEach(k => {
-        const btn = document.getElementById(`tab-${k}`);
-        if (k === key) {
-            btn.classList.add('tab-active');
-            btn.classList.remove('tab-inactive');
-        } else {
-            btn.classList.remove('tab-active');
-            btn.classList.add('tab-inactive');
-        }
-    });
-
-    // Update Content with Fade Effect
-    contentArea.style.opacity = 0;
-    setTimeout(() => {
-        contentArea.innerHTML = data.content;
-        contentArea.style.opacity = 1;
-    }, 200);
-
-    // Scroll if needed (optional logic, kept simple here)
-}
-
-function getHoverColor(key) {
-    const map = {
-        search: 'blue',
-        ads: 'orange',
-        association: 'purple',
-        browse: 'green',
-        external: 'pink'
-    };
-    return map[key];
-}
-
-
-// --- Logic for Strategy Mixer ---
+// 流量配比计算器逻辑
 function updateStrategy() {
     const val = parseInt(document.getElementById('stage-slider').value);
     const stageLabel = document.getElementById('stage-label');
@@ -697,13 +415,13 @@ function updateStrategy() {
         ];
     }
 
-    stageLabel.innerText = stageText;
-    paidEl.innerText = `${Math.round(paidPct)}%`;
-    freeEl.innerText = `${Math.round(freePct)}%`;
-    listEl.innerHTML = strategies.join('');
+    if(stageLabel) stageLabel.innerText = stageText;
+    if(paidEl) paidEl.innerText = `${Math.round(paidPct)}%`;
+    if(freeEl) freeEl.innerText = `${Math.round(freePct)}%`;
+    if(listEl) listEl.innerHTML = strategies.join('');
 }
 
-// --- Logic for Diagnostic Tool ---
+// 诊断工具逻辑
 function diagnose() {
     const imp = document.getElementById('diag-impressions').value;
     const ctr = document.getElementById('diag-ctr').value;
@@ -723,19 +441,22 @@ function diagnose() {
         message = "🚀 <strong>状态良好！</strong><br>如果三项指标都高，说明你正在打造爆款。<br>👉 <strong>建议：</strong> 保持库存充足，不要断货！断货会瞬间毁掉所有权重。可以考虑适当提价测试利润空间。";
     }
 
-    resultText.innerHTML = message;
-    resultBox.classList.remove('hidden');
+    if(resultText) resultText.innerHTML = message;
+    if(resultBox) resultBox.classList.remove('hidden');
 }
 
-
-// --- Initialization ---
+// ==========================================
+// 5. 初始化 (Initialization)
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Default Deep Dive Tab
+    // 默认显示 SERP 视图
+    lab.switchView('serp');
+    // 默认应用 All 滤镜
+    lab.filter('all');
+    
+    // 初始化 Deep Dive Tab
     showDeepDive('search');
     
-    // Initialize Strategy Mixer
+    // 初始化策略计算器
     updateStrategy();
-    
-    // Initialize Cost Filter
-    applyFilter('all');
 });

@@ -264,10 +264,6 @@ const lab = {
         const allItems = document.querySelectorAll('[data-type]');
         allItems.forEach(el => el.classList.remove('lab-selected'));
         
-        // 我们不在这里操作DOM添加class，而是依赖HTML中的onclick触发时的视觉反馈
-        // 在真实应用中，可以通过 event.currentTarget 添加 'lab-selected'
-        // 这里为了简化，我们只做信息面板的更新
-        
         // 2. Update Info Panel
         document.getElementById('lab-info-placeholder').classList.add('hidden');
         const contentPanel = document.getElementById('lab-info-content');

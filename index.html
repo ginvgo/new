@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>亚马逊流量全景图 - 卖家实战指南</title>
-    <!-- Tailwind CSS -->
+    <title>亚马逊流量全景图</title>
+    <!-- Tailwind CSS --> 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts & Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0">
@@ -40,11 +40,58 @@
                     </button>
                 </div>
             </div>
-            <div class="md:w-2/5 relative h-64 md:h-80 w-full rounded-xl overflow-hidden shadow-2xl border-4 border-gray-700/50 mt-6 md:mt-0">
-                <!-- Placeholder Image -->
-                <img src="https://placehold.co/800x600/232F3E/FF9900?text=Amazon+Analytics+Dashboard" alt="Amazon Analytics Dashboard" class="object-cover w-full h-full">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#232F3E] to-transparent opacity-60"></div>
+            <!-- 原来的图片区域替换为导航栏 -->
+<div class="md:w-2/5 w-full bg-[#131921] rounded-xl shadow-2xl border-4 border-gray-700/50 mt-6 md:mt-0 p-6 flex flex-col justify-center h-auto md:h-80 relative overflow-hidden">
+    <!-- 背景装饰效果 -->
+    <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF9900] opacity-5 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
+    
+    <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2 border-b border-gray-700 pb-2 z-10">
+        <span class="material-symbols-outlined text-[#FF9900]">map</span>
+        <span>全景导航系统</span>
+    </h3>
+    
+    <nav class="flex flex-col gap-2 z-10">
+        <a href="#core-pillars" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">view_column</span>
+                <span class="text-gray-300 group-hover:text-white font-medium text-sm">五大流量支柱</span>
             </div>
+            <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
+        </a>
+
+        <a href="#visual-explorer-anatomy" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">visibility</span>
+                <span class="text-gray-300 group-hover:text-white font-medium text-sm">流量入口解剖</span>
+            </div>
+            <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
+        </a>
+
+        <a href="#visual-explorer-cost" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">paid</span>
+                <span class="text-gray-300 group-hover:text-white font-medium text-sm">免费 vs 付费透视</span>
+            </div>
+            <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
+        </a>
+
+        <a href="#deep-dive" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">school</span>
+                <span class="text-gray-300 group-hover:text-white font-medium text-sm">深度策略解析</span>
+            </div>
+            <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
+        </a>
+
+        <a href="#strategy-tools" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">construction</span>
+                <span class="text-gray-300 group-hover:text-white font-medium text-sm">实战工具集</span>
+            </div>
+            <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
+        </a>
+    </nav>
+</div>
         </div>
     </header>
 
@@ -52,7 +99,7 @@
     <main class="container mx-auto px-4 py-12 space-y-16">
 
         <!-- PART 1: Traffic Pillars (Overview) -->
-        <section>
+        <section id="core-pillars" class="scroll-mt-24">
             <div class="text-center mb-10">
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">五大核心流量支柱</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">亚马逊的流量并非单一来源，而是由这五个维度交织而成的生态系统。</p>

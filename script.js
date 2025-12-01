@@ -116,7 +116,207 @@ const deepDiveData = {
         `
     }
 };
+// --- 全景流量实验室 (Traffic Lab) 逻辑 ---
 
+const labData = {
+    'sb': {
+        type: 'paid',
+        title: 'Sponsored Brands (SB)',
+        desc: '品牌推广广告。位于搜索结果最顶部，包含Logo、标题和三个产品。它是打造品牌知名度和拦截竞品流量的最强入口。',
+        cost: 'CPC (按点击付费)',
+        potential: '高 (品牌认知)',
+        tip: '务必测试自定义标题(Headline)和主图。如果你的产品评分低于4星，不要开这个广告，否则转化率极低。'
+    },
+    'sp': {
+        type: 'paid',
+        title: 'Sponsored Products (SP)',
+        desc: '商品推广广告。外观与自然排名几乎一致。这是亚马逊转化率最高、流量最大的广告形式。',
+        cost: 'CPC (按点击付费)',
+        potential: '极高 (直接销售)',
+        tip: '新品期建议开启自动广告(Auto)来跑词；成熟期利用手动广告(Manual)精准打击核心关键词。'
+    },
+    'organic': {
+        type: 'free',
+        title: 'Organic Ranking (自然排名)',
+        desc: '通过A10算法获得的免费排名。不花钱，但需要极高的历史销量、点击率和好评率来维持。',
+        cost: '免费 (时间成本)',
+        potential: '稳定 (长期利润)',
+        tip: '自然排名是“结果”不是“手段”。通过PPC广告出单推高销量后，自然排名自然会上升。'
+    },
+    'editorial': {
+        type: 'free',
+        title: 'Editorial Recommendations',
+        desc: '编辑推荐。来自第三方权威媒体的文章摘要。占据搜索结果首页黄金位置，具有极强的背书效应。',
+        cost: '免费 / 公关费',
+        potential: '中 (信任背书)',
+        tip: '通常需要通过亚马逊联盟(Amazon Associates)的红人或媒体合作才能获得，门槛较高。'
+    },
+    'sd': {
+        type: 'paid',
+        title: 'Sponsored Display (SD)',
+        desc: '展示型推广。具有“侵略性”，常出现在竞品详情页的五点描述下或购物车下方，直接抢夺竞品流量。',
+        cost: 'CPC / vCPM',
+        potential: '中 (防御/进攻)',
+        tip: '利用SD广告进行“再营销(Retargeting)”，定向投放给看过你产品但没买的人，ROI通常不错。'
+    },
+    'fbt': {
+        type: 'free',
+        title: 'Frequently Bought Together',
+        desc: '经常一起购买。系统基于大数据自动生成的关联推荐。这是亚马逊最优质的免费关联流量。',
+        cost: '免费',
+        potential: '极高 (捆绑销售)',
+        tip: '不要试图只卖单品。通过后台设置虚拟捆绑包(Virtual Bundle)人为增加两个产品同时购买的概率。'
+    },
+    'related': {
+        type: 'paid',
+        title: 'Related Products (Ads)',
+        desc: '相关商品/四星推荐。详情页底部的长条轮播区域。这里实际上大部分是竞品购买的SP广告位。',
+        cost: 'CPC',
+        potential: '低 (捡漏)',
+        tip: '在这个位置，你的主图必须比旁边的人更吸睛，价格更有优势，否则很容易成为陪跑。'
+    }
+};
+
+const lab = {
+    currentView: 'serp',
+    currentFilter: 'all',
+    
+    init: function() {
+        this.updateStats();
+    },
+
+    // 切换视图 (SERP / PDP)
+    switchView: function(viewName) {
+        this.currentView = viewName;
+        
+        // Update Canvas
+        document.getElementById('lab-view-serp').classList.add('hidden');
+        document.getElementById('lab-view-pdp').classList.add('hidden');
+        document.getElementById(`lab-view-${viewName}`).classList.remove('hidden');
+
+        // Update Tabs
+        const btnSerp = document.getElementById('lab-tab-serp');
+        const btnPdp = document.getElementById('lab-tab-pdp');
+        
+        const activeClass = ['bg-[#FF9900]', 'text-white', 'shadow'];
+        const inactiveClass = ['text-gray-300', 'hover:text-white'];
+
+        if(viewName === 'serp') {
+            btnSerp.classList.add(...activeClass);
+            btnSerp.classList.remove(...inactiveClass);
+            btnPdp.classList.remove(...activeClass);
+            btnPdp.classList.add(...inactiveClass);
+        } else {
+            btnPdp.classList.add(...activeClass);
+            btnPdp.classList.remove(...inactiveClass);
+            btnSerp.classList.remove(...activeClass);
+            btnSerp.classList.add(...inactiveClass);
+        }
+
+        // Reset Selection
+        this.resetInfoPanel();
+        this.updateStats();
+    },
+
+    // 切换过滤器
+    filter: function(type) {
+        this.currentFilter = type;
+        const container = document.getElementById('lab-canvas-container');
+        const items = container.querySelectorAll('[data-type]');
+        
+        // Update Filter Buttons Style
+        ['all', 'paid', 'free'].forEach(k => {
+            const btn = document.getElementById(`lab-filter-${k}`);
+            if(k === type) {
+                btn.classList.add('ring-2', 'ring-blue-200', 'bg-blue-50', 'text-blue-700');
+                btn.classList.remove('bg-white', 'text-gray-600');
+            } else {
+                btn.classList.remove('ring-2', 'ring-blue-200', 'bg-blue-50', 'text-blue-700');
+                btn.classList.add('bg-white', 'text-gray-600');
+            }
+        });
+
+        // Show/Hide Items
+        items.forEach(item => {
+            const itemType = item.getAttribute('data-type');
+            if (type === 'all' || itemType === type) {
+                item.style.display = ''; // Show
+                item.style.opacity = '1';
+            } else {
+                item.style.opacity = '0.2'; // Dim instead of hide to keep layout
+                // item.style.display = 'none'; // Optional: Completely hide
+            }
+        });
+    },
+
+    // 开启/关闭 X-Ray
+    toggleXray: function() {
+        const container = document.getElementById('lab-canvas-container');
+        container.classList.toggle('xray-active');
+    },
+
+    // 选择某个元素
+    select: function(key) {
+        const data = labData[key];
+        if(!data) return;
+
+        // 1. Highlight Visual Item
+        const allItems = document.querySelectorAll('[data-type]');
+        allItems.forEach(el => el.classList.remove('lab-selected'));
+        
+        // Find the specific item clicked (using event target would be better but simple logic here)
+        // We add styling to the active element manually via onclick in HTML, 
+        // but here we ensure global cleanup.
+        const activeElement = document.activeElement;
+        // Check if the click target corresponds to the key logic (simplified)
+        
+        // 2. Update Info Panel
+        document.getElementById('lab-info-placeholder').classList.add('hidden');
+        const contentPanel = document.getElementById('lab-info-content');
+        contentPanel.classList.remove('hidden');
+        
+        // Remove and re-add animation class
+        contentPanel.classList.remove('panel-slide-in');
+        void contentPanel.offsetWidth; // trigger reflow
+        contentPanel.classList.add('panel-slide-in');
+
+        // Populate Data
+        document.getElementById('info-title').innerText = data.title;
+        document.getElementById('info-desc').innerText = data.desc;
+        document.getElementById('info-cost').innerText = data.cost;
+        document.getElementById('info-potential').innerText = data.potential;
+        document.getElementById('info-tip').innerText = data.tip;
+
+        const badge = document.getElementById('info-badge');
+        if(data.type === 'paid') {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700';
+            badge.innerText = 'PAID TRAFFIC';
+        } else {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700';
+            badge.innerText = 'ORGANIC TRAFFIC';
+        }
+    },
+
+    resetInfoPanel: function() {
+        document.getElementById('lab-info-placeholder').classList.remove('hidden');
+        document.getElementById('lab-info-content').classList.add('hidden');
+    },
+
+    updateStats: function() {
+        // Calculate visible items based on current view
+        const container = document.getElementById(`lab-view-${this.currentView}`);
+        const paid = container.querySelectorAll('[data-type="paid"]').length;
+        const free = container.querySelectorAll('[data-type="free"]').length;
+
+        document.getElementById('stat-paid-count').innerText = paid;
+        document.getElementById('stat-free-count').innerText = free;
+    }
+};
+
+// Initialize Lab
+document.addEventListener('DOMContentLoaded', () => {
+    lab.init();
+});
 // --- Data for Hotspots Info ---
 const hotspotInfo = {
     'sb-ads': {

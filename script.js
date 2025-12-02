@@ -121,6 +121,15 @@ const deepDiveData = {
 
 const labData = {
 
+     'sb_category_premium': {
+        type: 'paid',
+        title: 'Sponsored Brands (Store Spotlight)',
+        desc: '详情页中的高级品牌广告。采用“左图右品”的布局，左侧展示生活方式大图，右侧展示具体产品。',
+        cost: 'CPC (按点击付费)',
+        potential: '高 (品牌建设+转化)',
+        tip: '这是一个非常有利于展示品牌调性（Brand Voice）的位置。左侧大图不仅吸引眼球，还能建立情感连接，而右侧的产品卡片直接促进购买。通常链接到品牌旗舰店。'
+    },
+
     'sb_video_carousel': {
         type: 'paid',
         title: 'Sponsored Brands Video (PDP)',

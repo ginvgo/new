@@ -121,6 +121,31 @@ const deepDiveData = {
 
 const labData = {
 
+     'buy_it_with': {
+        type: 'free',
+        title: 'Buy it with',
+        desc: 'FBT（经常一起购买）的高级变体，常见于配件类目。允许用户通过复选框一键将主产品和互补品（如手机壳+膜）加入购物车。',
+        cost: '免费',
+        potential: '极高 (连带率)',
+        tip: '通常出现在你的产品与另一个高相关性产品（通常是同品牌）被多次同时购买后。你可以通过Listing文案引导或站外推广组合来加速生成。'
+    },
+    'brands_category': {
+        type: 'paid',
+        title: 'Brands in this category',
+        desc: '详情页中部的横向滚动广告位。展示同类目下的其他品牌店铺或产品。',
+        cost: 'CPC (Sponsored Brands)',
+        potential: '高 (品牌曝光)',
+        tip: '这是一个容易被忽视的SB广告位置。由于它出现在产品详情页的中部，适合用来拦截正在犹豫比价的客户。'
+    },
+    'customers_viewed': {
+        type: 'free',
+        title: 'Customers who viewed this item also viewed',
+        desc: '“看了又看”。基于协同过滤算法的自然推荐。展示其他浏览过本产品的用户最终看了什么。',
+        cost: '免费',
+        potential: '中 (流量流失/回流)',
+        tip: '这是主要的跳出点。如果你的产品在价格、图片或评分上不如这里的竞品，流量就会大量流失。反之，你也可以出现在竞品的这个位置来获取流量。'
+    },
+
 
     'overall_pick': {
         type: 'free',

@@ -689,7 +689,7 @@
                             <div class="absolute top-2 right-2 z-50">
                                 <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
                                 <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
-                                    <strong>Brands in this category</strong><br>竞品品牌横幅广告，通常在详情页中部。
+                                    <strong>Brands in this category on Amazon</strong><br>竞品品牌横幅广告，通常在详情页中部。
                                 </div>
                             </div>
                             <h3 class="font-bold text-lg mb-2 flex items-center gap-2">Brands in this category on Amazon <span class="text-xs font-normal text-gray-500">Sponsored</span></h3>
@@ -967,6 +967,124 @@
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+
+
+                        <!-- [PAID] Similar Brands Video Carousel (From Screenshot) [NEW] -->
+                        <div class="relative item-paid group cursor-pointer mt-6 border-t border-gray-200 pt-6 transition hover:ring-2 ring-orange-400 rounded p-2" onclick="lab.select('sb_video_carousel')" data-type="paid">
+                            <!-- Hotspot -->
+                            <div class="absolute top-6 right-2 z-50">
+                                <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                    <strong>Similar Brands on Amazon</strong><br>详情页中的视频品牌广告，视觉冲击力极强。
+                                </div>
+                            </div>
+
+                            <!-- Header -->
+                            <div class="flex justify-between items-end mb-4 px-2">
+                                <div>
+                                    <h3 class="text-xl font-bold text-[#0F1111]">Similar brands on Amazon</h3>
+                                    <div class="text-[11px] text-gray-500 flex items-center gap-1 mt-1">Sponsored <span class="material-symbols-outlined text-[12px] cursor-pointer">info</span></div>
+                                </div>
+                                <div class="text-xs text-gray-500">Page 1 of 2</div>
+                            </div>
+
+                            <!-- Carousel Container -->
+                            <div class="flex items-center gap-2">
+                                <!-- Left Arrow -->
+                                <button class="w-10 h-12 border border-gray-300 rounded bg-white shadow-sm flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-50">
+                                    <span class="material-symbols-outlined">chevron_left</span>
+                                </button>
+
+                                <!-- Cards Scroll Area -->
+                                <div class="flex gap-4 overflow-x-auto flex-1 pb-4 no-scrollbar">
+                                    
+                                    <!-- Card 1: Auto-playing Video Style -->
+                                    <div class="min-w-[280px] w-[280px] border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition flex flex-col">
+                                        <!-- Top Media (Video) -->
+                                        <div class="relative aspect-[16/9] bg-gray-100 group/media">
+                                            <img src="https://placehold.co/280x160/e0e7ff/333?text=Lifestyle+Video" class="object-cover w-full h-full">
+                                            <!-- Mute/Pause Controls overlay -->
+                                            <div class="absolute bottom-2 right-2 flex gap-1">
+                                                <div class="bg-black/60 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer hover:bg-black/80"><span class="material-symbols-outlined text-[14px]">pause</span></div>
+                                                <div class="bg-black/60 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer hover:bg-black/80"><span class="material-symbols-outlined text-[14px]">volume_off</span></div>
+                                            </div>
+                                        </div>
+                                        <!-- Bottom Product Info -->
+                                        <div class="p-3 flex gap-3 h-full">
+                                            <div class="w-12 h-12 shrink-0 border border-gray-200 rounded p-0.5">
+                                                <img src="https://placehold.co/50x50?text=Prod1" class="w-full h-full object-contain">
+                                            </div>
+                                            <div class="flex-1 space-y-1">
+                                                <div class="text-[#007185] text-sm leading-tight hover:underline line-clamp-2 cursor-pointer">Diaclara Magnetic Designed for iPhone 17 Case 6.3"</div>
+                                                <div class="flex items-center gap-1 text-xs">
+                                                    <span class="text-[#DE7921]">★★★★☆</span>
+                                                    <span class="text-gray-500">56,046</span>
+                                                </div>
+                                                <div class="text-[#B12704] font-bold text-sm">$16.99 <span class="text-gray-500 font-normal text-xs line-through">$21.99</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Card 2: Click-to-Play Style -->
+                                    <div class="min-w-[280px] w-[280px] border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition flex flex-col">
+                                        <!-- Top Media -->
+                                        <div class="relative aspect-[16/9] bg-gray-100 group/media flex items-center justify-center">
+                                            <img src="https://placehold.co/280x160/ffe4e6/333?text=Pink+Case" class="object-cover w-full h-full opacity-90">
+                                            <!-- Big Play Button -->
+                                            <div class="absolute w-12 h-12 bg-black/60 rounded-full flex items-center justify-center text-white backdrop-blur-sm group-hover/media:scale-110 transition">
+                                                <span class="material-symbols-outlined text-3xl">play_arrow</span>
+                                            </div>
+                                        </div>
+                                        <!-- Bottom Product Info -->
+                                        <div class="p-3 flex gap-3 h-full">
+                                            <div class="w-12 h-12 shrink-0 border border-gray-200 rounded p-0.5">
+                                                <img src="https://placehold.co/50x50/333/fff?text=Prod2" class="w-full h-full object-contain">
+                                            </div>
+                                            <div class="flex-1 space-y-1">
+                                                <div class="text-[#007185] text-sm leading-tight hover:underline line-clamp-2 cursor-pointer">lioscre Cute Cheetah Print Phone Case for iPhone 17 Pro</div>
+                                                <div class="flex items-center gap-1 text-xs">
+                                                    <span class="text-[#DE7921]">★★★★☆</span>
+                                                    <span class="text-gray-500">142</span>
+                                                </div>
+                                                <div class="text-[#B12704] font-bold text-sm">$9.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Card 3: Click-to-Play Style -->
+                                    <div class="min-w-[280px] w-[280px] border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition flex flex-col">
+                                        <!-- Top Media -->
+                                        <div class="relative aspect-[16/9] bg-gray-100 group/media flex items-center justify-center">
+                                            <img src="https://placehold.co/280x160/fff7ed/333?text=Floral+Case" class="object-cover w-full h-full opacity-90">
+                                            <!-- Big Play Button -->
+                                            <div class="absolute w-12 h-12 bg-black/60 rounded-full flex items-center justify-center text-white backdrop-blur-sm group-hover/media:scale-110 transition">
+                                                <span class="material-symbols-outlined text-3xl">play_arrow</span>
+                                            </div>
+                                        </div>
+                                        <!-- Bottom Product Info -->
+                                        <div class="p-3 flex gap-3 h-full">
+                                            <div class="w-12 h-12 shrink-0 border border-gray-200 rounded p-0.5">
+                                                <img src="https://placehold.co/50x50/5c4033/fff?text=Prod3" class="w-full h-full object-contain">
+                                            </div>
+                                            <div class="flex-1 space-y-1">
+                                                <div class="text-[#007185] text-sm leading-tight hover:underline line-clamp-2 cursor-pointer">Cinysnt Cute Flower Phone Case for iPhone 17 Brown Fall</div>
+                                                <div class="flex items-center gap-1 text-xs">
+                                                    <span class="text-[#DE7921]">★★★★☆</span>
+                                                    <span class="text-gray-500">33</span>
+                                                </div>
+                                                <div class="text-[#B12704] font-bold text-sm">$11.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Right Arrow -->
+                                <button class="w-10 h-12 border border-gray-300 rounded bg-white shadow-sm flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                                    <span class="material-symbols-outlined">chevron_right</span>
+                                </button>
                             </div>
                         </div>
 

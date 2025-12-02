@@ -406,6 +406,71 @@
                                 </div>
                             </div>
 
+                            <!-- [FREE] Overall Pick / Amazon's Choice (High CTR) [NEW] -->
+                            <div class="border border-gray-200 rounded-lg flex p-0 relative item-free group cursor-pointer hover:border-green-400 transition overflow-hidden" onclick="lab.select('overall_pick')" data-type="free">
+                                <div class="absolute top-0 right-0 z-50 p-2">
+                                    <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>Overall Pick / AC</strong><br>官方推荐标，点击率通常高于第一名。
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 w-56 shrink-0 flex items-center justify-center p-4">
+                                    <div class="w-40 h-40 bg-gray-200 rounded mix-blend-multiply"></div>
+                                </div>
+                                <div class="p-4 flex-1 space-y-2">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <div class="bg-[#232F3E] text-white text-[10px] font-bold px-2 py-1 rounded">Overall Pick</div>
+                                        <div class="text-[10px] text-gray-500">for "headphones"</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="h-4 bg-gray-700 w-11/12 rounded"></div>
+                                        <div class="h-4 bg-gray-700 w-3/4 rounded"></div>
+                                    </div>
+                                    <div class="flex gap-1 items-center">
+                                        <div class="text-yellow-500 text-xs">★★★★☆</div>
+                                        <div class="h-2 bg-gray-300 w-12 rounded"></div>
+                                        <div class="text-[10px] text-red-700 font-bold">10K+ bought in past month</div>
+                                    </div>
+                                    <div class="flex items-baseline gap-1 pt-1">
+                                        <div class="h-6 bg-gray-900 w-16 rounded"></div>
+                                    </div>
+                                    <div class="h-3 bg-gray-300 w-24 rounded"></div>
+                                </div>
+                            </div>
+
+                            <!-- [PAID] Brands related to your search (Mid-Page SB) [NEW] -->
+                            <div class="border-y border-gray-200 py-6 my-4 relative item-paid group cursor-pointer transition bg-gray-50 -mx-4 px-4" onclick="lab.select('brands_related')" data-type="paid">
+                                <div class="absolute top-2 right-4 z-50">
+                                    <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                    <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                        <strong>Brands related (SB)</strong><br>搜索结果中部的品牌推荐横幅。
+                                    </div>
+                                </div>
+                                <h3 class="font-bold text-sm mb-3 flex items-center gap-2">
+                                    Brands related to your search <span class="text-[10px] font-normal text-gray-500">Sponsored</span>
+                                </h3>
+                                <div class="flex gap-4 overflow-x-auto pb-2">
+                                    <!-- Brand Card 1 -->
+                                    <div class="w-40 shrink-0 bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center gap-2 shadow-sm">
+                                        <div class="w-10 h-10 rounded-full bg-gray-200"></div>
+                                        <div class="w-full h-24 bg-gray-100 rounded"></div>
+                                        <div class="h-2 bg-gray-400 w-1/2 rounded"></div>
+                                    </div>
+                                    <!-- Brand Card 2 -->
+                                    <div class="w-40 shrink-0 bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center gap-2 shadow-sm">
+                                        <div class="w-10 h-10 rounded-full bg-gray-200"></div>
+                                        <div class="w-full h-24 bg-gray-100 rounded"></div>
+                                        <div class="h-2 bg-gray-400 w-1/2 rounded"></div>
+                                    </div>
+                                    <!-- Brand Card 3 -->
+                                    <div class="w-40 shrink-0 bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center gap-2 shadow-sm">
+                                        <div class="w-10 h-10 rounded-full bg-gray-200"></div>
+                                        <div class="w-full h-24 bg-gray-100 rounded"></div>
+                                        <div class="h-2 bg-gray-400 w-1/2 rounded"></div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- [PAID] Bottom of Search (SP) [NEW] -->
                             <div class="pt-6 relative item-paid group cursor-pointer border border-transparent hover:border-orange-300 rounded p-2 transition" onclick="lab.select('sp')" data-type="paid">
                                 <div class="absolute top-4 right-2 z-50">
@@ -438,6 +503,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            
 
                         </div>
                     </div>
@@ -590,6 +657,74 @@
                                 <div class="space-y-2">
                                     <div class="flex gap-2"><div class="h-4 bg-gray-400 w-24 rounded"></div><div class="h-4 bg-[#B12704] w-20 rounded"></div></div>
                                     <button class="bg-[#FFD814] border border-[#FCD200] rounded-lg px-6 py-1 text-sm shadow-sm hover:bg-[#F7CA00]">Add all 3 to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- [FREE] Make it a Bundle (Virtual Bundle) [NEW] -->
+                        <div class="border border-gray-200 rounded p-4 bg-white relative item-free group cursor-pointer hover:border-green-400 transition" onclick="lab.select('bundle')" data-type="free">
+                            <div class="absolute -top-2 -right-2 z-50">
+                                <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                    <strong>Virtual Bundle</strong><br>虚拟捆绑包，提高客单价的利器。
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-lg text-[#C7511F] mb-4">Make it a bundle</h3>
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-20 h-20 bg-gray-100 border border-gray-300 rounded p-1"><div class="w-full h-full bg-gray-200 mix-blend-multiply"></div></div>
+                                <span class="text-xl text-gray-400">+</span>
+                                <div class="w-20 h-20 bg-gray-100 border border-gray-300 rounded p-1"><div class="w-full h-full bg-gray-200 mix-blend-multiply"></div></div>
+                                <span class="text-xl text-gray-400">+</span>
+                                <div class="w-20 h-20 bg-gray-100 border border-gray-300 rounded p-1"><div class="w-full h-full bg-gray-200 mix-blend-multiply"></div></div>
+                            </div>
+                            <div class="text-sm">
+                                <span class="font-bold">This item:</span> Product Title A <br>
+                                <span class="font-bold">Bundle price:</span> <span class="text-[#B12704] font-bold">$110.00</span>
+                            </div>
+                            <button class="bg-[#FFD814] border border-[#FCD200] rounded-lg px-4 py-1 text-sm shadow-sm mt-3 hover:bg-[#F7CA00]">Add bundle to Cart</button>
+                        </div>
+
+                        <!-- [FREE] Videos for this product [NEW] -->
+                        <div class="relative item-free group cursor-pointer border border-transparent hover:border-green-400 rounded p-2 transition" onclick="lab.select('videos')" data-type="free">
+                            <div class="absolute top-2 right-2 z-50">
+                                <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                    <strong>Videos</strong><br>视频展示区，强力种草位置。
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-lg mb-4">Videos for this product</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <!-- Video 1 -->
+                                <div class="space-y-2">
+                                    <div class="aspect-[9/16] bg-gray-800 rounded relative flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-white text-3xl opacity-80">play_arrow</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-400 w-full rounded"></div>
+                                    <div class="h-2 bg-gray-300 w-1/2 rounded"></div>
+                                </div>
+                                <!-- Video 2 -->
+                                <div class="space-y-2">
+                                    <div class="aspect-[9/16] bg-gray-800 rounded relative flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-white text-3xl opacity-80">play_arrow</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-400 w-full rounded"></div>
+                                    <div class="h-2 bg-gray-300 w-1/2 rounded"></div>
+                                </div>
+                                <!-- Video 3 -->
+                                <div class="space-y-2">
+                                    <div class="aspect-[9/16] bg-gray-800 rounded relative flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-white text-3xl opacity-80">play_arrow</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-400 w-full rounded"></div>
+                                    <div class="h-2 bg-gray-300 w-1/2 rounded"></div>
+                                </div>
+                                <!-- Video 4 -->
+                                <div class="space-y-2">
+                                    <div class="aspect-[9/16] bg-gray-800 rounded relative flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-white text-3xl opacity-80">play_arrow</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-400 w-full rounded"></div>
+                                    <div class="h-2 bg-gray-300 w-1/2 rounded"></div>
                                 </div>
                             </div>
                         </div>

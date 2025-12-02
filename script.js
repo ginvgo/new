@@ -121,6 +121,40 @@ const deepDiveData = {
 
 const labData = {
 
+
+    'overall_pick': {
+        type: 'free',
+        title: 'Overall Pick / Amazon\'s Choice',
+        desc: '亚马逊官方推荐标签。授予在特定关键词下转化率高、评价好且退货率低的产品。',
+        cost: '免费 (赢取制)',
+        potential: '极高 (信任背书)',
+        tip: '这是一个“赢家通吃”的标签。你需要在这个关键词下的综合表现优于所有竞品才能获得。它会显著提升语音搜索(Alexa)的购买率。'
+    },
+    'brands_related': {
+        type: 'paid',
+        title: 'Brands related to your search',
+        desc: '搜索结果中部的品牌推荐栏。这是Sponsored Brands (SB) 的一种变体形式，专门用于在用户浏览过程中拦截流量。',
+        cost: 'CPC (按点击付费)',
+        potential: '高 (拦截竞品)',
+        tip: '通常包含品牌Logo、自定义场景图和3个产品。如果你的品牌视觉做得好，这里是展示品牌调性的绝佳位置。'
+    },
+    'bundle': {
+        type: 'free',
+        title: 'Virtual Bundle (虚拟捆绑)',
+        desc: '允许品牌所有者将2-5个ASIN打包在一起销售，而无需发送新的物理库存到FBA。',
+        cost: '免费',
+        potential: '高 (提高客单价)',
+        tip: '捆绑包页面占据了详情页的重要位置，可以将流量导向你的互补产品（如：牙刷+替换头），防止用户流失到竞品。'
+    },
+    'videos': {
+        type: 'free',
+        title: 'Videos for this product',
+        desc: '详情页下方的视频展示区。包含卖家上传的视频 distinct 和 关联红人(Influencer)上传的视频。',
+        cost: '免费 / 佣金',
+        potential: '高 (深度种草)',
+        tip: '如果你的位置没有视频，亚马逊可能会在这里展示竞品的视频！务必上传至少1个高质量演示视频来占住坑位。'
+    },
+
     'sbv': {
         type: 'paid',
         title: 'Sponsored Brands Video',

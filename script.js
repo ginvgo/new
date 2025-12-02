@@ -121,6 +121,15 @@ const deepDiveData = {
 
 const labData = {
 
+    'sb_video_carousel': {
+        type: 'paid',
+        title: 'Sponsored Brands Video (PDP)',
+        desc: '详情页中的视频品牌广告轮播。这是一种极具攻击性的广告形式，允许竞品通过视频内容直接在你的详情页下方截流。',
+        cost: 'CPC (按点击付费)',
+        potential: '极高 (视觉拦截)',
+        tip: '上半部分展示视频（自动播放），下半部分展示具体产品。如果你发现竞品页面有这个位置，说明该类目流量很大。建议你也制作高质量视频素材，投放此类广告进行防御或进攻。'
+    },
+
      'buy_it_with': {
         type: 'free',
         title: 'Buy it with',

@@ -684,7 +684,7 @@
                             <button class="bg-[#FFD814] border border-[#FCD200] rounded-lg px-4 py-1 text-sm shadow-sm mt-3 hover:bg-[#F7CA00]">Add bundle to Cart</button>
                         </div>
 
-                        <!-- [PAID] Brand in this category (Premium Layout) [NEW] -->
+                        <!-- [PAID] Brand in this category (Premium Layout - Skeleton Style) [UPDATED] -->
                         <div class="relative item-paid group cursor-pointer mt-6 border-t border-gray-200 pt-6 transition hover:ring-2 ring-orange-400 rounded p-2" onclick="lab.select('sb_category_premium')" data-type="paid">
                             <!-- Hotspot -->
                             <div class="absolute top-6 right-2 z-50">
@@ -694,21 +694,21 @@
                                 </div>
                             </div>
 
-                            <!-- 1. Section Header -->
-                            <h3 class="text-lg font-bold text-[#0F1111] mb-2">Brand in this category on Amazon</h3>
+                            <!-- 1. Section Header (Skeleton) -->
+                            <div class="h-5 bg-gray-900 w-64 rounded mb-3"></div>
 
-                            <!-- 2. Brand Header Row -->
-                            <div class="flex items-baseline gap-4 mb-3">
-                                <div class="text-2xl font-black tracking-tight">Casely</div>
-                                <div class="text-sm text-gray-700 border-l border-gray-300 pl-3">Case Designs That Make You Smile</div>
-                                <div class="text-xs text-[#007185] hover:underline hover:text-[#C7511F] cursor-pointer ml-auto">Shop Casely ›</div>
+                            <!-- 2. Brand Header Row (Skeleton) -->
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="h-8 bg-black w-32 rounded"></div> <!-- Brand Logo Text -->
+                                <div class="h-3 bg-gray-500 w-48 rounded border-l border-gray-300 pl-3"></div> <!-- Slogan -->
+                                <div class="h-3 bg-[#007185] w-24 rounded ml-auto"></div> <!-- Link -->
                             </div>
 
                             <!-- 3. Ad Content Body -->
                             <div class="flex bg-[#F0F2F2] rounded-sm overflow-hidden h-64 border border-gray-200">
                                 <!-- Left Hero Image -->
-                                <div class="w-[40%] bg-white relative">
-                                    <img src="https://placehold.co/400x300/e0f2fe/333?text=Lifestyle+Collection" class="w-full h-full object-cover mix-blend-multiply">
+                                <div class="w-[40%] bg-gray-100 relative flex items-center justify-center">
+                                    <div class="w-full h-full bg-gray-200 mix-blend-multiply flex items-center justify-center text-gray-400 text-xs">Lifestyle Image</div>
                                 </div>
 
                                 <!-- Right Products (3 items) -->
@@ -717,51 +717,50 @@
                                     <!-- Product 1 -->
                                     <div class="flex-1 p-2 flex flex-col justify-between hover:opacity-80 transition">
                                         <div class="w-full aspect-[3/4] p-2 flex items-center justify-center">
-                                            <img src="https://placehold.co/100x140?text=Case+1" class="max-w-full max-h-full object-contain">
+                                            <img src="https://placehold.co/100x140?text=Prod+1" class="max-w-full max-h-full object-contain mix-blend-multiply opacity-50">
                                         </div>
                                         <div class="space-y-1 mt-1">
-                                            <div class="text-xs text-[#007185] leading-tight line-clamp-2 h-8">Casely iPhone 17 Pro Max Case | Blue Stripes</div>
-                                            <div class="flex items-center gap-1 text-[10px]">
-                                                <span class="text-[#DE7921]">★★★★★</span>
-                                                <span class="text-[#007185]">132</span>
+                                            <!-- Title lines -->
+                                            <div class="h-2 bg-[#007185] w-full rounded"></div>
+                                            <div class="h-2 bg-[#007185] w-3/4 rounded"></div>
+                                            <!-- Rating & Prime -->
+                                            <div class="flex items-center gap-1 mt-2">
+                                                <div class="h-2 bg-yellow-400 w-12 rounded"></div>
+                                                <div class="h-2 bg-[#007185] w-6 rounded"></div>
                                             </div>
-                                            <div class="flex items-center gap-1">
-                                                <span class="text-[#00A8E1] font-bold text-[10px] italic">prime</span>
-                                            </div>
+                                            <div class="h-3 bg-[#00A8E1] w-10 rounded"></div>
                                         </div>
                                     </div>
 
                                     <!-- Product 2 -->
                                     <div class="flex-1 p-2 flex flex-col justify-between hover:opacity-80 transition">
                                         <div class="w-full aspect-[3/4] p-2 flex items-center justify-center">
-                                            <img src="https://placehold.co/100x140/333/fff?text=Case+2" class="max-w-full max-h-full object-contain">
+                                            <img src="https://placehold.co/100x140?text=Prod+2" class="max-w-full max-h-full object-contain mix-blend-multiply opacity-50">
                                         </div>
                                         <div class="space-y-1 mt-1">
-                                            <div class="text-xs text-[#007185] leading-tight line-clamp-2 h-8">Casely iPhone 17 Pro Max Case | Shell Shocked</div>
-                                            <div class="flex items-center gap-1 text-[10px]">
-                                                <span class="text-[#DE7921]">★★★★☆</span>
-                                                <span class="text-[#007185]">89</span>
+                                            <div class="h-2 bg-[#007185] w-full rounded"></div>
+                                            <div class="h-2 bg-[#007185] w-2/3 rounded"></div>
+                                            <div class="flex items-center gap-1 mt-2">
+                                                <div class="h-2 bg-yellow-400 w-12 rounded"></div>
+                                                <div class="h-2 bg-[#007185] w-6 rounded"></div>
                                             </div>
-                                            <div class="flex items-center gap-1">
-                                                <span class="text-[#00A8E1] font-bold text-[10px] italic">prime</span>
-                                            </div>
+                                            <div class="h-3 bg-[#00A8E1] w-10 rounded"></div>
                                         </div>
                                     </div>
 
                                     <!-- Product 3 -->
                                     <div class="flex-1 p-2 flex flex-col justify-between hover:opacity-80 transition">
                                         <div class="w-full aspect-[3/4] p-2 flex items-center justify-center">
-                                            <img src="https://placehold.co/100x140/dcfce7/333?text=Case+3" class="max-w-full max-h-full object-contain">
+                                            <img src="https://placehold.co/100x140?text=Prod+3" class="max-w-full max-h-full object-contain mix-blend-multiply opacity-50">
                                         </div>
                                         <div class="space-y-1 mt-1">
-                                            <div class="text-xs text-[#007185] leading-tight line-clamp-2 h-8">Casely iPhone 17 Pro Max Case | Fit Check</div>
-                                            <div class="flex items-center gap-1 text-[10px]">
-                                                <span class="text-[#DE7921]">★★★★★</span>
-                                                <span class="text-[#007185]">1,024</span>
+                                            <div class="h-2 bg-[#007185] w-full rounded"></div>
+                                            <div class="h-2 bg-[#007185] w-1/2 rounded"></div>
+                                            <div class="flex items-center gap-1 mt-2">
+                                                <div class="h-2 bg-yellow-400 w-12 rounded"></div>
+                                                <div class="h-2 bg-[#007185] w-6 rounded"></div>
                                             </div>
-                                            <div class="flex items-center gap-1">
-                                                <span class="text-[#00A8E1] font-bold text-[10px] italic">prime</span>
-                                            </div>
+                                            <div class="h-3 bg-[#00A8E1] w-10 rounded"></div>
                                         </div>
                                     </div>
 
@@ -769,8 +768,8 @@
                             </div>
                             
                             <!-- Sponsored Footer -->
-                            <div class="text-right mt-1">
-                                <span class="text-[10px] text-gray-500 flex justify-end items-center gap-1">Sponsored <span class="material-symbols-outlined text-[10px]">info</span></span>
+                            <div class="text-right mt-1 flex justify-end">
+                                <div class="h-2 bg-gray-400 w-16 rounded"></div>
                             </div>
                         </div>
 

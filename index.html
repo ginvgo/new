@@ -684,7 +684,79 @@
                             <button class="bg-[#FFD814] border border-[#FCD200] rounded-lg px-4 py-1 text-sm shadow-sm mt-3 hover:bg-[#F7CA00]">Add bundle to Cart</button>
                         </div>
 
-                        
+                        <!-- [PAID] Brands in this category on Amazon(Sponsored) [NEW] -->
+                        <div class="relative item-paid group cursor-pointer border border-transparent hover:border-orange-300 rounded p-2 transition my-4" onclick="lab.select('brands_category')" data-type="paid">
+                            <div class="absolute top-2 right-2 z-50">
+                                <div class="w-6 h-6 bg-orange-500 rounded-full hotspot-pulse flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                    <strong>Brands in this category</strong><br>竞品品牌横幅广告，通常在详情页中部。
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2 flex items-center gap-2">Brands in this category on Amazon <span class="text-xs font-normal text-gray-500">Sponsored</span></h3>
+                            <div class="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
+                                <div class="w-32 shrink-0 bg-white border border-gray-200 rounded p-2 text-center">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full mx-auto mb-2"></div>
+                                    <div class="h-2 bg-gray-300 w-16 mx-auto mb-2"></div>
+                                    <div class="w-full h-16 bg-gray-100 rounded mb-1"></div>
+                                </div>
+                                <div class="w-32 shrink-0 bg-white border border-gray-200 rounded p-2 text-center">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full mx-auto mb-2"></div>
+                                    <div class="h-2 bg-gray-300 w-16 mx-auto mb-2"></div>
+                                    <div class="w-full h-16 bg-gray-100 rounded mb-1"></div>
+                                </div>
+                                <div class="w-32 shrink-0 bg-white border border-gray-200 rounded p-2 text-center">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full mx-auto mb-2"></div>
+                                    <div class="h-2 bg-gray-300 w-16 mx-auto mb-2"></div>
+                                    <div class="w-full h-16 bg-gray-100 rounded mb-1"></div>
+                                </div>
+                                <div class="w-32 shrink-0 bg-white border border-gray-200 rounded p-2 text-center">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full mx-auto mb-2"></div>
+                                    <div class="h-2 bg-gray-300 w-16 mx-auto mb-2"></div>
+                                    <div class="w-full h-16 bg-gray-100 rounded mb-1"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- [FREE] Customers who viewed this item also viewed (Carousel) [NEW] -->
+                        <div class="relative item-free group cursor-pointer border-t border-gray-200 pt-6 hover:border-green-400 transition" onclick="lab.select('customers_viewed')" data-type="free">
+                            <div class="absolute top-8 right-2 z-50">
+                                <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                    <strong>Customers who viewed...</strong><br>基于用户浏览行为的自然推荐。
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-4">Customers who viewed this item also viewed</h3>
+                            <div class="flex gap-4 overflow-x-auto pb-2">
+                                <!-- Item 1 -->
+                                <div class="w-32 shrink-0 space-y-1">
+                                    <img src="https://placehold.co/120x120?text=Viewed+1" class="w-full object-contain mb-1">
+                                    <div class="text-[#007185] hover:underline text-xs leading-tight h-8 line-clamp-2">Alternative Case Color Blue</div>
+                                    <div class="text-yellow-500 text-xs">★★★★☆ 120</div>
+                                    <div class="text-[#B12704] font-bold text-sm">$15.99</div>
+                                </div>
+                                <!-- Item 2 -->
+                                <div class="w-32 shrink-0 space-y-1">
+                                    <img src="https://placehold.co/120x120?text=Viewed+2" class="w-full object-contain mb-1">
+                                    <div class="text-[#007185] hover:underline text-xs leading-tight h-8 line-clamp-2">Heavy Duty Protection Case</div>
+                                    <div class="text-yellow-500 text-xs">★★★★★ 3k</div>
+                                    <div class="text-[#B12704] font-bold text-sm">$19.99</div>
+                                </div>
+                                <!-- Item 3 -->
+                                <div class="w-32 shrink-0 space-y-1">
+                                    <img src="https://placehold.co/120x120?text=Viewed+3" class="w-full object-contain mb-1">
+                                    <div class="text-[#007185] hover:underline text-xs leading-tight h-8 line-clamp-2">Clear Transparent Case</div>
+                                    <div class="text-yellow-500 text-xs">★★★☆☆ 50</div>
+                                    <div class="text-[#B12704] font-bold text-sm">$9.99</div>
+                                </div>
+                                <!-- Item 4 -->
+                                <div class="w-32 shrink-0 space-y-1">
+                                    <img src="https://placehold.co/120x120?text=Viewed+4" class="w-full object-contain mb-1">
+                                    <div class="text-[#007185] hover:underline text-xs leading-tight h-8 line-clamp-2">Leather Wallet Case</div>
+                                    <div class="text-yellow-500 text-xs">★★★★☆ 800</div>
+                                    <div class="text-[#B12704] font-bold text-sm">$24.99</div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- [FREE] A+ Content -->
                         <div class="relative item-free group cursor-pointer hover:ring-2 ring-green-400 rounded transition p-2" onclick="lab.select('aplus')" data-type="free">
@@ -763,6 +835,63 @@
                             </div>
                         </div>
 
+
+                        <!-- [FREE] Videos (Highly Realistic Style) [UPDATED] -->
+                        <div class="relative item-free group cursor-pointer border-t border-gray-200 pt-6 hover:border-green-400 transition" onclick="lab.select('videos')" data-type="free">
+                            <div class="absolute top-8 right-2 z-50">
+                                <div class="w-6 h-6 bg-green-500 rounded-full hotspot-pulse-green flex items-center justify-center text-white font-bold text-xs shadow-lg border-2 border-white">?</div>
+                                <div class="tooltip-content bg-gray-900 text-white text-xs rounded p-2 text-center">
+                                    <strong>Videos</strong><br>真实的视频展示区样式，包含上传按钮。
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-4">Videos</h3>
+                            <div class="flex gap-2 mb-2 text-sm text-gray-600">
+                                <span class="font-bold text-black border-b-2 border-black pb-1">Videos for this product</span>
+                                <span class="hover:text-[#C7511F] cursor-pointer pl-4">Upload your video</span>
+                            </div>
+                            <div class="flex gap-4 overflow-x-auto pb-4 pt-2">
+                                <!-- Card 1 (Merchant Video) -->
+                                <div class="w-40 shrink-0 flex flex-col gap-2">
+                                    <div class="relative w-full aspect-[16/9] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center border border-gray-200">
+                                        <span class="material-symbols-outlined text-white text-3xl opacity-90 z-10">play_circle</span>
+                                        <div class="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] px-1 rounded font-bold">0:45</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-xs font-medium leading-tight line-clamp-2">Official Product Introduction - Aesthetic Design</div>
+                                        <div class="text-[10px] text-gray-500">Merchant Video</div>
+                                    </div>
+                                </div>
+                                <!-- Card 2 (Influencer) -->
+                                <div class="w-40 shrink-0 flex flex-col gap-2">
+                                    <div class="relative w-full aspect-[16/9] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center border border-gray-200">
+                                        <span class="material-symbols-outlined text-white text-3xl opacity-90 z-10">play_circle</span>
+                                        <div class="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] px-1 rounded font-bold">5:12</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-xs font-medium leading-tight line-clamp-2">Honest Review: Is it really protective?</div>
+                                        <div class="text-[10px] text-gray-500">Tech Influencer</div>
+                                    </div>
+                                </div>
+                                <!-- Card 3 (Customer) -->
+                                <div class="w-40 shrink-0 flex flex-col gap-2">
+                                    <div class="relative w-full aspect-[16/9] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center border border-gray-200">
+                                        <span class="material-symbols-outlined text-white text-3xl opacity-90 z-10">play_circle</span>
+                                        <div class="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] px-1 rounded font-bold">0:22</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-xs font-medium leading-tight line-clamp-2">Love the color! Unboxing</div>
+                                        <div class="text-[10px] text-gray-500">Customer Video</div>
+                                    </div>
+                                </div>
+                                <!-- Upload Button (Placeholder) -->
+                                <div class="w-40 shrink-0 flex flex-col gap-2">
+                                    <div class="w-full aspect-[16/9] bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-100 cursor-pointer">
+                                        <span class="material-symbols-outlined mb-1">upload_file</span>
+                                        <span class="text-[10px]">Upload video</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- [FREE] Videos for this product [NEW] -->
                         <div class="relative item-free group cursor-pointer border border-transparent hover:border-green-400 rounded p-2 transition" onclick="lab.select('videos')" data-type="free">
                             <div class="absolute top-2 right-2 z-50">

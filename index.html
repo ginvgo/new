@@ -19,11 +19,7 @@
                 <p class="text-gray-300 text-lg mb-6 leading-relaxed max-w-2xl">
                     流量是销量的生命线。流量全景图从 <span class="text-white font-semibold">搜索 (Search)</span> 到 <span class="text-white font-semibold">关联 (Association)</span> 的每一个入口，并深度解析 <span class="text-green-400 font-bold">免费流量</span> 与 <span class="text-orange-400 font-bold">付费流量</span> 的最佳配比策略。
                 </p>
-                <!-- 快捷按钮 -->
-                <button onclick="document.getElementById('integrated-tool').scrollIntoView({behavior: 'smooth'})" class="bg-[#FF9900] hover:bg-[#ffad33] text-white font-bold py-3 px-8 rounded-full transition shadow-lg flex items-center gap-2">
-                    <span class="material-symbols-outlined">science</span>
-                    进入实验室
-                </button>
+               
             </div>
             
             <!-- Navigation Module -->
@@ -48,7 +44,7 @@
                     <a href="#integrated-tool" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">science</span>
-                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">全景流量实验室</span>
+                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">流量入口解剖</span>
                         </div>
                              <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
                     </a>
@@ -64,7 +60,7 @@
                     <a href="#strategy-tools" class="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer border border-transparent hover:border-gray-600">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-gray-400 group-hover:text-[#FF9900] text-sm">construction</span>
-                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">实战工具集</span>
+                            <span class="text-gray-300 group-hover:text-white font-medium text-sm">工具集</span>
                         </div>
                         <span class="material-symbols-outlined text-gray-600 group-hover:text-white text-sm">chevron_right</span>
                     </a>
@@ -84,14 +80,14 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                <!-- Cards (略微缩减代码长度，内容与之前一致) -->
+                <!-- Cards  -->
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('search')">
                     <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
                         <span class="material-symbols-outlined text-3xl">search</span>
                     </div>
                     <h3 class="text-xl font-bold mb-2">搜索流量</h3>
                     <p class="text-sm text-gray-500 mb-3">Organic Search</p>
-                    <p class="text-gray-600 text-sm">自然排名是免费且最精准的流量。</p>
+                    <p class="text-gray-600 text-sm">自然排名是免费且最精准的流量。核心在于关键词权重与Listing质量得分。</p>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-orange-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('ads')">
                     <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4 text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition">
@@ -99,7 +95,7 @@
                     </div>
                     <h3 class="text-xl font-bold mb-2">广告流量</h3>
                     <p class="text-sm text-gray-500 mb-3">Paid Traffic (PPC)</p>
-                    <p class="text-gray-600 text-sm">SP/SB/SD广告，付费买排名。</p>
+                    <p class="text-gray-600 text-sm">SP/SB/SD三大广告体系。付费买排名，是新品冷启动和抢占坑位的关键。</p>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-purple-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('association')">
                     <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition">
@@ -107,7 +103,7 @@
                     </div>
                     <h3 class="text-xl font-bold mb-2">关联流量</h3>
                     <p class="text-sm text-gray-500 mb-3">Recommendations</p>
-                    <p class="text-gray-600 text-sm">"看了又看"、"买了又买"。</p>
+                    <p class="text-gray-600 text-sm">"看了又看"、"买了又买"。利用互补品和竞品页面截流。</p>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-green-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('browse')">
                     <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4 text-green-600 group-hover:bg-green-600 group-hover:text-white transition">
@@ -115,7 +111,7 @@
                     </div>
                     <h3 class="text-xl font-bold mb-2">类目与活动</h3>
                     <p class="text-sm text-gray-500 mb-3">Browse &amp; Deals</p>
-                    <p class="text-gray-600 text-sm">类目节点、BSR榜单、秒杀活动。</p>
+                    <p class="text-gray-600 text-sm">类目节点导航、BSR榜单、LD/BD秒杀活动。通过促销冲刺销量的爆发点。</p>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-pink-500 hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer group" onclick="showDeepDive('external')">
                     <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-4 text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition">
@@ -123,8 +119,27 @@
                     </div>
                     <h3 class="text-xl font-bold mb-2">站外流量</h3>
                     <p class="text-sm text-gray-500 mb-3">External Sources</p>
-                    <p class="text-gray-600 text-sm">TikTok, Facebook, Influencers.</p>
+                    <p class="text-gray-600 text-sm">TikTok, Facebook, Influencers。建立品牌私域，突破站内流量瓶颈。</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- PART 3: Deep Dive Tabs -->
+        <section id="deep-dive" class="scroll-mt-24 bg-white rounded-xl shadow-lg p-6 md:p-10">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">深度解析：流量获取策略</h2>
+            
+            <!-- Tabs -->
+            <div class="flex overflow-x-auto gap-6 mb-6 border-b border-gray-200 text-sm md:text-base font-medium whitespace-nowrap">
+                <button onclick="showDeepDive('search')" id="tab-search" class="pb-3 px-2 transition-colors tab-active">搜索流量 (Search)</button>
+                <button onclick="showDeepDive('ads')" id="tab-ads" class="pb-3 px-2 transition-colors tab-inactive">广告流量 (Ads)</button>
+                <button onclick="showDeepDive('association')" id="tab-association" class="pb-3 px-2 transition-colors tab-inactive">关联流量 (Association)</button>
+                <button onclick="showDeepDive('browse')" id="tab-browse" class="pb-3 px-2 transition-colors tab-inactive">活动与类目 (Events)</button>
+                <button onclick="showDeepDive('external')" id="tab-external" class="pb-3 px-2 transition-colors tab-inactive">站外流量 (External)</button>
+            </div>
+
+            <!-- Content Area -->
+            <div id="content-area" class="min-h-[200px] text-gray-700 leading-relaxed" style="opacity: 1;">
+                <!-- Default content loaded via JS -->
             </div>
         </section>
 
@@ -137,7 +152,7 @@
                     <div>
                         <h2 class="text-2xl font-bold flex items-center gap-3">
                             <span class="material-symbols-outlined text-[#FF9900] text-3xl">science</span>
-                            全景流量实验室
+                            流量入口解剖
                         </h2>
                         <p class="text-gray-400 text-sm mt-1">
                             在一个视图中同时掌握流量入口位置与成本属性。开启 <strong class="text-[#FF9900]">X-Ray 透视</strong> 以区分付费与免费流量。
@@ -1264,24 +1279,7 @@
             </div>
         </section>
 
-        <!-- PART 3: Deep Dive Tabs -->
-        <section id="deep-dive" class="scroll-mt-24 bg-white rounded-xl shadow-lg p-6 md:p-10">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">深度解析：流量获取策略</h2>
-            
-            <!-- Tabs -->
-            <div class="flex overflow-x-auto gap-6 mb-6 border-b border-gray-200 text-sm md:text-base font-medium whitespace-nowrap">
-                <button onclick="showDeepDive('search')" id="tab-search" class="pb-3 px-2 transition-colors tab-active">搜索流量 (Search)</button>
-                <button onclick="showDeepDive('ads')" id="tab-ads" class="pb-3 px-2 transition-colors tab-inactive">广告流量 (Ads)</button>
-                <button onclick="showDeepDive('association')" id="tab-association" class="pb-3 px-2 transition-colors tab-inactive">关联流量 (Association)</button>
-                <button onclick="showDeepDive('browse')" id="tab-browse" class="pb-3 px-2 transition-colors tab-inactive">活动与类目 (Events)</button>
-                <button onclick="showDeepDive('external')" id="tab-external" class="pb-3 px-2 transition-colors tab-inactive">站外流量 (External)</button>
-            </div>
-
-            <!-- Content Area -->
-            <div id="content-area" class="min-h-[200px] text-gray-700 leading-relaxed" style="opacity: 1;">
-                <!-- Default content loaded via JS -->
-            </div>
-        </section>
+        
 
         <!-- PART 4: Strategy Tools (Mixer + Diagnostics) -->
         <section id="strategy-tools" class="scroll-mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8">

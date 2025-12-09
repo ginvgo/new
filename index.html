@@ -869,16 +869,13 @@
 
             for (const [key, val] of Object.entries(countryData)) {
                 
-                // 1. 先进行数据清洗（替换年份）
-                // 我们使用 .map() 创建一个新数组，这样不会修改原始数据源
+
                 let processedList = val.map(item => {
                     if (typeof item === 'string') {
-                        // 情况 A: US 站点 (纯字符串)
-                        // 把 "2024" 替换为 "2025" (或当前年份)
+
                         return item.replace(oldYear, currentYear);
                     } else {
-                        // 情况 B: DE/IT/ES 站点 (对象 {t:..., e:...})
-                        // 同时替换 原词(t) 和 翻译(e) 中的年份
+
                         return {
                             t: item.t.replace(oldYear, currentYear),
                             e: item.e.replace(oldYear, currentYear)
@@ -886,7 +883,7 @@
                     }
                 });
 
-                // 2. 再进行排序 (保持原有逻辑)
+                // 2. 再进行排序 
                 if(['DE', 'IT', 'ES', 'FR', 'JP'].includes(currentCountry)) {
                     sortedData[key] = processedList.sort((a, b) => a.t.localeCompare(b.t));
                 } else {
@@ -936,6 +933,7 @@
         }
 
       function getTerm(item) { if (['DE', 'IT', 'ES', 'FR', 'JP'].includes(currentCountry)) { return item.t; }   return item;   }
+
 
         // --- DOM RENDERERS ---
         const sidebar = document.getElementById('sidebar');
@@ -1009,7 +1007,7 @@ function renderContent(filter = "") {
                 
                 // 1. 筛选数据
                 const filteredList = keywords.filter(item => {
-                    if (['DE', 'IT', 'ES','FR'].includes(currentCountry)) {
+                    if (['DE', 'IT', 'ES', 'FR', 'JP'].includes(currentCountry)) {
                         return item.t.toLowerCase().includes(lowerFilter) || item.e.toLowerCase().includes(lowerFilter);
                     } else {
                         return item.toLowerCase().includes(lowerFilter);
@@ -1132,8 +1130,10 @@ function renderContent(filter = "") {
         window.copyCategoryList = function(category, filterString) {
             const keywords = sortedData[category];
             const lowerFilter = filterString.toLowerCase();
+        
+
             const filteredItems = keywords.filter(item => {
-                 if (currentCountry === 'DE' || currentCountry === 'IT'|| currentCountry === 'ES') {
+                 if (['DE', 'IT', 'ES', 'FR', 'JP'].includes(currentCountry)) { 
                      return item.t.toLowerCase().includes(lowerFilter) || item.e.toLowerCase().includes(lowerFilter);
                  } else {
                      return item.toLowerCase().includes(lowerFilter);

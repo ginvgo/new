@@ -841,15 +841,14 @@ body.theme-prime .keyword-chip.selected {
             }
         };
 
-        // --- STATE & LOGIC ---
+       // --- STATE & LOGIC ---
         let currentTopic = "Christmas";
         let currentCountry = "US";
         let currentCategory = "Home";
         let sortedData = {};
         const selectedKeywords = new Set();
 
-
-function initData() {
+        function initData() {
             sortedData = {};
             
             // 1. 确定数据源
@@ -859,25 +858,22 @@ function initData() {
             } else if (currentTopic === 'BFCM') {
                 dataSource = bfcmData;
             } else {
-                dataSource = primeDayData; // 新增 Prime Day
+                dataSource = primeDayData; // 这里现在能正确找到变量了
             }
 
-            // 获取当前国家的数据，如果没有则为空对象
+            // 获取当前国家的数据
             const countryData = dataSource[currentCountry] || {};
             
             // 2. 准备年份替换逻辑
-            const currentYear = new Date().getFullYear().toString(); // 获取系统当前年份 (如 "2025")
-            const oldYear = "2024"; // 数据源中的旧年份占位符
+            const currentYear = new Date().getFullYear().toString();
+            const oldYear = "2024";
 
             for (const [key, val] of Object.entries(countryData)) {
-                
                 // 3. 数据清洗：替换年份
                 let processedList = val.map(item => {
                     if (typeof item === 'string') {
-                        // US 站点 (字符串)
                         return item.replace(oldYear, currentYear);
                     } else {
-                        // DE/IT/ES/FR 站点 (对象 {t:..., e:...})
                         return {
                             t: item.t.replace(oldYear, currentYear),
                             e: item.e.replace(oldYear, currentYear)
@@ -886,7 +882,6 @@ function initData() {
                 });
 
                 // 4. 数据排序
-                // 如果是多语言国家，按原词(t)排序；如果是US，按字符串排序
                 if(['DE', 'IT', 'ES', 'FR'].includes(currentCountry)) {
                     sortedData[key] = processedList.sort((a, b) => a.t.localeCompare(b.t));
                 } else {
@@ -895,49 +890,42 @@ function initData() {
             }
 
             // 5. 重置当前分类
-            // 如果切换后的数据源中没有当前选中的分类（例如从 Apparel 切到 Universal），则默认选中第一个分类
             if (!sortedData[currentCategory]) {
                 const availableCats = Object.keys(sortedData);
                 if(availableCats.length > 0) currentCategory = availableCats[0];
             }
         }
 
-function switchTopic(topic) {
+        function switchTopic(topic) {
             currentTopic = topic;
             
-            // 1. 切换按钮激活状态
             document.getElementById('btnXmas').classList.toggle('active', topic === 'Christmas');
             document.getElementById('btnBFCM').classList.toggle('active', topic === 'BFCM');
             document.getElementById('btnPrime').classList.toggle('active', topic === 'PrimeDay');
 
-            // 2. 切换 CSS 主题类
-            // 先移除所有可能存在的特殊主题类
+            // 切换 CSS 主题类
             document.body.classList.remove('theme-bfcm', 'theme-prime');
             
             if (topic === 'BFCM') {
-                document.body.classList.add('theme-bfcm'); // 黑/紫主题
+                document.body.classList.add('theme-bfcm');
             } else if (topic === 'PrimeDay') {
-                document.body.classList.add('theme-prime'); // 蓝/橙主题
+                document.body.classList.add('theme-prime');
             }
-            // Christmas 是默认主题 (红/绿)，无需添加额外类名
 
-            // 3. 重置状态并重新渲染
-            clearSelection(); // 切换主题时清空已选列表，防止混淆
-            initData();       // 重新加载数据
-            document.getElementById('searchInput').value = ""; // 清空搜索框
-            renderSidebar();  // 刷新侧边栏
-            renderContent();  // 刷新内容区
+            clearSelection();
+            initData();
+            document.getElementById('searchInput').value = "";
+            renderSidebar();
+            renderContent();
         }
 
-
-      function switchCountry(code) {
+        function switchCountry(code) {
             currentCountry = code;
             document.getElementById('btnUS').classList.toggle('active', code === 'US');
             document.getElementById('btnDE').classList.toggle('active', code === 'DE');
             document.getElementById('btnIT').classList.toggle('active', code === 'IT');
             document.getElementById('btnES').classList.toggle('active', code === 'ES');
             document.getElementById('btnFR').classList.toggle('active', code === 'FR'); 
-
             
             clearSelection();
             initData();
@@ -946,7 +934,12 @@ function switchTopic(topic) {
             renderContent();
         }
 
-      function getTerm(item) { if (['DE', 'IT', 'ES', 'FR'].includes(currentCountry)) { return item.t; }   return item;   }
+        function getTerm(item) { 
+            if (['DE', 'IT', 'ES', 'FR'].includes(currentCountry)) { 
+                return item.t; 
+            }   
+            return item;   
+        }
 
         // --- DOM RENDERERS ---
         const sidebar = document.getElementById('sidebar');
@@ -962,17 +955,13 @@ function switchTopic(topic) {
                 return; 
             }
 
-            // --- 新增逻辑 1：计算总数 ---
             let totalKeywords = 0;
             cats.forEach(cat => {
-                // 累加每个分类数组的长度
                 totalKeywords += sortedData[cat].length;
             });
 
-            // --- 新增逻辑 2：插入总数显示模块 ---
             const statsDiv = document.createElement('div');
             statsDiv.className = 'sidebar-stats';
-            // 使用 var(--primary) 让数字颜色随圣诞/黑五主题变化
             statsDiv.innerHTML = `
                 <div class="stats-label">Total Keywords</div>
                 <div class="stats-number" style="color: var(--primary)">
@@ -981,9 +970,7 @@ function switchTopic(topic) {
                 </div>
             `;
             sidebar.appendChild(statsDiv);
-            // ---------------------------
 
-            // 原有逻辑：生成分类按钮
             cats.forEach(cat => {
                 const count = sortedData[cat].length;
                 const btn = document.createElement('div');
@@ -1008,7 +995,7 @@ function switchTopic(topic) {
             });
         }
 
-function renderContent(filter = "") {
+        function renderContent(filter = "") {
             mainContent.innerHTML = "";
             const lowerFilter = filter.toLowerCase();
             let categoriesToShow = lowerFilter ? Object.keys(sortedData) : [currentCategory];
@@ -1018,7 +1005,6 @@ function renderContent(filter = "") {
                 const keywords = sortedData[cat];
                 if(!keywords) return;
                 
-                // 1. 筛选数据
                 const filteredList = keywords.filter(item => {
                     if (['DE', 'IT', 'ES','FR'].includes(currentCountry)) {
                         return item.t.toLowerCase().includes(lowerFilter) || item.e.toLowerCase().includes(lowerFilter);
@@ -1035,7 +1021,6 @@ function renderContent(filter = "") {
                     const iconClass = categoryIcons[cat] || "fa-tag";
                     const themeColor = currentTopic === 'BFCM' ? 'var(--secondary)' : 'var(--primary)';
                     
-                    // 2. 生成类目头部
                     section.innerHTML = `
                         <div class="category-header">
                             <div class="category-title">
@@ -1052,13 +1037,12 @@ function renderContent(filter = "") {
                     const grid = document.createElement('div');
                     grid.className = "keywords-grid";
 
-                    // --- [新增] A-Z 标题逻辑变量 ---
                     let lastLetter = ""; 
 
                     filteredList.forEach(item => {
                         const term = getTerm(item);
                         
-                        // --- [新增] A-Z 标题逻辑 ---
+                        // A-Z Title Logic
                         if (filter === "") {
                             const currentLetter = term.charAt(0).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
                             if (currentLetter !== lastLetter) {
@@ -1069,7 +1053,6 @@ function renderContent(filter = "") {
                                 lastLetter = currentLetter;
                             }
                         }
-                        // --------------------------
 
                         const isSelected = selectedKeywords.has(term);
                         const chip = document.createElement('div');
@@ -1102,6 +1085,7 @@ function renderContent(filter = "") {
                 `;
             }
         }
+
         function toggleSelection(term) {
             if (selectedKeywords.has(term)) selectedKeywords.delete(term); else selectedKeywords.add(term);
             const chips = document.querySelectorAll(`.keyword-chip[data-word="${term}"]`);
@@ -1144,7 +1128,7 @@ function renderContent(filter = "") {
             const keywords = sortedData[category];
             const lowerFilter = filterString.toLowerCase();
             const filteredItems = keywords.filter(item => {
-                 if (currentCountry === 'DE' || currentCountry === 'IT'|| currentCountry === 'ES') {
+                 if (['DE', 'IT', 'ES', 'FR'].includes(currentCountry)) {
                      return item.t.toLowerCase().includes(lowerFilter) || item.e.toLowerCase().includes(lowerFilter);
                  } else {
                      return item.toLowerCase().includes(lowerFilter);

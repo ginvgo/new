@@ -760,7 +760,7 @@ function renderContent(filter = "") {
                         
                         // --- [新增] A-Z 标题逻辑 ---
                         if (filter === "") {
-                            const currentLetter = term.charAt(0).toUpperCase();
+                            const currentLetter = term.charAt(0).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
                             if (currentLetter !== lastLetter) {
                                 const header = document.createElement('div');
                                 header.className = 'letter-header'; 

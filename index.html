@@ -851,45 +851,59 @@ body.theme-prime .keyword-chip.selected {
         function initData() {
             sortedData = {};
             
-            // 1. 确定数据源
             let dataSource;
             if (currentTopic === 'Christmas') {
                 dataSource = christmasData;
             } else if (currentTopic === 'BFCM') {
                 dataSource = bfcmData;
             } else {
-                dataSource = primeDayData; // 这里现在能正确找到变量了
+                dataSource = primeDayData;
             }
 
-            // 获取当前国家的数据
             const countryData = dataSource[currentCountry] || {};
             
-            // 2. 准备年份替换逻辑
             const currentYear = new Date().getFullYear().toString();
             const oldYear = "2024";
 
             for (const [key, val] of Object.entries(countryData)) {
-                // 3. 数据清洗：替换年份
+                
+                // 1. 数据清洗：替换年份 (增加了容错检查)
                 let processedList = val.map(item => {
+                    // 情况 A: 纯字符串 (US)
                     if (typeof item === 'string') {
                         return item.replace(oldYear, currentYear);
-                    } else {
+                    } 
+                    // 情况 B: 对象格式 {t, e} (DE, IT, ES, FR)
+                    else if (item && typeof item === 'object' && item.t) {
                         return {
-                            t: item.t.replace(oldYear, currentYear),
-                            e: item.e.replace(oldYear, currentYear)
+                            t: (item.t || "").replace(oldYear, currentYear),
+                            e: (item.e || "").replace(oldYear, currentYear)
                         };
+                    }
+                    // 情况 C: 数据异常，直接返回原值防止报错
+                    else {
+                        console.warn("Skipping invalid item:", item);
+                        return item; 
                     }
                 });
 
-                // 4. 数据排序
+                // 2. 数据排序
                 if(['DE', 'IT', 'ES', 'FR'].includes(currentCountry)) {
-                    sortedData[key] = processedList.sort((a, b) => a.t.localeCompare(b.t));
+                    // 只有当元素是对象且有 t 属性时才按 t 排序，否则作为字符串兜底
+                    sortedData[key] = processedList.sort((a, b) => {
+                        const valA = a.t ? a.t : String(a);
+                        const valB = b.t ? b.t : String(b);
+                        return valA.localeCompare(valB);
+                    });
                 } else {
-                    sortedData[key] = processedList.sort((a, b) => a.localeCompare(b));
+                    sortedData[key] = processedList.sort((a, b) => {
+                        const valA = String(a); // 强制转字符串防止非字符串报错
+                        const valB = String(b);
+                        return valA.localeCompare(valB);
+                    });
                 }
             }
 
-            // 5. 重置当前分类
             if (!sortedData[currentCategory]) {
                 const availableCats = Object.keys(sortedData);
                 if(availableCats.length > 0) currentCategory = availableCats[0];

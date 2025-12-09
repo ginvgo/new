@@ -77,14 +77,46 @@
         .topic-btn.active.bfcm { color: #212121; }
 
         /* 3. Country Switcher */
-        .country-switch { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-        .country-btn {
-            padding: 6px 12px; border: none; cursor: pointer; font-weight: 600; font-size: 0.85rem;
-            background: white; color: var(--text-gray); border-right: 1px solid var(--border); transition: all 0.2s;
-        }
-        .country-btn:last-child { border-right: none; }
-        .country-btn:hover { background: #f9f9f9; }
-        .country-btn.active { background: #e8f5e9; color: var(--secondary); font-weight: bold; }
+       .country-switch {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    /* overflow: hidden;  <-- 删掉这一行，让提示框能显示出来 */
+}
+
+.country-btn {
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: white;
+    color: var(--text-gray);
+    border-right: 1px solid var(--border);
+    transition: all 0.2s;
+    position: relative; /* 确保 z-index 生效 */
+}
+
+/* 新增：手动给第一个和最后一个按钮加圆角，替代原来的 overflow: hidden 效果 */
+.country-btn:first-child {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+.country-btn:last-child {
+    border-right: none;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.country-btn:hover { background: #f9f9f9; z-index: 1; /* 悬浮时层级提高，防止边框被遮挡 */ }
+
+.country-btn.active {
+    background: #e8f5e9;
+    color: var(--secondary);
+    font-weight: bold;
+}
+
         body.theme-bfcm .country-btn.active { background: #ede7f6; }
 
         /* 4. Search */

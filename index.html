@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q4 Seasonal Keywords Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Christmas Theme */
+            --primary: #c62828; 
+            --secondary: #2e7d32;
+            --bg-body: #f0f2f5;
+            --bg-white: #ffffff;
+            --text-dark: #1c1e21;
+            --text-gray: #65676b;
+            --border: #ddd;
+            --sidebar-width: 250px;
+            --selection-width: 320px;
+        }
+
+        /* Black Friday Theme */
+        body.theme-bfcm {
+            --primary: #212121;
+            --secondary: #673ab7;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--bg-white);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            z-index: 20;
+            gap: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* 1. Brand / Tool Name */
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 180px;
+            text-decoration: none;
+        }
+        .brand i { font-size: 1.3rem; }
+
+        /* 2. Topic Switcher */
+        .topic-switch { display: flex; background: #f0f2f5; padding: 4px; border-radius: 10px; gap: 5px; }
+        .topic-btn {
+            padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.9rem;
+            background: transparent; color: var(--text-gray); transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+        }
+        .topic-btn:hover { background: #e4e6eb; }
+        .topic-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .topic-btn.active.xmas { color: #c62828; }
+        .topic-btn.active.bfcm { color: #212121; }
+
+        /* 3. Country Switcher */
+        .country-switch { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .country-btn {
+            padding: 6px 12px; border: none; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+            background: white; color: var(--text-gray); border-right: 1px solid var(--border); transition: all 0.2s;
+        }
+        .country-btn:last-child { border-right: none; }
+        .country-btn:hover { background: #f9f9f9; }
+        .country-btn.active { background: #e8f5e9; color: var(--secondary); font-weight: bold; }
+        body.theme-bfcm .country-btn.active { background: #ede7f6; }
+
+        /* 4. Search */
+        .search-container { flex: 1; max-width: 400px; position: relative; margin-left: auto; }
+        .search-input {
+            width: 100%; padding: 10px 15px 10px 40px; border-radius: 20px; border: 1px solid var(--border);
+            background: #f0f2f5; outline: none; transition: all 0.2s;
+        }
+        .search-input:focus { background: #fff; border-color: var(--secondary); box-shadow: 0 0 0 2px rgba(0,0,0, 0.05); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-gray); }
+
+        /* 5. Header Actions Group (Home, Help, About) */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 1px solid var(--border);
+            padding-left: 15px;
+        }
+
+        .action-btn {
+            background: none; border: none; cursor: pointer; color: var(--text-gray);
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; text-decoration: none; font-size: 1.1rem;
+        }
+        .action-btn:hover { background: #f0f2f5; color: var(--text-dark); }
+        .action-btn:active { transform: scale(0.95); }
+
+        /* Tooltips for actions */
+        .action-btn[title]:hover::after {
+            content: attr(title); position: absolute; top: 100%; transform: translateY(5px);
+            background: #333; color: #fff; padding: 4px 8px; font-size: 0.75rem;
+            border-radius: 4px; white-space: nowrap; z-index: 100;
+        }
+
+        /* --- Layout --- */
+        .layout { display: flex; flex: 1; overflow: hidden; }
+
+        /* Sidebar */
+        .sidebar { width: var(--sidebar-width); background: var(--bg-white); border-right: 1px solid var(--border); overflow-y: auto; flex-shrink: 0; padding: 10px 0; }
+        .nav-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; color: var(--text-gray); font-size: 0.9rem; border-left: 4px solid transparent; }
+        .nav-content { display: flex; align-items: center; gap: 12px; }
+        .nav-count { font-size: 0.75rem; background: #eee; padding: 2px 8px; border-radius: 10px; color: #666; }
+        .nav-item:hover { background-color: #f5f5f5; color: var(--text-dark); }
+        .nav-item.active { background-color: #ffebee; color: #c62828; border-left-color: #c62828; font-weight: 600; }
+        .nav-item.active .nav-count { background: #ffcdd2; color: #c62828; }
+        body.theme-bfcm .nav-item.active { background-color: #ede7f6; color: #673ab7; border-left-color: #673ab7; }
+        body.theme-bfcm .nav-item.active .nav-count { background: #d1c4e9; color: #673ab7; }
+        .nav-content i { width: 20px; text-align: center; }
+
+        /* Content */
+        .content { flex: 1; overflow-y: auto; padding: 25px; scroll-behavior: smooth; }
+        .category-section { margin-bottom: 40px; }
+        .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0; }
+        .category-title { font-size: 1.4rem; color: var(--text-dark); display: flex; align-items: center; gap: 12px; }
+        .cat-count-badge { font-size: 0.9rem; color: var(--text-gray); font-weight: normal; }
+        .btn-copy-list {
+            background-color: white; border: 1px solid var(--border); color: var(--text-dark);
+            padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+        }
+        .btn-copy-list:hover { background-color: var(--text-dark); color: white; }
+        .keywords-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+
+        /* Chips */
+        .keyword-chip {
+            background: white; border: 1px solid var(--border); border-radius: 8px;
+            padding: 12px 14px; cursor: pointer; transition: all 0.15s;
+            display: flex; align-items: center; justify-content: space-between;
+            user-select: none; position: relative; min-height: 50px;
+        }
+        .keyword-chip:hover { border-color: #999; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transform: translateY(-1px); }
+        .keyword-chip.selected { background-color: #e8f5e9; border-color: var(--secondary); }
+        body.theme-bfcm .keyword-chip.selected { background-color: #ede7f6; }
+        .chip-text-group { display: flex; flex-direction: column; line-height: 1.2; }
+        .chip-main { font-size: 0.95rem; color: var(--text-dark); font-weight: 500; }
+        .keyword-chip.selected .chip-main { color: var(--secondary); }
+        .chip-sub { font-size: 0.75rem; color: #888; margin-top: 2px; }
+        .keyword-chip i { font-size: 0.8rem; color: #ccc; flex-shrink: 0; margin-left: 10px;}
+        .keyword-chip.selected i { color: var(--secondary); }
+
+        /* Right Panel */
+        .selection-panel {
+            width: var(--selection-width); background: var(--bg-white); border-left: 1px solid var(--border);
+            display: flex; flex-direction: column; z-index: 15; box-shadow: -2px 0 5px rgba(0,0,0,0.02);
+            transition: transform 0.3s ease;
+        }
+        .panel-header { padding: 15px 20px; border-bottom: 1px solid var(--border); background: #fafafa; }
+        .selected-list { flex: 1; overflow-y: auto; padding: 10px; list-style: none; }
+        .selected-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 15px; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem;
+            animation: fadeIn 0.2s; background: white; margin-bottom: 5px; border-radius: 6px;
+        }
+        .selected-item:hover { background-color: #f9f9f9; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .remove-btn { color: #999; cursor: pointer; padding: 5px; }
+        .remove-btn:hover { color: var(--primary); }
+        .panel-footer { padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: white; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn-copy-selected { background-color: var(--secondary); color: white; }
+        .btn-copy-selected:hover { opacity: 0.9; }
+        .btn-clear { background-color: #f5f5f5; color: var(--text-dark); }
+        .btn-clear:hover { background-color: #e0e0e0; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); z-index: 3000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        
+        .modal-box {
+            background: var(--bg-white); width: 90%; max-width: 450px;
+            border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            padding: 25px; transform: translateY(20px); transition: transform 0.3s;
+            color: var(--text-dark);
+        }
+        .modal-overlay.open .modal-box { transform: translateY(0); }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .modal-title { font-size: 1.25rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-gray); }
+        .modal-close:hover { color: var(--text-dark); }
+        
+        .modal-body h4 { margin-top: 15px; margin-bottom: 8px; color: var(--secondary); font-size: 1rem; }
+        .modal-body p { font-size: 0.95rem; color: #555; line-height: 1.5; margin-bottom: 10px; }
+        .modal-body ul { padding-left: 20px; font-size: 0.95rem; color: #555; }
+        .modal-body li { margin-bottom: 5px; }
+
+        /* Profile in About Modal */
+        .author-profile { text-align: center; padding: 10px 0; }
+        .author-icon { font-size: 3rem; color: var(--primary); margin-bottom: 10px; }
+        .version-badge { background: #eee; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; color: #666; }
+
+        /* Toast */
+        .toast {
+            position: fixed; top: 80px; right: 50%; transform: translateX(50%);
+            background-color: #323232; color: white; padding: 12px 24px; border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, transform 0.3s;
+            z-index: 2000; pointer-events: none; display: flex; align-items: center; gap: 8px;
+        }
+        .toast.show { opacity: 1; transform: translateX(50%) translateY(10px); }
+
+        .mobile-bar { display: none; }
+
+        @media (max-width: 900px) {
+            .sidebar { width: 70px; }
+            .nav-item span, .cat-count-badge { display: none; }
+            .nav-item { justify-content: center; padding: 15px 5px; }
+            .nav-item i { font-size: 1.4rem; width: auto; }
+            .nav-count { position: absolute; top: 5px; right: 5px; font-size: 0.7rem; }
+            .nav-item { position: relative; }
+        }
+
+        @media (max-width: 768px) {
+            .layout { flex-direction: column; position: relative; }
+            header { padding: 10px; height: auto; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
+            
+            /* Mobile Header Order */
+            .brand { order: 1; width: auto; font-size: 1.1rem; }
+            .header-actions { order: 2; padding-left: 10px; }
+            .topic-switch { width: 100%; justify-content: center; order: 3; margin-top: 5px; }
+            .country-switch { order: 4; }
+            .search-container { order: 5; width: 100%; max-width: none; margin: 0; }
+            
+            .sidebar { width: 100%; height: auto; display: flex; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 0; order: 2; background: white; }
+            .nav-item { flex-shrink: 0; padding: 12px 15px; border-left: none; border-bottom: 3px solid transparent; border-radius: 0; }
+            .nav-item.active { border-left: none; border-bottom-color: var(--primary); background: none; }
+            
+            .content { order: 3; padding: 15px; padding-bottom: 80px; }
+            
+            .selection-panel {
+                position: fixed; bottom: 0; left: 0; width: 100%; height: 70vh; border-left: none; border-top: 1px solid var(--border);
+                transform: translateY(110%); box-shadow: 0 -5px 20px rgba(0,0,0,0.15); border-radius: 15px 15px 0 0;
+            }
+            .selection-panel.open { transform: translateY(0); }
+
+            .mobile-bar {
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: white;
+                padding: 12px 20px; border-top: 1px solid #ddd; align-items: center; justify-content: space-between;
+                z-index: 30; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            }
+            .mobile-bar-info { font-weight: bold; color: var(--secondary); }
+            .mobile-bar-btn { background: var(--text-dark); color: white; border: none; padding: 8px 20px; border-radius: 20px; font-weight: 600; }
+            .mobile-close-btn { display: block !important; }
+        }
+        @media (min-width: 769px) { .mobile-close-btn { display: none; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- 1. Tool Name (Brand) -->
+        <div class="brand">
+            <i class="fa-solid fa-gift"></i>
+            Q4 Keywords Tool
+        </div>
+
+        <!-- 2. Topic Switcher -->
+        <div class="topic-switch">
+            <button class="topic-btn active xmas" id="btnXmas" onclick="switchTopic('Christmas')">
+                <i class="fa-solid fa-tree"></i> Christmas
+            </button>
+            <button class="topic-btn bfcm" id="btnBFCM" onclick="switchTopic('BFCM')">
+                <i class="fa-solid fa-tag"></i> Black Friday
+            </button>
+        </div>
+        
+        <!-- 3. Country Switcher -->
+        <div class="country-switch">
+            <button class="country-btn active" id="btnUS" onclick="switchCountry('US')">
+                🇺🇸 US
+            </button>
+            <button class="country-btn" id="btnDE" onclick="switchCountry('DE')">
+                🇩🇪 DE
+            </button>
+           <button class="country-btn" id="btnIT" onclick="switchCountry('IT')">
+                🇮🇹 IT
+           </button>
+        </div>
+
+        <!-- 4. Search -->
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search keywords...">
+        </div>
+
+        <!-- 5. Right Actions Group -->
+        <div class="header-actions">
+            <!-- Home Button -->
+            <a href="index.html" class="action-btn" title="Back to Home">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            
+            <!-- Instructions Button -->
+            <button class="action-btn" onclick="openHelpModal()" title="Guide">
+                <i class="fa-solid fa-book-open"></i>
+            </button>
+            
+            <!-- Author/About Button -->
+            <button class="action-btn" onclick="openAboutModal()" title="About">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="layout">
+        <!-- Navigation -->
+        <nav class="sidebar" id="sidebar"></nav>
+
+        <!-- Content -->
+        <main class="content" id="mainContent"></main>
+
+        <!-- Selection Panel -->
+        <aside class="selection-panel" id="selectionPanel">
+            <div class="panel-header">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>Selection</h3>
+                    <button class="mobile-close-btn" onclick="toggleMobilePanel()" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:#666;">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <p id="selectionCount">0 items</p>
+            </div>
+            <ul class="selected-list" id="selectedList">
+                <li style="padding:30px 20px; text-align:center; color:#999; font-size:0.9rem;">
+                    <i class="fa-regular fa-square-check" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>
+                    Select keywords to build your list.
+                </li>
+            </ul>
+            <div class="panel-footer">
+                <button class="btn btn-clear" onclick="clearSelection()">
+                    <i class="fa-solid fa-trash-can"></i> Clear
+                </button>
+                <button class="btn btn-copy-selected" onclick="copySelection()">
+                    <i class="fa-solid fa-copy"></i> Copy
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Mobile Bottom Bar -->
+    <div class="mobile-bar" id="mobileBar">
+        <div class="mobile-bar-info" id="mobileCount">0 selected</div>
+        <button class="mobile-bar-btn" onclick="toggleMobilePanel()">View List</button>
+    </div>
+
+    <!-- MODAL 1: Help / Instructions -->
+    <div id="helpModal" class="modal-overlay" onclick="closeModal(event, 'helpModal')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-book-open"></i> Usage Guide</div>
+                <button class="modal-close" onclick="closeModal(event, 'helpModal', true)">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>1. Switch Context</h4>
+                <p>Use the toggle in the header to switch between <strong>Christmas</strong> and <strong>Black Friday</strong> keywords, as well as <strong>US</strong> and <strong>DE</strong> markets.</p>
+                
+                <h4>2. Select Keywords</h4>
+                <p>Click keywords to add them to your cart. Click again to remove.</p>
+                
+                <h4>3. Copying Data</h4>
+                <ul>
+                    <li><strong>Copy List:</strong> Copies all keywords visible in the current category view.</li>
+                    <li><strong>Copy Selection:</strong> Copies specific keywords you have selected manually.</li>
+                </ul>
+
+                <h4>4. German Mode (DE)</h4>
+                <p>In DE mode, keywords show the German term (Bold) and English translation (Gray). Copy actions will only copy the German term.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: About / Author -->
+    <div id="aboutModal" class="modal-overlay" onclick="closeModal(event, 'aboutModal')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-circle-info"></i> About</div>
+                <button class="modal-close" onclick="closeModal(event, 'aboutModal', true)">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="author-profile">
+                    <div class="author-icon"><i class="fa-solid fa-user-astronaut"></i></div>
+                    <h3>Amazon Ops Team</h3>
+                    <p style="color:#777; margin-bottom:15px;">Tools & Development</p>
+                    <span class="version-badge">Version 2.5.0</span>
+                </div>
+                
+                <h4 style="margin-top:20px;">Purpose</h4>
+                <p>This tool aggregates high-traffic keywords for Q4 seasonal events to streamline the listing optimization process.</p>
+                
+                <h4>Contact</h4>
+                <p>For updates or keyword additions, please contact the internal operations manager.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-check-circle" style="color:#4caf50"></i>
+        <span id="toastMsg">Copied!</span>
+    </div>
+
+    <script>
+        // --- ICONS MAPPING ---
+        const categoryIcons = {
+            "Home": "fa-house-chimney", "Apparel": "fa-shirt", "Furniture": "fa-couch",
+            "Tools": "fa-screwdriver-wrench", "Home Improvement": "fa-hammer", "Kitchen": "fa-utensils",
+            "Toys": "fa-gamepad", "Shoes": "fa-shoe-prints", "Beauty": "fa-wand-magic-sparkles",
+            "Office Products": "fa-paperclip", "Health & Personal Care": "fa-heart-pulse",
+            "Camera": "fa-camera", "Jewelry": "fa-gem", "Luggage": "fa-suitcase",
+            "Sports": "fa-basketball", "Lawn and Garden": "fa-leaf", "Pet Products": "fa-paw",
+            "Electronics": "fa-plug", "Wireless": "fa-wifi",
+            "Universal (BFCM)": "fa-bolt", "Cyber Monday": "fa-computer-mouse"
+        };
+
+        // --- DATASETS (Same as before) ---
+        const christmasData = {
+            "US": {
+                "Home": ["christmas tree", "christmas decorations", "christmas ornaments", "christmas decor", "grinch christmas decorations", "christmas stockings", "christmas garland"],
+                "Apparel": ["christmas pajamas", "ugly christmas sweaters for women 2024", "family christmas pajamas matching sets", "christmas sweater", "christmas sweaters for women 2024", "christmas dresses for women", "ugly christmas sweaters for men 2024", "matching christmas pajamas", "ugly christmas sweater", "christmas shirts for women", "christmas pajamas for women", "christmas pajamas for family", "christmas dress", "christmas sweatshirts for women", "matching family christmas pajamas", "christmas sweatshirt", "christmas sweaters for women", "christmas pjs", "christmas shirts", "christmas socks", "funny christmas sweater", "christmas gifts for men", "ugly christmas sweatshirt", "christmas sweater men"],
+                "Furniture": ["christmas decorations", "christmas door mat"],
+                "Tools": ["christmas gifts for men", "christmas gifts", "mens christmas gifts", "dad christmas gifts"],
+                "Home Improvement": ["christmas lights", "christmas decorations", "christmas lights outdoor", "outdoor christmas decorations", "outdoor christmas lights", "christmas tree lights", "christmas decorations outside", "christmas decorations indoor", "solar christmas lights", "battery operated christmas lights", "outdoor christmas lights for house", "christmas outdoor decorations", "led christmas lights", "christmas lights indoor", "christmas decor", "solar christmas lights outdoor waterproof decorations", "christmas decorations outdoor", "christmas projector lights outdoor", "white christmas lights", "twinkle lights for christmas tree", "christmas lights outdoor decorations", "permanent christmas lights", "led christmas lights outdoor waterproof", "outdoor christmas decorations 2024", "christmas lights for tree", "outside christmas decorations", "solar christmas decorations", "christmas tree decorations", "christmas tree", "christmas tree lights indoor", "christmas", "c9 christmas lights outdoor"],
+                "Kitchen": ["christmas wrapping paper", "christmas gift bags", "wrapping paper christmas rolls", "christmas mugs", "christmas cookie cutters", "christmas gifts", "christmas gifts for women", "christmas wrapping paper rolls", "teacher christmas gifts", "christmas mug", "christmas plates", "christmas bags", "christmas bags for gifts", "christmas napkins", "christmas paper plates"],
+                "Toys": ["kids christmas gifts", "lego christmas", "nightmare before christmas", "christmas gifts for kids", "christmas puzzle", "christmas hat"],
+                "Shoes": ["christmas slippers"],
+                "Beauty": ["christmas gifts for women"],
+                "Office Products": ["christmas cards", "christmas cards with envelopes", "christmas cards boxed with envelopes clearance sale", "christmas gift tags", "christmas card", "christmas cards boxed with envelopes", "christmas wrapping paper", "funny christmas cards"],
+                "Health & Personal Care": ["christmas gifts for women"],
+                "Camera": ["christmas backdrop", "christmas backdrops for photography 10x12", "christmas photo backdrop", "christmas backdrops for photography", "christmas backdrops", "christmas backdrop 10x10", "garage door christmas decorations", "kids christmas gifts"],
+                "Jewelry": ["christmas earrings", "christmas earrings for women", "christmas gifts for women", "christmas jewelry for women", "boyfriend christmas gifts", "teen girl christmas gifts 2024", "christmas necklace", "nightmare before christmas"],
+                "Luggage": ["christmas gifts for women"],
+                "Sports": ["christmas games", "kids christmas gifts", "christmas gifts for men"],
+                "Lawn and Garden": ["christmas decorations", "outdoor christmas decorations", "christmas decorations outside", "christmas inflatable outdoor decoration", "christmas inflatables", "inflatable christmas decorations outdoor", "christmas decorations indoor", "christmas outdoor decorations", "grinch christmas decorations", "outdoor christmas decorations 2024", "christmas decorations outdoor", "christmas blow ups", "outside christmas decorations", "christmas decor", "christmas garden flag", "christmas inflatable", "garage door christmas decorations", "blow up christmas decorations outdoor", "christmas inflatables clearance", "christmas lights", "outdoor christmas tree", "christmas yard decorations outdoor", "outdoor christmas decor", "christmas door decorations", "christmas blow ups on clearance", "solar christmas decorations", "christmas lights outdoor", "merry christmas banner", "christmas flag", "christmas yard decorations", "gingerbread christmas decorations", "christmas decorations clearance", "christmas outdoor inflatables", "grinch christmas decorations outdoor", "christmas blow ups outdoor", "grinch inflatable christmas", "solar christmas lights", "snowman christmas decorations", "merry christmas sign", "christmas door cover", "christmas tree", "christmas gifts for women", "battery operated christmas lights", "christmas garage door cover", "christmas", "inflatable christmas tree", "christmas inflatables clearance sale", "christmas decorations outdoor yard", "outdoor christmas inflatables", "reindeer christmas decor", "grinch outdoor christmas decorations", "christmas porch decorations", "christmas outdoor decorations yard", "christmas gifts for mom", "christmas banner", "solar christmas lights outdoor waterproof decorations", "christmas flags for outside 28x40", "christmas wall decor", "christmas outdoor decor", "christmas lawn decorations", "candy cane christmas decorations", "grandma christmas gifts", "christmas cactus plants live", "outdoor christmas trees for yard", "inflatable christmas ornaments", "inflatable christmas decorations", "the grinch christmas decor", "christmas blow up", "merry christmas light up sign", "inflatable christmas", "mom christmas gifts", "porch christmas decorations", "christmas garage door decorations", "christmas gifts", "pink christmas decorations", "snowman outdoor christmas decorations", "whoville christmas decorations", "outdoor christmas lights", "outdoor christmas decorations yard", "christmas tree lights", "christmas yard decor", "christmas door mat", "christmas decorations indoor home decor", "nightmare before christmas decorations", "christmas tree fence", "christmas yard stakes", "christmas cactus", "christmas decorations outside inflatable", "christmas wreaths for front door", "christmas lights outdoor decorations", "christmas flags", "christmas deers for outdoors", "christmas party decorations", "christmas decor outdoor", "nightmare before christmas inflatable", "giant christmas inflatables", "blow up christmas decorations", "christmas garden flags", "christmas yard flag", "christmas window decorations", "front door christmas decorations", "nightmare before christmas halloween decorations", "outside christmas decorations for yard clearance", "disney christmas decorations", "spiral christmas tree outdoor", "indoor christmas decorations", "grinch christmas tree", "large outdoor christmas decorations", "christmas banners for outside", "disney christmas inflatables", "disney christmas inflatables", "nightmare before christmas", "vintage christmas decor", "front porch christmas decorations", "christmas outside decorations", "christmas yard inflatables", "snoopy christmas decorations", "christmas signs", "rudolph outdoor christmas decorations", "farmhouse christmas decor", "christmas wreath", "outdoor christmas decorations for porch", "christmas flags 28 x 40 double sided", "christmas table decor", "lighted outdoor christmas decorations", "funny christmas inflatables", "christmas blowups", "outdoor inflatable christmas decorations", "grandparents christmas gifts", "christmas lawn decorations for outdoors", "christmas yard signs", "christmas vacation decorations", "christmas reindeer for outside"],
+                "Pet Products": ["dog christmas sweater", "dog christmas gifts", "christmas outfit", "christmas dog toys", "christmas dog collar", "dog christmas pajamas", "dog christmas bandana", "dog christmas", "dog toys christmas", "christmas dog bandanas", "christmas dog sweater", "christmas dog treats", "dog christmas collar", "christmas dog clothes", "dog christmas toys", "christmas bandanas for dogs", "cat christmas sweater", "cat christmas gifts", "christmas cat toys", "christmas cat collar", "christmas dog toy", "cat christmas collar", "dog christmas dress", "christmas gifts for dogs", "christmas collars for dogs", "cat christmas tree", "cat christmas outfit", "dog bandanas christmas", "dog treats christmas"]
+            },
+            "DE": {
+                 "Home": [{t: "weihnachtsdeko", e: "Christmas decoration"}, {t: "weihnachtsbaum", e: "Christmas tree"}, {t: "weihnachtskugeln", e: "Christmas balls"}, {t: "lichterkette weihnachtsbaum", e: "christmas tree lights"}, {t: "weihnachtsbeleuchtung außen", e: "outdoor Christmas lights"}, {t: "weihnachtsdeko innen", e: "Christmas decorations inside"}, {t: "weihnachtsgeschenke", e: "Christmas gifts"}, {t: "weihnachtsdeko aussen", e: "Christmas decorations outside"}, {t: "künstlicher weihnachtsbaum", e: "artificial Christmas tree"}, {t: "christbaumschmuck", e: "Christmas tree decorations"}, {t: "villeroy & boch weihnachten", e: "villeroy & boch christmas"}, {t: "weihnachtsbaumschmuck", e: "Christmas tree decorations"}, {t: "weihnachtsbaum künstlich", e: "artificial Christmas tree"}, {t: "tischläufer weihnachten", e: "table runner Christmas"}, {t: "weihnachtsgeschenke für frauen", e: "Christmas gifts for women"}, {t: "fensterbilder weihnachten", e: "Christmas window pictures"}, {t: "christbaumkugeln", e: "Christmas tree balls"}, {t: "weihnachtsbeleuchtung", e: "christmas lights"}, {t: "tannenbaum künstlich", e: "artificial Christmas tree"}, {t: "weihnachtsbaum lichterkette", e: "christmas tree fairy lights"}, {t: "weihnachtsbaum mit beleuchtung", e: "Christmas tree with lighting"}, {t: "weihnachtsdeko fenster", e: "Christmas decoration window"}, {t: "weihnachtsbaum deko", e: "christmas tree decoration"}, {t: "weihnachtstasse", e: "Christmas cup"}, {t: "weihnachtsbeleuchtung fenster", e: "Christmas lights window"}, {t: "weihnachtsgeschirr", e: "Christmas crockery"}, {t: "tischdecke weihnachten", e: "tablecloth Christmas"}, {t: "christmas tree", e: "Christmas tree"}, {t: "weihnachtsbaumspitze", e: "christmas tree topper"}, {t: "fensterdeko weihnachten", e: "christmas window decoration"}, {t: "ausstechformen weihnachten", e: "Christmas cookie cutters"}, {t: "diamond painting weihnachten", e: "Diamond painting Christmas"}, {t: "weihnachtskugeln kunststoff", e: "Christmas balls plastic"}, {t: "deko weihnachten", e: "christmas decoration"}],
+                "Apparel": [{t: "weihnachtspullover damen", e: "christmas sweater women"}, {t: "weihnachtspullover herren", e: "christmas sweater men"}, {t: "weihnachtspullover", e: "Christmas sweater"}, {t: "weihnachtskleid damen", e: "women's Christmas dress"}, {t: "unterhosen herren", e: "christmas socks"}, {t: "weihnachtssocken", e: "ugly christmas sweater"}, {t: "weihnachtsgeschenke", e: "Christmas gifts"}, {t: "weihnachtskleid", e: "christmas dress"}, {t: "weihnachtspulli damen", e: "women's Christmas sweater"}, {t: "christmas sweater", e: "christmas sweater"}, {t: "weihnachtshemd herren", e: "christmas shirt men"}, {t: "weihnachtspullover kinder", e: "Christmas sweater children"}, {t: "weihnachtspullover familie set", e: "Christmas sweater family set"}, {t: "kleid weihnachten damen", e: "christmas dress women"}, {t: "weihnachtsdeko", e: "christmas decorations"}, {t: "ugly christmas sweater herren", e: "ugly christmas sweater men"}, {t: "weihnachtspulli", e: "Christmas sweater"}, {t: "weihnachten", e: "christmas"}, {t: "weihnachtsoutfit damen", e: "women's Christmas outfit"}],
+                "Furniture": [{t: "weihnachtsdeko", e: "Christmas decoration"}, {t: "weihnachtskugeln", e: "Christmas balls"}, {t: "weihnachtsbaum", e: "Christmas tree"}, {t: "christbaumschmuck", e: "Christmas tree decorations"}, {t: "wichtel zubehör weihnachten", e: "Christmas elf accessories"}, {t: "weihnachtsbaumschmuck", e: "Christmas tree decorations"}, {t: "weihnachtsbaumständer", e: "Christmas tree stand"}, {t: "weihnachtsdeko innen", e: "indoor Christmas decorations"}, {t: "christbaumständer", e: "Christmas tree stand"}, {t: "christbaumkugeln", e: "Christmas tree balls"}, {t: "lametta weihnachtsbaum", e: "tinsel Christmas tree"}],
+                "Tools": [{t: "weihnachtsgeschenke", e: "christmas presents"}],
+                "Home Improvement": [{t: "weihnachtsdeko", e: "christmas decoration"}],
+                "Kitchen": [{t: "weihnachtsdeko", e: "christmas decoration"}, {t: "weihnachtsgirlande", e: "christmas garland"}, {t: "girlande weihnachten", e: "christmas garland"}, {t: "weihnachtsgirlande mit beleuchtung", e: "christmas garland with lighting"}, {t: "weihnachtsgeschenke", e: "christmas gifts"}],
+                "Toys": [{t: "puzzle ab 2", e: "lego Christmas"}, {t: "weihnachtsmütze", e: "christmas hat"}],
+                "Beauty": [{t: "weihnachtsgeschenke für frauen", e: "christmas gifts for women"}, {t: "weihnachtsgeschenke", e: "christmas gifts"}],
+                "Office Products": [{t: "weihnachtskarten", e: "christmas cards"}, {t: "weihnachtskalender", e: "christmas calendar"}, {t: "weihnachtskarten mit umschlag set", e: "christmas cards with envelope set"}, {t: "weihnachtskarte", e: "Christmas card"}, {t: "servietten weihnachten", e: "napkins christmas"}, {t: "weihnachtsservietten", e: "christmas napkins"}, {t: "geschenkanhänger weihnachten", e: "christmas gift tags"}, {t: "geschenkpapier weihnachten", e: "gift wrap Christmas"}, {t: "weihnachtskalender kinder", e: "children's Christmas calendar"}, {t: "silikonform weihnachten", e: "silicone mold christmas"}, {t: "weihnachtsgeschenke", e: "christmas gifts"}, {t: "stanzschablonen weihnachten", e: "cutting templates christmas"}, {t: "weihnachtskalender zum befüllen", e: "Christmas calendar to fill"}, {t: "geschenkband weihnachten", e: "gift ribbon Christmas"}, {t: "weihnachtskarten set", e: "Christmas card set"}, {t: "weihnachtskalender männer", e: "Christmas calendar men"}, {t: "weihnachtskalender frauen", e: "Christmas calendar women"}, {t: "briefpapier weihnachten", e: "stationery Christmas"}, {t: "geldgeschenk weihnachten", e: "money gift christmas"}, {t: "schleifenband weihnachten", e: "ribbon christmas"}, {t: "geschenktüten weihnachten", e: "christmas gift bags"}, {t: "silikonformen gießformen weihnachten", e: "silicone molds Christmas molds"}, {t: "briefumschläge weihnachten", e: "Christmas envelopes"}, {t: "weihnachtsdeko", e: "Christmas decorations"}, {t: "gießform weihnachten", e: "christmas mold"}, {t: "weihnachtskalender 2024", e: "christmas calendar 2024"}, {t: "pop up karte weihnachten", e: "pop up card christmas"}, {t: "aufkleber weihnachten", e: "stickers christmas"}, {t: "weihnachten", e: "christmas"}, {t: "weihnachtsbriefpapier", e: "Christmas stationery"}, {t: "weihnachtskarten lustig", e: "funny Christmas cards"}, {t: "weihnachtskalender mädchen", e: "girls Christmas calendar"}],
+                "Health & Personal Care": [{t: "geschenkpapier weihnachten", e: "christmas wrapping paper"}, {t: "geschenktüten weihnachten", e: "christmas gift bags"}, {t: "weihnachtstüten", e: "christmas bags"}, {t: "weihnachtsgeschenke", e: "Christmas presents"}, {t: "geschenkbox weihnachten", e: "gift box Christmas"}, {t: "papiertüten weihnachten", e: "paper bags Christmas"}, {t: "weihnachtsgeschenkpapier", e: "Christmas wrapping paper"}, {t: "weihnachtstüten zum befüllen", e: "Christmas bags to fill"}, {t: "geschenkpapier weihnachten kinder", e: "christmas wrapping paper children"}, {t: "geschenkverpackung weihnachten", e: "gift wrapping christmas"}, {t: "kekstüten weihnachten", e: "Christmas cookie bags"}, {t: "weihnachtspapier", e: "christmas paper"}, {t: "weihnachtspapier geschenkpapier", e: "Christmas paper wrapping paper"}, {t: "weihnachtsgeschenke für frauen", e: "Christmas gifts for women"}, {t: "geschenkpapier weihnachten rolle", e: "Christmas wrapping paper roll"}, {t: "geldgeschenk weihnachten", e: "Christmas cash gift"}, {t: "geschenktüten weihnachten groß", e: "large Christmas gift bags"}, {t: "weihnachtstüten klein", e: "small Christmas bags"}, {t: "weihnachtstüten groß", e: "large Christmas bags"}, {t: "geschenktüte weihnachten", e: "gift bag for Christmas"}],
+                "Camera": [{t: "weihnachtsgeschenke für kinder", e: "christmas gifts for children"}, {t: "weihnachtsgeschenke", e: "christmas gifts"}, {t: "fotohintergrund weihnachten", e: "photo background christmas"}, {t: "weihnachtsgeschenke für mädchen", e: "christmas gifts for girls"}, {t: "kinder weihnachtsgeschenke", e: "children's Christmas gifts"}],
+                "Jewelry": [{t: "weihnachtsgeschenke", e: "christmas gifts"}, {t: "weihnachtsgeschenke für frauen", e: "Christmas gifts for women"}, {t: "ohrringe weihnachten", e: "Earrings Christmas"}, {t: "weihnachtsohrringe", e: "Christmas earrings"}, {t: "weihnachtsohrringe damen", e: "Christmas earrings women"}, {t: "weihnachts ohrringe", e: "Christmas earrings"}, {t: "weihnachtsschmuck damen", e: "Christmas decorations women"}, {t: "weihnachtsgeschenke für männer", e: "christmas gifts for men"}, {t: "pandora charms weihnachten", e: "pandora charms christmas"}, {t: "weihnachtsohrringe silber 925", e: "christmas earrings silver 925"}, {t: "weihnachtsdeko", e: "Christmas decoration"}, {t: "weihnachtsgeschenke für mama", e: "christmas gifts for mom"}, {t: "weihnachten", e: "christmas"}, {t: "ohrringe weihnachten 925 silber", e: "earrings Christmas 925 silver"}, {t: "ohrstecker weihnachten", e: "stud earrings Christmas"}, {t: "geschenke für frauen weihnachten", e: "gifts for women christmas"}, {t: "mama weihnachtsgeschenk", e: "mum Christmas present"}, {t: "brosche weihnachten", e: "Brooch Christmas"}, {t: "weihnachtsbrosche", e: "christmas brooch"}, {t: "weihnachtsgeschenke für freundin", e: "Christmas gifts for girlfriend"}],
+                "Luggage": [{t: "weihnachtsgeschenke", e: "christmas gifts"}, {t: "weihnachtsgeschenke für männer", e: "Christmas gifts for men"}],
+                "Sports": [{t: "weihnachtsgeschenke", e: "Christmas gifts"}, {t: "weihnachtsgeschenke für männer", e: "christmas gifts for men"}],
+                "Electronics": [{t: "fotohintergrund weihnachten", e: "photo background christmas"}],
+                "Lawn and Garden": [{t: "weihnachtsdeko", e: "Christmas decoration"}, {t: "weihnachtsdeko aussen", e: "outdoor Christmas decoration"}, {t: "weihnachtsbeleuchtung außen", e: "outdoor Christmas lights"}, {t: "weihnachtsgeschenke", e: "Christmas gifts"}, {t: "aufblasbare weihnachtsdeko", e: "inflatable Christmas decoration"}, {t: "weihnachtsdeko innen", e: "indoor Christmas decorations"}, {t: "christbaumständer", e: "Christmas tree stand"}, {t: "weihnachtsbaumständer", e: "Christmas tree stand"}, {t: "weihnachtsdeko outdoor", e: "Outdoor Christmas decoration"}, {t: "weihnachtsbeleuchtung", e: "Christmas lights"}, {t: "weihnachtsdeko amerikanisch", e: "American Christmas decoration"}, {t: "weihnachtsgeschenke für männer", e: "Christmas gifts for men"}, {t: "weihnachtsdeko aussen figuren", e: "outdoor Christmas decoration figures"}, {t: "weihnachtsbeleuchtung außen figuren", e: "outdoor Christmas lighting figures"}, {t: "weihnachtsdeko außen", e: "outdoor Christmas decorations"}, {t: "deko weihnachten", e: "christmas decoration"}, {t: "weihnachtsbaum", e: "Christmas tree"}, {t: "weihnachtsdekorationen", e: "Christmas decorations"}, {t: "weihnachtsgeschenke kleinigkeiten", e: "Christmas gifts little things"}, {t: "weihnachtsdeko aufblasbar", e: "inflatable Christmas decoration"}, {t: "weihnachtsfiguren außen", e: "outdoor Christmas figures"}, {t: "weihnachtsdeko draußen", e: "outdoor Christmas decorations"}, {t: "weihnachtsdeko sale", e: "Christmas decoration sale"}, {t: "fensterbeleuchtung weihnachten", e: "window lighting Christmas"}, {t: "aufblasbare weihnachtskugeln", e: "inflatable Christmas balls"}, {t: "weihnachtsbeleuchtung fenster", e: "Christmas lights window"}, {t: "weihnachtsdeko fenster", e: "Christmas decoration window"}, {t: "outdoor weihnachtsdeko", e: "outdoor Christmas decoration"}, {t: "weihnachtsdorf mit beleuchtung", e: "Christmas village with lighting"}, {t: "weihnachtsdeko figuren", e: "Christmas decoration figures"}, {t: "weihnachtspyramide", e: "Christmas pyramid"}, {t: "weihnachtsdeko garten", e: "Christmas decoration garden"}, {t: "konstsmide weihnachten", e: "konstsmide christmas"}, {t: "weihnachtsfiguren beleuchtet aussen", e: "christmas figures illuminated outside"}, {t: "rentier deko weihnachten", e: "reindeer decoration christmas"}, {t: "xxl weihnachtsdeko", e: "xxl Christmas decorations"}, {t: "außenbeleuchtung weihnachten", e: "outdoor lighting Christmas"}, {t: "weihnachten", e: "Christmas"}, {t: "weinachtsdekorationen draußen", e: "Christmas decorations outside"}, {t: "weihnachtsdorf", e: "Christmas village"}, {t: "weihnachten deko draußen", e: "Christmas decoration outside"}, {t: "deko weihnachten outdoor", e: "outdoor Christmas decoration"}, {t: "kleine weihnachtsgeschenke", e: "small Christmas presents"}, {t: "weihnachtsfiguren", e: "Christmas figures"}, {t: "gartenstecker weihnachten", e: "Garden stakes Christmas"}, {t: "led weihnachtsdeko", e: "LED Christmas decorations"}, {t: "fensterdeko weihnachten beleuchtet", e: "window decoration Christmas illuminated"}, {t: "weihnachtsdeko fenster beleuchtet", e: "Christmas decoration window illuminated"}],
+                "Pet Products": [{t: "hundespielzeug weihnachten", e: "dog Christmas toy"}, {t: "hund weihnachten", e: "dog christmas"}, {t: "hundekostüm weihnachten", e: "dog costume for Christmas"}, {t: "hunde weihnachtskostüm", e: "dog Christmas costume"}, {t: "weihnachtskostüm hund", e: "christmas costume dog"}, {t: "hundepullover weihnachten", e: "dog sweater Christmas"}, {t: "weihnachtspullover hund", e: "christmas sweater for dogs"}, {t: "weihnachten hund", e: "christmas dog"}, {t: "weihnachtsgeschenk hund", e: "christmas gift dog"}, {t: "hund weihnachtskostüm", e: "dog Christmas costume"}, {t: "hundehalsduch weihnachten", e: "christmas dog scarf"}, {t: "hunde weihnachten", e: "christmas dogs"}, {t: "hunde weihnachtspullover", e: "christmas sweater for dogs"}, {t: "katzen weihnachtskostüm", e: "christmas costume for cats"}, {t: "hunde weihnachtsgeschenk", e: "christmas dog gift"}, {t: "katzenspielzeug weihnachten", e: "christmas cat toy"}, {t: "weihnachtsmütze hund", e: "Christmas hat dog"}, {t: "weihnachtsgeschenke für hunde", e: "Christmas gifts for dogs"}, {t: "hundeleckerli weihnachten", e: "dog treats for Christmas"}, {t: "hundehalsband weihnachten", e: "dog collar Christmas"}]
+            },
+          "IT": {
+                "Home": [
+                    {t: "albero di natale", e: "christmas tree"}, {t: "luci natale esterno", e: "outdoor christmas lights"}, {t: "palline di natale", e: "christmas balls"}, {t: "decorazioni natalizie", e: "christmas decorations"}, {t: "albero di natale con luci incorporate", e: "christmas tree with built-in lights"}, {t: "luci albero di natale", e: "christmas tree lights"}, {t: "albero di natale 180 cm", e: "christmas tree 180 cm"}, {t: "albero di natale 210 cm", e: "christmas tree 210 cm"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "addobbi natalizi", e: "christmas decorations"}, {t: "addobbi natalizi per la casa", e: "christmas decorations for the home"}, {t: "ghirlanda natalizia per porta", e: "christmas wreath for door"}, {t: "tovaglia natalizia", e: "tablecloth christmas"}, {t: "luci di natale da esterno", e: "outdoor christmas lights"}, {t: "puntale albero natale", e: "christmas tree topper"}, {t: "casette natalizie", e: "christmas houses"}, {t: "candele natalizie", e: "christmas candles"}, {t: "albero di natale piccolo", e: "small christmas tree"}, {t: "decorazioni natalizie per la casa", e: "christmas decorations for the home"}, {t: "albero di natale slim", e: "slim christmas tree"}, {t: "presepe", e: "nativity scene"}, {t: "schiaccianoci natale", e: "christmas nutcracker"}, {t: "luci natale", e: "christmas lights"}, {t: "proiettore natale esterno", e: "outdoor christmas projector"}, {t: "ghirlanda natalizia", e: "christmas garland"}, {t: "addobbi albero di natale", e: "tree decorations christmas"}, {t: "presepe natalizio", e: "christmas nativity scene"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "regali natale", e: "christmas gifts"}, {t: "natale", e: "christmas"}, {t: "palline di natale personalizzate", e: "personalized christmas balls"}, {t: "runner natalizio", e: "christmas runner"}, {t: "base albero di natale", e: "christmas tree base"}, {t: "albero di natale 150 cm", e: "150 cm christmas tree"}, {t: "cuscini natalizi", e: "christmas pillows"}, {t: "copri base albero natale", e: "christmas tree base cover"}, {t: "luci natale esterno cascata", e: "christmas lights outdoor waterfall"}, {t: "albero di natale innevato", e: "snow covered christmas tree"}, {t: "luci natale esterno solari", e: "solar outdoor christmas lights"}, {t: "albero natale", e: "christmas tree"}, {t: "vetrofanie natalizie", e: "christmas window stickers"}, {t: "yankee candle natale", e: "yankee candle christmas"}, {t: "decorazioni natalizie per esterno", e: "outdoor christmas decorations"}, {t: "palline di natale bianche", e: "white christmas balls"}, {t: "copripiumino matrimoniale natalizio", e: "double christmas duvet cover"}, {t: "luci di natale", e: "christmas lights"}, {t: "piatti natalizi", e: "christmas plates"}, {t: "tenda luminosa natale", e: "lighted christmas curtain"}, {t: "luci natalizie da esterno", e: "outdoor christmas lights"}, {t: "runner natalizio da tavolo", e: "christmas table runner"}, {t: "thun natale", e: "thun christmas"}, {t: "adesivi natalizi per finestre", e: "christmas stickers for windows"}, {t: "regalo natale donna", e: "women's christmas gift"}, {t: "palline di natale rosse", e: "red christmas balls"}, {t: "alberi di natale in offerta", e: "christmas trees on offer"}, {t: "tappeto albero di natale", e: "christmas tree rug"}, {t: "addobbi natalizi da esterno", e: "outdoor christmas decorations"}, {t: "addobbi natalizi per albero", e: "christmas tree decorations"}, {t: "tovaglia natalizia 12 posti", e: "12 - seater christmas tablecloth"}, {t: "alberi di natale", e: "christmas trees"}, {t: "luci natale interno", e: "indoor christmas lights"}, {t: "gonna albero di natale", e: "christmas tree skirt"}, {t: "villeroy e boch natale", e: "villeroy and boch christmas"}, {t: "tronco per albero di natale", e: "trunk for christmas tree"}, {t: "albero di natale pieghevole", e: "folding christmas tree"}, {t: "natale decorazioni", e: "christmas decorations"}, {t: "fiori per albero di natale", e: "flowers for christmas tree"}, {t: "plaid natalizio", e: "christmas plaid"}, {t: "villaggio natalizio", e: "christmas village"}, {t: "palline natale", e: "christmas balls"}, {t: "albero di natale retrattile con telecomando", e: "retractable christmas tree with remote control"}, {t: "regali natale donna", e: "women's christmas gifts"}, {t: "carillon natalizio", e: "christmas music box"}, {t: "decorazioni natale", e: "christmas decorations"}, {t: "tazze natalizie", e: "christmas cups"}, {t: "stella albero di natale", e: "christmas tree star"}, {t: "candele profumate natalizie", e: "christmas scented candles"}, {t: "coprischienale natalizio", e: "christmas chair cover"}, {t: "tovagliette natalizie", e: "christmas placemats"}, {t: "tenda luminosa natale esterno", e: "outdoor christmas light curtain"}, {t: "luci natale esterno batteria", e: "battery operated christmas lights"}, {t: "gnomi natalizi", e: "christmas gnomes"}, {t: "sottopiatti natalizi", e: "christmas placemats"}, {t: "albero natale con luci incorporate", e: "christmas tree with built-in lights"}, {t: "renna di natale luminosa", e: "luminous christmas reindeer"}, {t: "candela natalizia", e: "christmas candle"}, {t: "regalo mamma natale", e: "gift mother christmas"}, {t: "luci esterno natalizie", e: "outdoor christmas lights"}, {t: "cuscini natalizi per divano", e: "christmas cushions for sofa"}, {t: "lanterna natalizia", e: "christmas lantern"}, {t: "proiettore luci natale per esterno", e: "outdoor christmas light projector"}, {t: "decorazioni natalizie per albero", e: "christmas decorations for tree"}, {t: "villaggio natalizio in movimento", e: "moving christmas village"}, {t: "set addobbi albero di natale", e: "christmas tree decorations set"}, {t: "albero di natale con luci led incorporate", e: "christmas trees with built-in led lights"}, {t: "base per albero di natale", e: "christmas tree base"}, {t: "albero di natale rosa", e: "pink christmas tree"}, {t: "fiocchi albero di natale", e: "christmas tree bows"}, {t: "presepe natalizio completo grande", e: "large complete christmas nativity scene"}, {t: "punta albero di natale", e: "christmas tree tip"}, {t: "albero di natale finto", e: "fake christmas tree"}, {t: "grinch decorazione natale", e: "grinch christmas decoration"}, {t: "luminarie natalizie da esterno", e: "outdoor christmas lights"}, {t: "luci per albero di natale interno", e: "indoor christmas tree lights"}, {t: "albero di natale bianco", e: "white christmas tree"}, {t: "copripiumino natalizio", e: "christmas duvet cover"}, {t: "copri base albero natale", e: "base christmas tree cover"}, {t: "carta regalo natale", e: "christmas gift wrap"}, {t: "tovaglia natalizia 18 posti", e: "christmas tablecloth 18 seats"}, {t: "luci da esterno natalizie", e: "outdoor christmas lights"}, {t: "segnaposto natalizio", e: "christmas place card"}, {t: "tazza natalizia", e: "christmas mug"}, {t: "palline di natale grandi", e: "large christmas balls"}, {t: "mini albero di natale", e: "mini christmas tree"}, {t: "palline di natale oro", e: "gold christmas balls"}, {t: "luci natalizie", e: "christmas lights"}, {t: "pallina di natale personalizzata", e: "personalized christmas ball"}, {t: "regalo natale", e: "christmas gift"}, {t: "tubo luci di natale da esterno", e: "outdoor christmas lights tube"}, {t: "palle di natale", e: "christmas balls"}, {t: "albero di natale gia pronto", e: "ready-made christmas tree"}, {t: "thun natale 2024", e: "thun christmas 2024"}, {t: "stella di natale", e: "christmas flower"}, {t: "luci per albero di natale", e: "christmas tree lights"}, {t: "copribase albero di natale", e: "christmas tree base cover"}, {t: "festone natalizio", e: "christmas festoon"}, {t: "albero natale piccolo", e: "small christmas tree"}, {t: "idee regalo natale", e: "christmas gift ideas"}, {t: "decorazioni natalizie esterno", e: "christmas lights outside"}, {t: "tovaglioli natalizi", e: "christmas napkins"}, {t: "albero natale slim", e: "slim christmas tree"}, {t: "set palline natale", e: "christmas balls set"}, {t: "luci albero di natale smart", e: "smart christmas tree lights"}, {t: "regali di natale", e: "christmas gifts"}, {t: "albero di natale con luci", e: "christmas tree with lights"}, {t: "albero di natale 240cm", e: "240cm christmas tree"}, {t: "albero di natale pop up", e: "pop up christmas tree"}, {t: "tende natalizie", e: "christmas curtains"}, {t: "puntale albero natale luminoso", e: "lighted christmas tree topper"}, {t: "candele natalizie decorative", e: "decorative christmas candles"}, {t: "tovaglie natalizie", e: "christmas tablecloths"}
+                ],
+                "Apparel": [
+                    {t: "maglione natalizio donna", e: "women's christmas sweater"}, {t: "maglione natalizio uomo", e: "men's christmas sweater"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "calzini natalizi", e: "christmas socks"}, {t: "maglione natalizio", e: "christmas sweater"}, {t: "pigiami natalizi per tutta la famiglia", e: "christmas pajamas for the whole family"}, {t: "pigiama di natale", e: "christmas pajamas"}, {t: "vestito natale donna", e: "women's christmas dress"}, {t: "regali natale", e: "christmas gifts"}, {t: "regalo natale donna", e: "women's christmas gift"}, {t: "maglioni natalizi famiglia", e: "family christmas sweaters"}, {t: "natale", e: "christmas"}, {t: "regalo uomo natale", e: "men's christmas gift"}, {t: "regali natale donna", e: "women's christmas gifts"}, {t: "calze natalizie", e: "christmas socks"}, {t: "maglione natalizio famiglia", e: "family christmas sweater"}, {t: "calzini natale", e: "christmas socks"}, {t: "maglione natale", e: "christmas sweater"}, {t: "maglioni natalizi donna", e: "women's christmas sweaters"}, {t: "pigiama natalizio", e: "christmas pajamas"}, {t: "maglione natale donna", e: "christmas sweater women"}, {t: "abito natalizio donna", e: "women's christmas dress"}, {t: "maglioni natale", e: "christmas sweaters"}, {t: "regalo natale uomo", e: "christmas gift men"}, {t: "maglione natale uomo", e: "men's christmas sweater"}, {t: "maglie natalizie donna", e: "women's christmas sweater"}, {t: "pensierini natalizi economici", e: "cheap christmas gifts"}, {t: "pigiama natalizio donna", e: "women's christmas pajamas"}, {t: "regali natale uomo", e: "men's christmas gifts"}, {t: "vestito natalizio donna", e: "christmas dress women"}, {t: "maglioni natalizi uomo", e: "men's christmas sweaters"}, {t: "pigiami natale", e: "christmas pajamas"}, {t: "nightmare before christmas", e: "nightmare before christmas"}, {t: "regalo donna natale", e: "women's christmas gift"}, {t: "pigiami natalizi", e: "christmas pajamas"}, {t: "pigiama natale donna", e: "women's christmas pajamas"}, {t: "calze natalizie donna", e: "women's christmas socks"}, {t: "maglioni natalizi coppia", e: "couple christmas sweaters"}, {t: "idee regalo natale", e: "christmas gift ideas"}, {t: "calzini natalizi donna", e: "women's christmas socks"}, {t: "regalo natale", e: "christmas gift"}, {t: "felpa natale", e: "christmas sweatshirt"}, {t: "maglia natale donna", e: "women's christmas shirt"}, {t: "pigiama donna natalizio", e: "women's christmas pajamas"}, {t: "felpa natale uomo", e: "men's christmas sweatshirt"}, {t: "felpa natale donna", e: "christmas sweatshirt women"}, {t: "calzini natale donna", e: "christmas socks"}, {t: "regali uomo natale", e: "men's christmas gifts"}, {t: "felpa natalizia donna", e: "women's christmas sweatshirt"}, {t: "maglione di natale donna", e: "women's christmas sweater"}, {t: "boxer uomo natale", e: "men's boxer shorts christmas"}
+                ],
+                "Furniture": [
+                    {t: "albero di natale", e: "christmas tree"}, {t: "decorazioni natalizie", e: "christmas decorations"}, {t: "albero di natale 210 cm", e: "210 cm christmas tree"}, {t: "presepe natalizio", e: "christmas nativity scene"}, {t: "addobbi natalizi", e: "christmas decorations"}, {t: "elfo natale", e: "christmas elf"}, {t: "villaggio natalizio", e: "christmas village"}, {t: "albero di natale 180 cm", e: "180 cm christmas tree"}, {t: "albero di natale con luci incorporate", e: "christmas tree with built-in lights"}, {t: "natale decorazioni casa", e: "christmas home decorations"}, {t: "addobbi natalizi per la casa", e: "christmas decorations for the home"}, {t: "ghirlanda natalizia", e: "christmas wreath"}, {t: "base albero di natale", e: "christmas tree base"}, {t: "copri base albero natale", e: "christmas tree base cover"}, {t: "villaggio natalizio in movimento", e: "moving christmas village"}, {t: "fiocchi albero di natale", e: "christmas tree bows"}, {t: "tappeto albero di natale", e: "christmas tree rug"}, {t: "addobbi natalizi per la casa", e: "christmas decorations for the home"}, {t: "palline di natale", e: "christmas balls"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "carillon natalizio", e: "christmas music box"}, {t: "albero di natale 240cm", e: "240cm christmas tree"}, {t: "gnomo natalizio", e: "christmas gnome"}, {t: "ghirlanda natalizia per porta", e: "christmas wreath for door"}, {t: "porta elfo natale", e: "christmas elf door"}, {t: "tronco per albero di natale", e: "trunk for christmas tree"}, {t: "trenino albero di natale", e: "christmas tree train"}, {t: "centrotavola natalizio", e: "christmas centerpiece"}, {t: "addobbi albero di natale", e: "christmas tree decorations"}, {t: "lampada natale esterno", e: "outdoor christmas lamp"}, {t: "gnomi natalizi grandi", e: "large christmas gnomes"}, {t: "puntale albero natale", e: "christmas tree topper"}, {t: "copri base albero natale", e: "christmas tree base cover"}, {t: "albero di natale innevato", e: "snowy christmas tree"}, {t: "calze natalizie da appendere", e: "christmas stockings to hang"}, {t: "villaggio natalizio lemax", e: "lemax christmas village"}, {t: "lemax christmas village", e: "lemax christmas village"}, {t: "natale", e: "christmas"}, {t: "alberi di natale", e: "christmas trees"}, {t: "base per albero di natale", e: "christmas tree base"}, {t: "albero di natale slim", e: "slim christmas tree"}, {t: "palline natale", e: "christmas balls"}, {t: "presepe natalizio completo grande", e: "large complete christmas nativity scene"}, {t: "festoni natalizi", e: "christmas festoons"}, {t: "nastro natalizio", e: "christmas ribbon"}, {t: "ghirlanda natalizia per scale", e: "christmas garland for stairs"}, {t: "paesaggio natalizio in movimento", e: "moving christmas landscape"}, {t: "segnaposto natalizio", e: "christmas place card holder"}, {t: "cappello albero di natale", e: "christmas tree hat"}, {t: "gnomo natalizio grande", e: "large christmas gnome"}, {t: "elfi natale", e: "christmas elves"}, {t: "alberi di natale in offerta", e: "christmas trees on offer"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "fiocco albero di natale punta", e: "christmas tree bow tip"}, {t: "regali natale", e: "christmas gifts"}, {t: "fiocchi natalizi", e: "christmas bows"}, {t: "alberi di natale", e: "christmas trees"}, {t: "addobbi natalizi", e: "christmas decorations"}, {t: "neve per albero di natale", e: "snow for christmas tree"}, {t: "casette natalizie", e: "christmas houses"}, {t: "nastri natalizi", e: "christmas ribbons"}, {t: "cuscini natalizi", e: "christmas pillows"}, {t: "festone natalizio", e: "christmas garland"}, {t: "candele natalizie", e: "christmas candles"}, {t: "decorazioni albero di natale", e: "christmas tree decorations"}, {t: "giostra natalizia in movimento", e: "moving christmas carousel"}, {t: "villaggio di natale", e: "christmas village"}, {t: "decorazioni natalizie per albero", e: "christmas decorations for tree"}, {t: "christmas crackers", e: "christmas crackers"}, {t: "pacchi regalo luminosi natale", e: "packages christmas light gift"}, {t: "campana vetro con presepe", e: "christmas nativity"}, {t: "natale decorazioni", e: "christmas decorations"}, {t: "carta regalo natale", e: "christmas gift wrap"}, {t: "decorazioni natalizie per la casa", e: "christmas decorations for the home"}
+                ],
+                "Tools": [
+                    {t: "regalo uomo natale", e: "gift for men christmas"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "regali natale uomo", e: "christmas gifts for men"}, {t: "regalo natale uomo", e: "men's christmas gift"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "regali uomo natale", e: "men's christmas gifts"}, {t: "regali natale", e: "christmas gifts"}, {t: "idee regalo natale", e: "christmas gift ideas"}, {t: "regali natale originali", e: "original christmas gifts"}, {t: "regalo papà natale", e: "dad christmas gift"}, {t: "regalo natale", e: "christmas gift"}, {t: "regali di natale per lui", e: "christmas gifts for him"}, {t: "regalo uomo natale 2024", e: "men's gift ideas 2024"}, {t: "regalo natale papà", e: "christmas gift dad"}, {t: "regali natale 2024 offerte uomo", e: "christmas gifts 2024 offers men"}, {t: "regalo natale marito", e: "christmas gift husband"}, {t: "regali di natale economici", e: "cheap christmas gifts"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}
+                ],
+                "Home Improvement": [
+                    {t: "luci natale", e: "christmas lights"}, {t: "recinto albero di natale", e: "christmas tree fence"}, {t: "regali natale", e: "christmas gifts"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "natale decorazioni", e: "christmas decorations"}, {t: "regalo natale uomo", e: "men's christmas gift"}
+                ],
+                "Toys": [
+                    {t: "lego natale", e: "christmas lego"}, {t: "nightmare before christmas", e: "nightmare before christmas"}, {t: "cerchietti natalizi", e: "christmas headbands"}, {t: "natale", e: "christmas"}, {t: "vestito babbo natale donna", e: "santa claus dress woman"}, {t: "treno per albero di natale", e: "christmas tree train"}, {t: "gadget natalizi", e: "christmas gadgets"}, {t: "calendario avvento", e: "advent calendar"}
+                ],
+                "Shoes": [
+                    {t: "pantofole natalizie", e: "christmas slippers"}
+                ],
+                "Beauty": [
+                    {t: "crema mani natale", e: "christmas hand cream"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "regalo natale donna", e: "christmas gift for women"}, {t: "regali natale donna", e: "christmas gifts for women"}, {t: "regali natale", e: "christmas gifts"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "creme mani natalizie", e: "christmas hand creams"}, {t: "regalo donna natale", e: "christmas gift for women"}, {t: "calendario avvento make up", e: "make up advent calendar"}, {t: "crema mani natalizia", e: "christmas hand cream"}, {t: "unghie finte natalizie", e: "christmas fake nails"}, {t: "natale", e: "christmas"}
+                ],
+                "Office Products": [
+                    {t: "pensierini natalizi economici", e: "cheap christmas gifts"}, {t: "adesivi unghie natale", e: "christmas nail stickers"}, {t: "unghie finte natale gel", e: "christmas fake nails gel"}, {t: "confezioni regalo natale", e: "christmas gift sets"}, {t: "regalo natale", e: "christmas gift"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "biglietti auguri natale", e: "christmas greeting cards"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "penne natalizie", e: "christmas pens"}, {t: "penne natale", e: "christmas pens"}, {t: "regali natale", e: "christmas gifts"}, {t: "biglietti natale", e: "christmas cards"}, {t: "carta regalo natale", e: "christmas gift wrap"}, {t: "tovaglioli natalizi", e: "christmas napkins"}, {t: "biglietto auguri natale", e: "christmas greeting card"}, {t: "carta natale", e: "christmas paper"}, {t: "segnaposto natalizio", e: "christmas placeholder"}, {t: "gadget natalizi", e: "christmas gadgets"}, {t: "regali di natale economici", e: "cheap christmas gifts"}, {t: "fustelle natalizie", e: "christmas dies"}, {t: "matite natalizie per bambini", e: "christmas pencils for children"}, {t: "carta da regalo natale", e: "christmas wrapping paper"}, {t: "stencil natale", e: "christmas stencils"}, {t: "nastri natalizi", e: "christmas ribbons"}, {t: "buste regalo natale", e: "christmas gift bags"}, {t: "regalo natale donna", e: "christmas gift for women"}, {t: "natale 2024", e: "christmas 2024"}, {t: "carta regalo natale", e: "gift paper christmas"}, {t: "bigliettini regalo natalizi", e: "christmas gift notes"}, {t: "bigliettini natale piccoli", e: "small christmas cards"}, {t: "etichette adesive natalizie", e: "sticky christmas labels"}, {t: "regalo natale", e: "christmas gift"}, {t: "matite natalizie", e: "christmas pencils"}, {t: "buste regalo natale", e: "christmas gift bags"}, {t: "timbri natalizi", e: "christmas stamps"}, {t: "biglietti auguri natalizi", e: "christmas greeting cards"}, {t: "segnalibro natalizio", e: "christmas bookmark"}, {t: "biglietti di natale", e: "christmas cards"}, {t: "regali di natale economici", e: "cheap christmas gifts"}, {t: "natale", e: "christmas"}, {t: "biglietti natale", e: "christmas cards"}, {t: "nastro rosso natalizio", e: "red christmas ribbon"}, {t: "carta igienica natalizia", e: "christmas toilet paper"}, {t: "fustelle natalizie", e: "christmas dies"}, {t: "penne natale", e: "pens christmas"}, {t: "legami penne natale", e: "ties christmas pens"}, {t: "regali natale 2024", e: "christmas gifts 2024"}, {t: "regalini natale bambini", e: "christmas gifts children"}, {t: "regali natale donna", e: "christmas gifts woman"}, {t: "tovaglia natalizia", e: "christmas tablecloth"}, {t: "penne legami natale 2024", e: "segni christmas pens 2024"}, {t: "regali natale", e: "christmas gifts"}, {t: "regali natale originali", e: "original christmas gifts"}, {t: "nastro per albero di natale", e: "christmas tree ribbon"}, {t: "idee regalo natale", e: "christmas gift ideas"}, {t: "adesivi natalizi", e: "christmas stickers"}, {t: "regalini natale", e: "christmas gifts"}, {t: "scatole natalizie", e: "christmas boxes"}, {t: "bigliettini natale piccoli", e: "small christmas greeting cards"}, {t: "gadget natale bambini", e: "children's christmas gadgets"}, {t: "biglietti natale con busta", e: "christmas cards with envelope"}, {t: "segnaposti natalizi", e: "christmas place cards"}, {t: "carta per regali di natale", e: "christmas gift wrap"}, {t: "adesivi natalizi per pacchetti", e: "christmas stickers for packages"}, {t: "legami set di 3 penne gel cancellabili natalizie", e: "set of 3 erasable gel pens for christmas"}, {t: "biglietti di natale", e: "christmas cards"}, {t: "decorazioni natalizie", e: "christmas decorations"}
+                ],
+                "Health & Personal Care": [
+                    {t: "carta regalo natale", e: "christmas gift paper"}, {t: "buste regalo natale", e: "christmas gift bags"}, {t: "scatole natalizie", e: "christmas boxes"}, {t: "confezioni regalo natale", e: "christmas gift packs"}, {t: "scatole natale", e: "christmas boxes"}, {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "sacchetti natale", e: "christmas bags"}, {t: "sacchettini natalizi", e: "christmas bags"}, {t: "scatola regalo natale", e: "christmas gift box"}, {t: "rotolo carta regalo natale", e: "christmas gift wrapping roll"}, {t: "buste regalo natale", e: "christmas gift bags"}, {t: "sacchetti natalizi", e: "christmas bags"}, {t: "scatoline natalizie", e: "christmas boxes"}, {t: "carta da regalo natale", e: "christmas wrapping paper"}, {t: "scatole regalo natale", e: "christmas gift boxes"}, {t: "sacchetti natalizi per regali", e: "christmas gift bags"}, {t: "scatole regalo", e: "gift boxes"}, {t: "regalo natale", e: "christmas gift"}, {t: "confezioni regalo natale", e: "christmas gift packs"}, {t: "scatole per regali natale", e: "christmas gift boxes"}, {t: "busta regalo natale", e: "christmas gift bag"}, {t: "regali di natale", e: "christmas gifts"}, {t: "carta regalo natale rotolo", e: "christmas wrapping paper roll"}, {t: "sacchetti biscotti natale", e: "christmas cookie bags"}, {t: "buste natale per regali", e: "christmas gift bags"}, {t: "sacchetti regalo natale grandi", e: "large christmas gift bags"}, {t: "sacchetti regalo natale piccoli", e: "small christmas gift bags"}, {t: "regalo natale donna", e: "christmas gift for women"}, {t: "bustine natalizie", e: "christmas sachets"}, {t: "sacchetti per biscotti natalizi", e: "christmas cookie bags"}
+                ],
+                "Camera": [
+                    {t: "regali natale bambini", e: "christmas gifts children"}, {t: "sfondo fotografico natale", e: "christmas photo background"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "regali natale 2024 offerte bambini", e: "christmas gifts 2024 offers children"}, {t: "regalo natale", e: "christmas gift"}
+                ],
+                "Jewelry": [
+                    {t: "regali natale donna", e: "christmas gifts women"}, {t: "orecchini natalizi", e: "christmas earrings"}, {t: "regali natale donna", e: "women's christmas gifts"}, {t: "regalo donna natale", e: "christmas gift women"}, {t: "orecchini natale", e: "christmas earrings"}, {t: "regali natale", e: "christmas gifts"}, {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "spille natalizie", e: "christmas pins"}, {t: "charm pandora natale", e: "pandora charm christmas"}, {t: "regali natale 2024 offerte donna", e: "christmas gifts 2024 women's offers"}, {t: "gadget natalizi", e: "christmas gadgets"}, {t: "regalo natale", e: "christmas gift"}, {t: "spilla natalizia", e: "christmas pin"}, {t: "orecchini natale donna", e: "women's christmas earrings"}, {t: "regali di natale", e: "christmas gifts"}, {t: "natale", e: "christmas"}, {t: "regali di natale per lei", e: "christmas gifts for her"}, {t: "idee regalo donna natale 2024", e: "women's gift ideas christmas 2024"}, {t: "regalo natale mamma", e: "christmas gift mom"}, {t: "idee regalo natale originali", e: "christmas gift ideas original"}, {t: "regali di natale", e: "christmas gifts"}, {t: "segnaposto natalizio", e: "christmas placeholder"}, {t: "decorazioni natalizie", e: "christmas decorations"}, {t: "bracciali natalizi", e: "christmas bracelets"}, {t: "regalo moglie natale", e: "christmas gift for wife"}, {t: "pensierini natalizi economici", e: "cheap christmas gifts"}, {t: "regali natale originali", e: "original christmas gifts"}, {t: "collana natalizia donna", e: "christmas necklace women"}, {t: "regali natale", e: "christmas gifts"}, {t: "regalo amica natale", e: "friend christmas gift"}, {t: "pandora natale", e: "pandora christmas"}, {t: "orecchini natale bambina", e: "child christmas earrings"}
+                ],
+                "Luggage": [
+                    {t: "regali natale 2024 offerte", e: "christmas gifts 2024 offers"}, {t: "regalo uomo natale", e: "men's christmas gift"}, {t: "regalo natale uomo 2024", e: "men's christmas gift 2024"}, {t: "regali natale uomo", e: "men's christmas gifts"}, {t: "regalo natale uomo", e: "men's christmas gift"}
+                ],
+                "Sports": [
+                    {t: "idee regalo natale 2024", e: "christmas gift ideas 2024"}, {t: "maglione natalizio uomo", e: "christmas sweater men"}, {t: "regalo uomo natale", e: "christmas gift for men"}, {t: "regali di natale per uomo", e: "christmas gifts for men"}, {t: "regali natale", e: "christmas gifts"}
+                ],
+                "Electronics": [
+                    {t: "sfondo fotografico natale", e: "christmas photo background"}, {t: "renne natalizie luminose", e: "luminous christmas reindeer"}
+                ],
+                "Lawn and Garden": [
+                    {t: "albero di natale", e: "christmas tree"}, {t: "renna di natale luminosa", e: "luminous christmas reindeer"}, {t: "albero di natale con luci incorporate", e: "christmas tree with built-in lights"}, {t: "natale decorazioni", e: "christmas decorations"}, {t: "luci natale da esterno", e: "outdoor christmas lights"}, {t: "albero di natale 150 cm", e: "150 cm christmas tree"}, {t: "albero di natale 180 cm", e: "180 cm christmas tree"}, {t: "albero di natale 210 cm", e: "210 cm christmas tree"}, {t: "luci natale esterno", e: "outdoor christmas lights"}, {t: "addobbi natalizi per la casa", e: "christmas decorations for the home"}, {t: "albero di natale slim", e: "slim christmas tree"}, {t: "gonfiabili natale per esterni", e: "outdoor christmas inflatables"}, {t: "albero di natale innevato", e: "snowy christmas tree"}, {t: "pacchi regalo luminosi natale", e: "christmas light gift packages"}, {t: "addobbi natalizi da esterno", e: "outdoor christmas decorations"}, {t: "addobbi natalizi per la casa", e: "christmas decorations for the home"}, {t: "addobbi natalizi", e: "christmas decorations"}, {t: "presepe natalizio", e: "christmas nativity scene"}, {t: "casette natalizie", e: "christmas houses"}, {t: "ghirlanda natalizia per porta", e: "christmas wreath for door"}, {t: "renna natalizia", e: "christmas reindeer"}, {t: "alberi di natale", e: "christmas trees"}, {t: "villaggio natalizio", e: "christmas village"}, {t: "gonfiabili natale", e: "christmas inflatables"}, {t: "albero di natale 150 cm", e: "christmas tree"}, {t: "albero natale", e: "christmas tree"}, {t: "albero di natale 240cm", e: "240cm christmas tree"}, {t: "palle di natale giganti da giardino", e: "giant garden christmas balls"}, {t: "luci natale esterno solari", e: "solar outdoor christmas lights"}, {t: "natale", e: "christmas"}, {t: "renne natalizie da interno", e: "indoor christmas reindeer"}, {t: "luci natale esterno cascata", e: "outdoor christmas lights waterfall"}, {t: "gonfiabile natale", e: "inflatable christmas"}, {t: "pupazzo di neve natalizio", e: "christmas snowman"}, {t: "albero di natale da esterno", e: "outdoor christmas tree"}, {t: "renne natalizie luminose da esterno", e: "outdoor luminous christmas reindeer"}, {t: "albero di natale innevato", e: "snow-covered christmas tree"}, {t: "tenda luminosa natale", e: "lighted christmas tent"}, {t: "luci natale esterno batteria", e: "battery operated christmas lights"}, {t: "gonfiabile natale esterno", e: "outdoor christmas inflatable"}, {t: "albero natale slim", e: "slim christmas tree"}, {t: "luci di natale", e: "christmas lights"}, {t: "palle natalizie giganti", e: "giant christmas balls"}, {t: "renne luminose natalizie da esterno", e: "outdoor christmas reindeer lights"}, {t: "natale decorazioni", e: "christmas decorations"}, {t: "albero di natale bianco", e: "white christmas tree"}, {t: "albero di natale da esterno", e: "outdoor christmas tree"}, {t: "decorazioni albero di natale", e: "christmas tree decorations"}, {t: "luci di natale da esterno", e: "outdoor christmas lights"}, {t: "luci natalizie da esterno", e: "outdoor christmas lights"}, {t: "pacco regalo luminoso natale", e: "christmas light gift package"}, {t: "decorazioni natalizie per esterno", e: "outdoor christmas decorations"}, {t: "luci natale esterno cascata", e: "outdoor christmas lights waterfall"}, {t: "luci natale", e: "christmas lights"}, {t: "albero natale con luci incorporate", e: "christmas tree with built-in lights"}, {t: "decorazioni natalizie esterno", e: "outdoor christmas decorations"}, {t: "natale decorazioni", e: "christmas decorations"}, {t: "lampione natalizio", e: "christmas street lamp"}, {t: "babbo natale da esterno luminoso", e: "outdoor father christmas bright"}, {t: "presepe natalizio completo grande", e: "complete large christmas nativity scene"}, {t: "illuminazione natalizia da esterno", e: "outdoor christmas lighting"}, {t: "tenda luminosa natale esterno", e: "outdoor christmas light curtain"}, {t: "albero di natale gonfiabile", e: "inflatable christmas tree"}, {t: "babbo natale pianta vera", e: "real santa claus plant"}, {t: "renne natalizie", e: "christmas reindeer"}, {t: "luminarie natalizie da esterno", e: "outdoor christmas lights"}, {t: "proiettore natale esterno", e: "outdoor christmas projector"}, {t: "decorazioni natale", e: "christmas decorations"}, {t: "stella luminosa natale da esterno", e: "luminous christmas star for outdoors"}, {t: "decorazioni natalizie", e: "christmas decorations"}, {t: "renna natalizia luminosa", e: "christmas reindeer lights"}, {t: "luci esterne natalizie", e: "outdoor christmas lights"}, {t: "decorazioni natale per esterno", e: "outdoor christmas decorations"}, {t: "animali luminosi di natale", e: "christmas light animals"}, {t: "albero di natale pop up", e: "pop up christmas tree"}, {t: "luci albero di natale", e: "christmas tree lights"}, {t: "pacchi natalizi luminosi", e: "luminous christmas packages"}, {t: "luci di natale", e: "christmas lights"}, {t: "renna di natale", e: "christmas reindeer"}, {t: "villaggio di natale", e: "christmas village"}, {t: "alberi di natale moderni", e: "modern christmas trees"}, {t: "casette natalizie", e: "christmas houses"}, {t: "alberi di natale", e: "christmas trees"}, {t: "paesaggio natalizio in movimento", e: "moving christmas landscape"}, {t: "albero di natale con luci", e: "christmas tree with lights"}, {t: "albero di natale retrattile con telecomando", e: "retractable christmas tree with remote control"}, {t: "staccionata per albero di natale", e: "fence for christmas tree"}, {t: "albero di natale con luci led incorporate", e: "christmas trees with built-in led lights"}, {t: "base per albero di natale", e: "christmas tree base"}, {t: "pupazzo di neve natalizio da esterno", e: "outdoor christmas snowman"}, {t: "ghirlanda natalizia per esterno", e: "outdoor christmas wreath"}, {t: "villaggio natalizio", e: "christmas village"}, {t: "tovaglia natalizia", e: "christmas tablecloth"}, {t: "albero di natale slim 180 cm", e: "slim christmas tree 180 cm"}, {t: "luci da esterno natalizie", e: "outdoor christmas lights"}, {t: "albero di natale moderno", e: "modern christmas tree"}, {t: "addobbi albero di natale", e: "christmas tree decorations"}, {t: "pupazzi natalizi", e: "christmas puppets"}, {t: "albero di natale slim 210 cm", e: "slim christmas tree 210 cm"}, {t: "luci natalizie", e: "christmas lights"}, {t: "ghirlande natalizie", e: "christmas wreaths"}, {t: "addobbi natalizi da esterno", e: "outdoor christmas decorations"}, {t: "regali natale 2024 offerte", e: "2024 christmas gifts offers"}, {t: "gonfiabili natalizi", e: "christmas inflatables"}, {t: "albero di natale gia pronto", e: "ready-made christmas tree"}
+                ],
+                "Pet Products": [
+                    {t: "vestito natale cane", e: "christmas dog dress"}, {t: "vestito cane natale", e: "dog dress christmas"}, {t: "cane", e: "dog"}, {t: "cane natale", e: "christmas dog"}, {t: "collare natale gatto", e: "christmas collar for dogs"}, {t: "albero di natale per gatti", e: "cat christmas tree"}, {t: "costume natale cane", e: "christmas costume for dogs"}, {t: "maglione natalizio cane", e: "dog christmas sweater"}, {t: "vestito natale gatto", e: "christmas dress for cats"}, {t: "gatto", e: "cat"}, {t: "tappeto albero di natale", e: "christmas tree rug"}, {t: "farmina cane", e: "christmas dog gift"}, {t: "maglione natale cane", e: "christmas sweater for dogs"}, {t: "regalo natale cane", e: "christmas gift for dogs"}, {t: "vestiti natale cane", e: "christmas dog clothes"}, {t: "natale gatto", e: "cat christmas"}, {t: "vestito gatto natale", e: "cat dress christmas"}, {t: "papillon cane natale", e: "dog bow tie christmas"}, {t: "maglione cane natale", e: "dog christmas sweater"}
+                ]
+            }
+        };
+
+        const bfcmData = {
+            "US": {
+                "Universal (BFCM)": ["cyber monday", "cyber monday deals", "black friday cyber monday deals"],
+                "Apparel": ["black friday deals 2024"],
+                "Electronics": ["black friday deals 2024", "black friday deals 2024 electronics"],
+                "Toys": ["black friday deals 2024 kids"],
+                "Health & Personal Care": ["black friday deals 2024"],
+                "Luggage": ["black friday deals 2024"],
+                "Wireless": ["black friday deals 2024"]
+            },
+            "DE": {
+                "Universal (BFCM)": [{t: "black friday", e: "black friday"}, {t: "cyber monday", e: "cyber monday"}]
+            }
+        };
+
+        // --- STATE & LOGIC ---
+        let currentTopic = "Christmas";
+        let currentCountry = "US";
+        let currentCategory = "Home";
+        let sortedData = {};
+        const selectedKeywords = new Set();
+
+        function initData() {
+            sortedData = {};
+            const dataSource = currentTopic === 'Christmas' ? christmasData : bfcmData;
+            const countryData = dataSource[currentCountry] || {};
+            
+            for (const [key, val] of Object.entries(countryData)) {
+                if(currentCountry === 'DE') {
+                    sortedData[key] = [...val].sort((a, b) => a.t.localeCompare(b.t));
+                } else {
+                    sortedData[key] = [...val].sort((a, b) => a.localeCompare(b));
+                }
+            }
+            if (!sortedData[currentCategory]) {
+                const availableCats = Object.keys(sortedData);
+                if(availableCats.length > 0) currentCategory = availableCats[0];
+            }
+        }
+
+        function switchTopic(topic) {
+            currentTopic = topic;
+            document.getElementById('btnXmas').classList.toggle('active', topic === 'Christmas');
+            document.getElementById('btnBFCM').classList.toggle('active', topic === 'BFCM');
+            
+            if (topic === 'BFCM') { document.body.classList.add('theme-bfcm'); } 
+            else { document.body.classList.remove('theme-bfcm'); }
+
+            clearSelection();
+            initData();
+            document.getElementById('searchInput').value = "";
+            renderSidebar();
+            renderContent();
+        }
+
+
+      function switchCountry(code) {
+            currentCountry = code;
+            document.getElementById('btnUS').classList.toggle('active', code === 'US');
+            document.getElementById('btnDE').classList.toggle('active', code === 'DE');
+            document.getElementById('btnIT').classList.toggle('active', code === 'IT');
+            
+            clearSelection();
+            initData();
+            document.getElementById('searchInput').value = "";
+            renderSidebar();
+            renderContent();
+        }
+
+      function getTerm(item) { return (currentCountry === 'DE' || currentCountry === 'IT') ? item.t : item; }
+
+        // --- DOM RENDERERS ---
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const searchInput = document.getElementById('searchInput');
+
+        function renderSidebar() {
+            sidebar.innerHTML = "";
+            const cats = Object.keys(sortedData);
+            if(cats.length === 0) { sidebar.innerHTML = `<div style="padding:20px; color:#999; font-size:0.9rem; text-align:center;">No data available</div>`; return; }
+
+            cats.forEach(cat => {
+                const count = sortedData[cat].length;
+                const btn = document.createElement('div');
+                btn.className = `nav-item ${cat === currentCategory ? 'active' : ''}`;
+                const iconClass = categoryIcons[cat] || "fa-tag";
+                btn.innerHTML = `<div class="nav-content"><i class="fa-solid ${iconClass}"></i><span>${cat}</span></div><span class="nav-count">${count}</span>`;
+                btn.onclick = () => { currentCategory = cat; searchInput.value = ""; renderSidebar(); renderContent(); };
+                sidebar.appendChild(btn);
+            });
+        }
+
+        function renderContent(filter = "") {
+            mainContent.innerHTML = "";
+            const lowerFilter = filter.toLowerCase();
+            let categoriesToShow = lowerFilter ? Object.keys(sortedData) : [currentCategory];
+            let foundAny = false;
+
+            categoriesToShow.forEach(cat => {
+                const keywords = sortedData[cat];
+                if(!keywords) return;
+                
+                const filteredList = keywords.filter(item => {
+                    if (currentCountry === 'DE' || currentCountry === 'IT') {
+                        return item.t.toLowerCase().includes(lowerFilter) || item.e.toLowerCase().includes(lowerFilter);
+                    } else {
+                        return item.toLowerCase().includes(lowerFilter);
+                    }
+                });
+
+                if (filteredList.length > 0) {
+                    foundAny = true;
+                    const section = document.createElement('div');
+                    section.className = "category-section";
+                    const iconClass = categoryIcons[cat] || "fa-tag";
+                    const themeColor = currentTopic === 'BFCM' ? 'var(--secondary)' : 'var(--primary)';
+                    
+                    section.innerHTML = `
+                        <div class="category-header">
+                            <div class="category-title"><i class="fa-solid ${iconClass}" style="color:${themeColor};"></i>${cat}<span class="cat-count-badge">(${filteredList.length})</span></div>
+                            <button class="btn-copy-list" onclick="copyCategoryList('${cat}', '${lowerFilter.replace(/'/g, "\\'")}')"><i class="fa-solid fa-layer-group"></i> Copy List</button>
+                        </div>
+                    `;
+                    const grid = document.createElement('div');
+                    grid.className = "keywords-grid";
+
+                    filteredList.forEach(item => {
+                        const term = getTerm(item);
+                        const isSelected = selectedKeywords.has(term);
+                        const chip = document.createElement('div');
+                        chip.className = `keyword-chip ${isSelected ? 'selected' : ''}`;
+                        chip.dataset.word = term;
+                        
+                        let contentHTML = "";
+                        if (currentCountry === 'DE' || currentCountry === 'IT') {
+                            contentHTML = `<div class="chip-text-group"><span class="chip-main">${item.t}</span><span class="chip-sub">${item.e}</span></div>`;
+                        } else {
+                            contentHTML = `<span class="chip-main">${item}</span>`;
+                        }
+                        
+                        chip.innerHTML = `${contentHTML}<i class="fa-${isSelected ? 'solid fa-check-circle' : 'solid fa-plus'}"></i>`;
+                        chip.onclick = () => toggleSelection(term);
+                        grid.appendChild(chip);
+                    });
+                    section.appendChild(grid);
+                    mainContent.appendChild(section);
+                }
+            });
+            if (!foundAny) { mainContent.innerHTML = `<div style="text-align:center; padding:50px; color:#999;"><i class="fa-solid fa-magnifying-glass" style="font-size:3rem; opacity:0.3; margin-bottom:20px;"></i><h3>No matches found</h3></div>`; }
+        }
+
+        function toggleSelection(term) {
+            if (selectedKeywords.has(term)) selectedKeywords.delete(term); else selectedKeywords.add(term);
+            const chips = document.querySelectorAll(`.keyword-chip[data-word="${term}"]`);
+            chips.forEach(chip => {
+                const isSelected = selectedKeywords.has(term);
+                chip.classList.toggle('selected', isSelected);
+                chip.querySelector('i').className = isSelected ? "fa-solid fa-check-circle" : "fa-solid fa-plus";
+            });
+            updateSelectionPanel();
+        }
+
+        function updateSelectionPanel() {
+            const listEl = document.getElementById('selectedList');
+            const count = selectedKeywords.size;
+            document.getElementById('selectionCount').textContent = `${count} items`;
+            document.getElementById('mobileCount').textContent = `${count} selected`;
+            listEl.innerHTML = "";
+            if (count === 0) { listEl.innerHTML = '<li style="padding:30px 20px; text-align:center; color:#999; font-size:0.9rem;"><i class="fa-regular fa-square-check" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>Select keywords to build your list.</li>'; return; }
+            selectedKeywords.forEach(term => {
+                const li = document.createElement('li');
+                li.className = 'selected-item';
+                li.innerHTML = `<span style="font-weight:500">${term}</span><i class="fa-solid fa-xmark remove-btn" onclick="toggleSelection('${term}')"></i>`;
+                listEl.appendChild(li);
+            });
+        }
+
+        function clearSelection() {
+            selectedKeywords.clear();
+            document.querySelectorAll('.keyword-chip').forEach(c => { c.classList.remove('selected'); c.querySelector('i').className = "fa-solid fa-plus"; });
+            updateSelectionPanel();
+        }
+
+        function copySelection() {
+            if (selectedKeywords.size === 0) return showToast("No keywords selected!", true);
+            const text = Array.from(selectedKeywords).join('\n');
+            navigator.clipboard.writeText(text).then(() => showToast(`Copied ${selectedKeywords.size} items!`));
+        }
+
+        window.copyCategoryList = function(category, filterString) {
+            const keywords = sortedData[category];
+            const lowerFilter = filterString.toLowerCase();
+            const filteredItems = keywords.filter(item => {
+                 if (currentCountry === 'DE' || currentCountry === 'IT') {
+                     return item.t.toLowerCase().includes(lowerFilter) || item.e.toLowerCase().includes(lowerFilter);
+                 } else {
+                     return item.toLowerCase().includes(lowerFilter);
+                 }
+            });
+            const listToCopy = filteredItems.map(item => getTerm(item));
+            if (listToCopy.length === 0) return;
+            navigator.clipboard.writeText(listToCopy.join('\n')).then(() => showToast(`Copied ${listToCopy.length} items from ${category}!`));
+        };
+
+        // --- Modal Logic ---
+        function openHelpModal() { document.getElementById('helpModal').classList.add('open'); }
+        function openAboutModal() { document.getElementById('aboutModal').classList.add('open'); }
+        function closeModal(e, modalId, force = false) { 
+            if (force || e.target.classList.contains('modal-overlay')) {
+                document.getElementById(modalId).classList.remove('open');
+            }
+        }
+
+        // --- Utils ---
+        let toastTimeout;
+        function showToast(msg, isError = false) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            const icon = t.querySelector('i');
+            icon.className = isError ? "fa-solid fa-circle-exclamation" : "fa-solid fa-check-circle";
+            icon.style.color = isError ? "#f44336" : "#4caf50";
+            t.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => t.classList.remove('show'), 2000);
+        }
+        function toggleMobilePanel() { document.getElementById('selectionPanel').classList.toggle('open'); }
+
+        // --- INIT ---
+        initData(); renderSidebar(); renderContent();
+        searchInput.addEventListener('input', (e) => {
+            if(e.target.value) document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            else renderSidebar();
+            renderContent(e.target.value);
+        });
+
+    </script>
+</body>
+</html>

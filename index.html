@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>旺季促销关键词表 - Q4 Seasonal Keywords recommendations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <meta name="description" content="Free tool for Amazon sellers to find high-volume Christmas and Black Friday keywords. Supports US, UK, DE, IT, ES, FR, JP, CA, MX with translations. Optimize your listings now! 免费跨境电商工具：一键获取9大站点圣诞节与黑五网一高转化关键词，自带中英/小语种翻译，助力卖家Q4爆单。">
-    <meta name="keywords" content="Amazon keywords tool, Q4 seasonal trends, Christmas SEO, Black Friday keywords, Cyber Monday deals, Amazon FBA, 亚马逊选品, 旺季促销，促销关键词，跨境电商关键词, 圣诞节选品, 黑五网一流量词">
     <style>
     :root {
         /* Christmas Theme */
@@ -292,8 +290,23 @@
     .modal-body p { font-size: 0.95rem; color: #555; line-height: 1.5; margin-bottom: 10px; }
     .modal-body ul { padding-left: 20px; font-size: 0.95rem; color: #555; }
     .author-profile { text-align: center; padding: 10px 0; }
-    .author-icon { font-size: 3rem; color: var(--primary); margin-bottom: 10px; }
-    .version-badge { background: #eee; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; color: #666; }
+/* 修改 .author-icon 容器样式 */
+.author-profile .author-icon { 
+    margin-bottom: 15px; 
+    display: flex;
+    justify-content: center; /* 图片居中 */
+}
+
+/* 新增：专门控制二维码图片的样式 */
+.author-profile .author-icon img {
+    width: 120px;       /* 控制二维码大小 */
+    height: 120px;
+    border-radius: 8px; /* 圆角 */
+    padding: 5px;       /* 内边距 */
+    background: #fff;   /*以此确保二维码背景是白的 */
+    border: 1px solid var(--border); /* 边框 */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* 阴影 */
+}    .version-badge { background: #eee; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; color: #666; }
 
     /* --- Tooltip --- */
     /* 仅在支持 hover 的设备显示 Tooltip，防止手机点击显示 */
@@ -519,21 +532,50 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <h4>1. Switch Context</h4>
-                <p>Use the toggle in the header to switch between <strong>Christmas</strong> and <strong>Black Friday</strong> keywords, as well as <strong>US</strong> and <strong>DE</strong> markets.</p>
+<div class="modal-body">
+                <div style="margin-bottom: 20px;">
+                  <h4 style="margin-top:20px;">初衷</h4>
+                <p>本工具整合了第四季度季节性促销活动的高流量关键词，帮助运营快速获取旺季促销关键词并运用于促销活动SEO以及广告</p>
                 
-                <h4>2. Select Keywords</h4>
-                <p>Click keywords to add them to your cart. Click again to remove.</p>
+                    <h4 style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-layer-group"></i> 1. 切换市场与主题
+                    </h4>
+                    <p>
+                        使用顶部导航栏进行切换：
+                        <br>
+                        • <strong>主题 (Topic)：</strong> 选择 <span style="color:var(--primary); font-weight:bold;">Christmas (圣诞)</span> 或 <span style="color:var(--secondary); font-weight:bold;">Black Friday (黑五)</span>。
+                        <br>
+                        • <strong>站点 (Country)：</strong> 选择目标国家（如 US , DE , JP 等）。
+                    </p>
+                </div>
                 
-                <h4>3. Copying Data</h4>
-                <ul>
-                    <li><strong>Copy List:</strong> Copies all keywords visible in the current category view.</li>
-                    <li><strong>Copy Selection:</strong> Copies specific keywords you have selected manually.</li>
-                </ul>
+                <div style="margin-bottom: 20px;">
+                    <h4 style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-magnifying-glass"></i> 2. 浏览与搜索
+                    </h4>
+                    <p>
+                        • <strong>侧边栏：</strong> 点击左侧分类标签可筛选特定类目的关键词。
+                        <br>
+                        • <strong>搜索框：</strong> 输入文字可跨所有分类进行搜索。
+                    </p>
+                </div>
 
-                <h4>4. German Mode (DE)</h4>
-                <p>In DE mode, keywords show the German term (Bold) and English translation (Gray). Copy actions will only copy the German term.</p>
+                <div style="margin-bottom: 20px;">
+                    <h4 style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-regular fa-copy"></i> 3. 复制功能
+                    </h4>
+                            <strong>小语种智能提取：</strong> 对于非英语站点（DE, IT, ES, FR, JP, MX），工具会显示“本地语 + 英文翻译”。<br>点击复制时，<strong>只会复制本地语关键词</strong>。
+
+                </div>
+
+                <div>
+                    <h4 style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-cart-plus"></i> 4. 组建词库 (多选)
+                    </h4>
+                    <p>
+                        点击关键词“+”将其加入右侧的 <strong>“多选栏” (Selection)</strong>。可以跨分类挑选多个关键词，最后点击底部的 <strong>“Copy”</strong> 按钮一键复制所有选中的词。
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -549,17 +591,20 @@
             </div>
             <div class="modal-body">
                 <div class="author-profile">
-                    <div class="author-icon"><i class="fa-solid fa-user-astronaut"></i></div>
-                    <h3>Amazon Ops Team</h3>
-                    <p style="color:#777; margin-bottom:15px;">Tools & Development</p>
-                    <span class="version-badge">Version 2.5.0</span>
+                <div class="author-icon">
+                    <img src="../gzh-qr.jpg" alt="Contact QR Code">
+                </div>
+                    <p style="color:#777; margin-bottom:15px;">整理制作 by Ginv</p>
+                    <span class="version-badge">公众号：Adobe of Amazon</span>
                 </div>
                 
-                <h4 style="margin-top:20px;">Purpose</h4>
-                <p>This tool aggregates high-traffic keywords for Q4 seasonal events to streamline the listing optimization process.</p>
+                <h4>Contact</h4>  
+                <p>对于工具优化建议或者交流合作<br>可以通过<strong>公众号</strong>或者<strong>邮箱</strong>联系我</p>
+
+                <h4 style="margin-top:20px;">邮箱</h4>
+                <p>amzginv@yeah.net</p>
+
                 
-                <h4>Contact</h4>
-                <p>For updates or keyword additions, please contact the internal operations manager.</p>
             </div>
         </div>
     </div>

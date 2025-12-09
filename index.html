@@ -354,6 +354,32 @@
     to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
+        /* --- 新增：Prime Day 主题色 --- */
+body.theme-prime {
+    --primary: #007185; /* Amazon Prime Blue/Teal */
+    --secondary: #ff9900; /* Amazon Orange */
+}
+
+/* 按钮激活时的特定颜色 */
+.topic-btn.active.prime { 
+    color: #007185; 
+}
+
+/* 侧边栏激活状态适配 (可选，让侧边栏在Prime模式下也用蓝色) */
+body.theme-prime .nav-item.active { 
+    background-color: #e0f7fa; 
+    color: #007185; 
+    border-left-color: #007185; 
+}
+body.theme-prime .nav-item.active .nav-count { 
+    background-color: #b2ebf2; 
+    color: #007185; 
+}
+body.theme-prime .keyword-chip.selected {
+    background-color: #e0f7fa;
+    border-color: #ff9900;
+}
+
         .mobile-bar { display: none; }
 
         @media (max-width: 900px) {
@@ -416,6 +442,9 @@
             </button>
             <button class="topic-btn bfcm" id="btnBFCM" onclick="switchTopic('BFCM')" data-tooltip="Switch to Black Friday / Cyber Monday">
                 <i class="fa-solid fa-tag"></i> Black Friday
+            </button>
+            <button class="topic-btn prime" id="btnPrime" onclick="switchTopic('PrimeDay')" data-tooltip="Switch to Amazon Prime Day">
+                <i class="fa-brands fa-amazon"></i> Prime Day
             </button>
         </div>
 
@@ -576,6 +605,7 @@
             "Sports": "fa-basketball", "Lawn and Garden": "fa-leaf", "Pet Products": "fa-paw",
             "Electronics": "fa-plug", "Wireless": "fa-wifi",
             "Universal (BFCM)": "fa-bolt", "Cyber Monday": "fa-computer-mouse"
+            "Universal": "fa-globe", 
         };
 
         // --- DATASETS (Same as before) ---
@@ -788,6 +818,29 @@
             }
         };
 
+        // 3. AMAZON PRIME DAY DATA
+        const primeDayData = {
+            "US": {
+                "Universal": ["prime day deals 2024", "amazon prime day 2024", "prime day specials", "amazon deals", "prime exclusive deals"],
+                "Electronics": ["prime day electronics deals", "headphone deals prime day", "laptop deals prime day"],
+                "Home": ["prime day home decor", "kitchen deals prime day", "vacuum cleaner deals"],
+                "Beauty": ["prime day beauty deals", "skincare deals prime day"]
+            },
+            "DE": {
+                "Universal": [{t: "prime day angebote 2024", e: "prime day offers 2024"}, {t: "amazon prime day", e: "amazon prime day"}],
+                "Electronics": [{t: "elektronik angebote", e: "electronics deals"}]
+            },
+            "IT": {
+                "Universal": [{t: "offerte prime day 2024", e: "prime day offers 2024"}, {t: "sconti amazon", e: "amazon discounts"}]
+            },
+            "ES": {
+                "Universal": [{t: "ofertas prime day 2024", e: "prime day offers 2024"}, {t: "rebajas amazon", e: "amazon sales"}]
+            },
+            "FR": {
+                "Universal": [{t: "ventes flash prime day", e: "prime day flash sales"}, {t: "offres amazon prime", e: "amazon prime offers"}]
+            }
+        };
+
         // --- STATE & LOGIC ---
         let currentTopic = "Christmas";
         let currentCountry = "US";
@@ -798,7 +851,14 @@
 
         function initData() {
             sortedData = {};
-            const dataSource = currentTopic === 'Christmas' ? christmasData : bfcmData;
+             let dataSource;
+            if (currentTopic === 'Christmas') {
+                dataSource = christmasData;
+            } else if (currentTopic === 'BFCM') {
+                dataSource = bfcmData;
+            } else {
+                dataSource = primeDayData; // PrimeDay
+            }
             const countryData = dataSource[currentCountry] || {};
             
             // --- 新增逻辑：年份动态替换 ---
@@ -842,11 +902,20 @@
 
         function switchTopic(topic) {
             currentTopic = topic;
+
             document.getElementById('btnXmas').classList.toggle('active', topic === 'Christmas');
             document.getElementById('btnBFCM').classList.toggle('active', topic === 'BFCM');
+            document.getElementById('btnPrime').classList.toggle('active', topic === 'PrimeDay'); // 新增
+
+            document.body.classList.remove('theme-bfcm', 'theme-prime');
             
-            if (topic === 'BFCM') { document.body.classList.add('theme-bfcm'); } 
-            else { document.body.classList.remove('theme-bfcm'); }
+            if (topic === 'BFCM') {
+                document.body.classList.add('theme-bfcm');
+            } else if (topic === 'PrimeDay') {
+                document.body.classList.add('theme-prime'); // 新增 Prime 主题
+            }
+            
+
 
             clearSelection();
             initData();

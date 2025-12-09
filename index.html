@@ -252,6 +252,43 @@
     margin-top: 0;
 }
 
+        /* --- Tooltip (悬浮提示) 样式 --- */
+[data-tooltip] {
+    position: relative; /* 建立定位基准 */
+}
+
+/* 鼠标悬浮时显示的内容 */
+[data-tooltip]:hover::after {
+    content: attr(data-tooltip); /* 读取 HTML 中的文字 */
+    position: absolute;
+    top: 100%; /* 显示在按钮下方 */
+    left: 50%;
+    transform: translateX(-50%); /* 水平居中 */
+    margin-top: 8px; /* 与按钮的间距 */
+    
+    background-color: #333; /* 深色背景 */
+    color: #fff; /* 白色文字 */
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: normal;
+    white-space: nowrap; /* 不换行 */
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    pointer-events: none; /* 防止遮挡鼠标点击 */
+    
+    /* 简单的淡入动画 */
+    opacity: 0;
+    animation: tooltipFadeIn 0.2s forwards;
+}
+
+
+
+@keyframes tooltipFadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-5px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
         .mobile-bar { display: none; }
 
         @media (max-width: 900px) {
@@ -309,26 +346,27 @@
 
         <!-- 2. Topic Switcher -->
         <div class="topic-switch">
-            <button class="topic-btn active xmas" id="btnXmas" onclick="switchTopic('Christmas')">
+            <button class="topic-btn active xmas" id="btnXmas" onclick="switchTopic('Christmas')" data-tooltip="Switch to Christmas Keywords">
                 <i class="fa-solid fa-tree"></i> Christmas
             </button>
-            <button class="topic-btn bfcm" id="btnBFCM" onclick="switchTopic('BFCM')">
+            <button class="topic-btn bfcm" id="btnBFCM" onclick="switchTopic('BFCM')" data-tooltip="Switch to Black Friday / Cyber Monday">
                 <i class="fa-solid fa-tag"></i> Black Friday
             </button>
         </div>
+
         
         <!-- 3. Country Switcher -->
         <div class="country-switch">
-            <button class="country-btn active" id="btnUS" onclick="switchCountry('US')">
+            <button class="country-btn active" id="btnUS" onclick="switchCountry('US')" data-tooltip="United States (English)">
                 🇺🇸 US
             </button>
-            <button class="country-btn" id="btnDE" onclick="switchCountry('DE')">
+            <button class="country-btn" id="btnDE" onclick="switchCountry('DE')" data-tooltip="Germany (German + English)">
                 🇩🇪 DE
             </button>
-           <button class="country-btn" id="btnIT" onclick="switchCountry('IT')">
+           <button class="country-btn" id="btnIT" onclick="switchCountry('IT')" data-tooltip="Italy (Italian + English)">
                 🇮🇹 IT
            </button>
-           <button class="country-btn" id="btnES" onclick="switchCountry('ES')">
+           <button class="country-btn" id="btnES" onclick="switchCountry('ES')" ata-tooltip="Spain (Spanish + English)">
                 🇪🇸 ES
            </button>
         </div>

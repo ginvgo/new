@@ -637,7 +637,7 @@
             });
         }
 
-        function renderContent(filter = "") {
+function renderContent(filter = "") {
             mainContent.innerHTML = "";
             const lowerFilter = filter.toLowerCase();
             let categoriesToShow = lowerFilter ? Object.keys(sortedData) : [currentCategory];
@@ -647,6 +647,7 @@
                 const keywords = sortedData[cat];
                 if(!keywords) return;
                 
+                // 1. 筛选数据
                 const filteredList = keywords.filter(item => {
                     if (currentCountry === 'DE' || currentCountry === 'IT') {
                         return item.t.toLowerCase().includes(lowerFilter) || item.e.toLowerCase().includes(lowerFilter);
@@ -657,27 +658,57 @@
 
                 if (filteredList.length > 0) {
                     foundAny = true;
+                    
                     const section = document.createElement('div');
                     section.className = "category-section";
                     const iconClass = categoryIcons[cat] || "fa-tag";
                     const themeColor = currentTopic === 'BFCM' ? 'var(--secondary)' : 'var(--primary)';
                     
+                    // 2. 生成类目头部
                     section.innerHTML = `
                         <div class="category-header">
-                            <div class="category-title"><i class="fa-solid ${iconClass}" style="color:${themeColor};"></i>${cat}<span class="cat-count-badge">(${filteredList.length})</span></div>
-                            <button class="btn-copy-list" onclick="copyCategoryList('${cat}', '${lowerFilter.replace(/'/g, "\\'")}')"><i class="fa-solid fa-layer-group"></i> Copy List</button>
+                            <div class="category-title">
+                                <i class="fa-solid ${iconClass}" style="color:${themeColor};"></i>
+                                ${cat}
+                                <span class="cat-count-badge">(${filteredList.length})</span>
+                            </div>
+                            <button class="btn-copy-list" onclick="copyCategoryList('${cat}', '${lowerFilter.replace(/'/g, "\\'")}')">
+                                <i class="fa-solid fa-layer-group"></i> Copy List
+                            </button>
                         </div>
                     `;
+
                     const grid = document.createElement('div');
                     grid.className = "keywords-grid";
 
+                    // 3. 循环生成卡片（带首字母分组）
+                    let lastLetter = ""; // 用于记录上一个首字母
+
                     filteredList.forEach(item => {
                         const term = getTerm(item);
+                        
+                        // --- 首字母分组逻辑开始 ---
+                        // 仅在未搜索时显示字母标题，保持浏览清晰度
+                        if (filter === "") {
+                            const currentLetter = term.charAt(0).toUpperCase();
+                            
+                            // 如果首字母变了（例如从 A 变成 B），插入一个标题行
+                            if (currentLetter !== lastLetter) {
+                                const header = document.createElement('div');
+                                header.className = 'letter-header'; // 对应 CSS 中的 grid-column: 1 / -1
+                                header.innerText = currentLetter;
+                                grid.appendChild(header);
+                                lastLetter = currentLetter;
+                            }
+                        }
+                        // --- 首字母分组逻辑结束 ---
+
                         const isSelected = selectedKeywords.has(term);
                         const chip = document.createElement('div');
                         chip.className = `keyword-chip ${isSelected ? 'selected' : ''}`;
                         chip.dataset.word = term;
                         
+                        // 根据国家显示内容（US显示单行，DE/IT显示双行翻译）
                         let contentHTML = "";
                         if (currentCountry === 'DE' || currentCountry === 'IT') {
                             contentHTML = `<div class="chip-text-group"><span class="chip-main">${item.t}</span><span class="chip-sub">${item.e}</span></div>`;
@@ -689,13 +720,21 @@
                         chip.onclick = () => toggleSelection(term);
                         grid.appendChild(chip);
                     });
+
                     section.appendChild(grid);
                     mainContent.appendChild(section);
                 }
             });
-            if (!foundAny) { mainContent.innerHTML = `<div style="text-align:center; padding:50px; color:#999;"><i class="fa-solid fa-magnifying-glass" style="font-size:3rem; opacity:0.3; margin-bottom:20px;"></i><h3>No matches found</h3></div>`; }
-        }
 
+            if (!foundAny) {
+                mainContent.innerHTML = `
+                    <div style="text-align:center; padding:50px; color:#999;">
+                        <i class="fa-solid fa-magnifying-glass" style="font-size:3rem; opacity:0.3; margin-bottom:20px;"></i>
+                        <h3>No matches found</h3>
+                    </div>
+                `;
+            }
+        }
         function toggleSelection(term) {
             if (selectedKeywords.has(term)) selectedKeywords.delete(term); else selectedKeywords.add(term);
             const chips = document.querySelectorAll(`.keyword-chip[data-word="${term}"]`);

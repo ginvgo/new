@@ -425,6 +425,15 @@
             <button class="country-btn active" id="btnUS" onclick="switchCountry('US')" data-tooltip="United States (English)">
                 🇺🇸 US
             </button>
+<button class="country-btn" id="btnCA" onclick="switchCountry('CA')" data-tooltip="Canada (English)">
+    🇨🇦 CA
+</button>
+<button class="country-btn" id="btnMX" onclick="switchCountry('MX')" data-tooltip="Mexico (Spanish + English)">
+    🇲🇽 MX
+</button>
+<button class="country-btn" id="btnUK" onclick="switchCountry('UK')" data-tooltip="United Kingdom (English)">
+    🇬🇧 UK
+</button>
             <button class="country-btn" id="btnDE" onclick="switchCountry('DE')" data-tooltip="Germany (German + English)">
                 🇩🇪 DE
             </button>
@@ -439,15 +448,6 @@
            </button>
 <button class="country-btn" id="btnJP" onclick="switchCountry('JP')" data-tooltip="Japan (Japanese + English)">
     🇯🇵 JP
-</button>
-<button class="country-btn" id="btnCA" onclick="switchCountry('CA')" data-tooltip="Canada (English)">
-    🇨🇦 CA
-</button>
-<button class="country-btn" id="btnMX" onclick="switchCountry('MX')" data-tooltip="Mexico (Spanish + English)">
-    🇲🇽 MX
-</button>
-<button class="country-btn" id="btnUK" onclick="switchCountry('UK')" data-tooltip="United Kingdom (English)">
-    🇬🇧 UK
 </button>
         </div>
 
@@ -905,19 +905,7 @@
             }
         };
 
-        const bfcmData = {
-            "US": {
-                "Universal (BFCM)": ["cyber monday", "cyber monday deals", "black friday cyber monday deals"],
-                "Apparel": ["black friday deals 2024"],
-                "Electronics": ["black friday deals 2024", "black friday deals 2024 electronics"],
-                "Toys": ["black friday deals 2024 kids"],
-                "Health & Personal Care": ["black friday deals 2024"],
-                "Luggage": ["black friday deals 2024"],
-                "Wireless": ["black friday deals 2024"]
-            },
-            "DE": {
-                "Universal (BFCM)": [{t: "black friday", e: "black friday"}, {t: "cyber monday", e: "cyber monday"}]
-            },
+
             // 2. BLACK FRIDAY / CYBER MONDAY DATA
         const bfcmData = {
             "US": {

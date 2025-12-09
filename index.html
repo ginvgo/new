@@ -232,6 +232,26 @@
         }
         .toast.show { opacity: 1; transform: translateX(50%) translateY(10px); }
 
+
+        /* 新增：首字母标题样式 */
+.letter-header {
+    grid-column: 1 / -1; /* 关键：强制占满整行 */
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    background-color: transparent;
+    padding: 20px 0 10px 5px;
+    border-bottom: 2px solid var(--border);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* 如果是第一个字母，去掉顶部的 margin */
+.letter-header:first-child {
+    margin-top: 0;
+}
+
         .mobile-bar { display: none; }
 
         @media (max-width: 900px) {

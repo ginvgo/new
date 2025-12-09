@@ -117,6 +117,39 @@
     font-weight: bold;
 }
 
+
+        /* --- 新增：侧边栏总数统计样式 --- */
+.sidebar-stats {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    background: linear-gradient(to right, var(--bg-white), #fafafa);
+}
+
+.stats-label {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.stats-number {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-dark); /* 跟随主题变色 */
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.stats-number small {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-gray);
+}
+
         body.theme-bfcm .country-btn.active { background: #ede7f6; }
 
         /* 4. Search */
@@ -791,15 +824,54 @@
         function renderSidebar() {
             sidebar.innerHTML = "";
             const cats = Object.keys(sortedData);
-            if(cats.length === 0) { sidebar.innerHTML = `<div style="padding:20px; color:#999; font-size:0.9rem; text-align:center;">No data available</div>`; return; }
+            
+            if(cats.length === 0) { 
+                sidebar.innerHTML = `<div style="padding:20px; color:#999; font-size:0.9rem; text-align:center;">No data available</div>`; 
+                return; 
+            }
 
+            // --- 新增逻辑 1：计算总数 ---
+            let totalKeywords = 0;
+            cats.forEach(cat => {
+                // 累加每个分类数组的长度
+                totalKeywords += sortedData[cat].length;
+            });
+
+            // --- 新增逻辑 2：插入总数显示模块 ---
+            const statsDiv = document.createElement('div');
+            statsDiv.className = 'sidebar-stats';
+            // 使用 var(--primary) 让数字颜色随圣诞/黑五主题变化
+            statsDiv.innerHTML = `
+                <div class="stats-label">Total Keywords</div>
+                <div class="stats-number" style="color: var(--primary)">
+                    ${totalKeywords}
+                    <small>items</small>
+                </div>
+            `;
+            sidebar.appendChild(statsDiv);
+            // ---------------------------
+
+            // 原有逻辑：生成分类按钮
             cats.forEach(cat => {
                 const count = sortedData[cat].length;
                 const btn = document.createElement('div');
                 btn.className = `nav-item ${cat === currentCategory ? 'active' : ''}`;
                 const iconClass = categoryIcons[cat] || "fa-tag";
-                btn.innerHTML = `<div class="nav-content"><i class="fa-solid ${iconClass}"></i><span>${cat}</span></div><span class="nav-count">${count}</span>`;
-                btn.onclick = () => { currentCategory = cat; searchInput.value = ""; renderSidebar(); renderContent(); };
+                
+                btn.innerHTML = `
+                    <div class="nav-content">
+                        <i class="fa-solid ${iconClass}"></i>
+                        <span>${cat}</span>
+                    </div>
+                    <span class="nav-count">${count}</span>
+                `;
+                
+                btn.onclick = () => {
+                    currentCategory = cat;
+                    searchInput.value = "";
+                    renderSidebar();
+                    renderContent();
+                };
                 sidebar.appendChild(btn);
             });
         }

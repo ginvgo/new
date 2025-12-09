@@ -275,6 +275,24 @@
             .mobile-bar-btn { background: var(--text-dark); color: white; border: none; padding: 8px 20px; border-radius: 20px; font-weight: 600; }
             .mobile-close-btn { display: block !important; }
         }
+        /* 新增：首字母标题样式 */
+   .letter-header {
+    grid-column: 1 / -1; /* 关键：强制占满整行 */
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    background-color: transparent;
+    padding: 20px 0 10px 5px;
+    border-bottom: 2px solid var(--border);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* 如果是第一个字母，去掉顶部的 margin */
+.letter-header:first-child {
+    margin-top: 0;
+}
         @media (min-width: 769px) { .mobile-close-btn { display: none; } }
     </style>
 </head>
@@ -672,25 +690,48 @@
                     grid.className = "keywords-grid";
 
                     filteredList.forEach(item => {
-                        const term = getTerm(item);
-                        const isSelected = selectedKeywords.has(term);
-                        const chip = document.createElement('div');
-                        chip.className = `keyword-chip ${isSelected ? 'selected' : ''}`;
-                        chip.dataset.word = term;
-                        
-                        let contentHTML = "";
-                        if (currentCountry === 'DE' || currentCountry === 'IT') {
-                            contentHTML = `<div class="chip-text-group"><span class="chip-main">${item.t}</span><span class="chip-sub">${item.e}</span></div>`;
-                        } else {
-                            contentHTML = `<span class="chip-main">${item}</span>`;
-                        }
-                        
-                        chip.innerHTML = `${contentHTML}<i class="fa-${isSelected ? 'solid fa-check-circle' : 'solid fa-plus'}"></i>`;
-                        chip.onclick = () => toggleSelection(term);
-                        grid.appendChild(chip);
-                    });
-                    section.appendChild(grid);
-                    mainContent.appendChild(section);
+                        const grid = document.createElement('div');
+            grid.className = "keywords-grid";
+
+            // 新增变量：记录上一个首字母
+            let lastLetter = "";
+
+            filteredList.forEach(item => {
+                const term = getTerm(item);
+                
+                // --- 新增逻辑：首字母分组 ---
+                // 获取当前单词的首字母（转大写）
+                const currentLetter = term.charAt(0).toUpperCase();
+                
+                // 只有在非搜索状态下，才显示字母标题（搜索时结果较少，通常不需要分组）
+                if (filter === "" && currentLetter !== lastLetter) {
+                    const header = document.createElement('div');
+                    header.className = 'letter-header';
+                    header.innerText = currentLetter;
+                    grid.appendChild(header); // 插入标题
+                    lastLetter = currentLetter; // 更新记录
+                }
+                // ---------------------------
+
+                const isSelected = selectedKeywords.has(term);
+                const chip = document.createElement('div');
+                chip.className = `keyword-chip ${isSelected ? 'selected' : ''}`;
+                chip.dataset.word = term;
+                
+                let contentHTML = "";
+                if (currentCountry === 'DE' || currentCountry === 'IT') {
+                    contentHTML = `<div class="chip-text-group"><span class="chip-main">${item.t}</span><span class="chip-sub">${item.e}</span></div>`;
+                } else {
+                    contentHTML = `<span class="chip-main">${item}</span>`;
+                }
+                
+                chip.innerHTML = `${contentHTML}<i class="fa-${isSelected ? 'solid fa-check-circle' : 'solid fa-plus'}"></i>`;
+                chip.onclick = () => toggleSelection(term);
+                grid.appendChild(chip);
+            });
+
+            section.appendChild(grid);
+            mainContent.appendChild(section);
                 }
             });
             if (!foundAny) { mainContent.innerHTML = `<div style="text-align:center; padding:50px; color:#999;"><i class="fa-solid fa-magnifying-glass" style="font-size:3rem; opacity:0.3; margin-bottom:20px;"></i><h3>No matches found</h3></div>`; }

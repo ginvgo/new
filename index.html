@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q4 Seasonal Keywords Tool</title>
+    <title>旺季促销关键词表 - Q4 Seasonal Keywords recommendations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Free tool for Amazon sellers to find high-volume Christmas and Black Friday keywords. Supports US, UK, DE, IT, ES, FR, JP, CA, MX with translations. Optimize your listings now! 免费跨境电商工具：一键获取9大站点圣诞节与黑五网一高转化关键词，自带中英/小语种翻译，助力卖家Q4爆单。">
+    <meta name="keywords" content="Amazon keywords tool, Q4 seasonal trends, Christmas SEO, Black Friday keywords, Cyber Monday deals, Amazon FBA, 亚马逊选品, 旺季促销，促销关键词，跨境电商关键词, 圣诞节选品, 黑五网一流量词">
     <style>
     :root {
         /* Christmas Theme */
@@ -397,16 +399,16 @@
         <!-- 1. Tool Name (Brand) -->
         <div class="brand">
             <i class="fa-solid fa-gift"></i>
-            Q4 Keywords Tool
+            Q4 旺季促销关键词表
         </div>
 
         <!-- 2. Topic Switcher -->
         <div class="topic-switch">
-            <button class="topic-btn active xmas" id="btnXmas" onclick="switchTopic('Christmas')" data-tooltip="Switch to Christmas Keywords">
-                <i class="fa-solid fa-tree"></i> Christmas
+            <button class="topic-btn active xmas" id="btnXmas" onclick="switchTopic('Christmas')" data-tooltip="查看圣诞关键词-Switch to Christmas Keywords">
+                <i class="fa-solid fa-tree"></i> 圣诞 Christmas
             </button>
-            <button class="topic-btn bfcm" id="btnBFCM" onclick="switchTopic('BFCM')" data-tooltip="Switch to Black Friday / Cyber Monday">
-                <i class="fa-solid fa-tag"></i> Black Friday
+            <button class="topic-btn bfcm" id="btnBFCM" onclick="switchTopic('BFCM')" data-tooltip="查看黑五网一关键词-Switch to Black Friday / Cyber Monday">
+                <i class="fa-solid fa-tag"></i> 黑五 Black Friday
             </button>
         </div>
 
@@ -414,31 +416,31 @@
         <!-- 3. Country Switcher -->
         <div class="country-switch">
             <button class="country-btn active" id="btnUS" onclick="switchCountry('US')" data-tooltip="United States (English)">
-                🇺🇸 US
+                🇺🇸 美国
             </button>
 <button class="country-btn" id="btnCA" onclick="switchCountry('CA')" data-tooltip="Canada (English)">
-    🇨🇦 CA
+    🇨🇦 加拿大
 </button>
 <button class="country-btn" id="btnMX" onclick="switchCountry('MX')" data-tooltip="Mexico (Spanish + English)">
-    🇲🇽 MX
+    🇲🇽 墨西哥
 </button>
 <button class="country-btn" id="btnUK" onclick="switchCountry('UK')" data-tooltip="United Kingdom (English)">
-    🇬🇧 UK
+    🇬🇧 英国
 </button>
             <button class="country-btn" id="btnDE" onclick="switchCountry('DE')" data-tooltip="Germany (German + English)">
-                🇩🇪 DE
+                🇩🇪 德国
             </button>
            <button class="country-btn" id="btnIT" onclick="switchCountry('IT')" data-tooltip="Italy (Italian + English)">
-                🇮🇹 IT
+                🇮🇹 意大利
            </button>
            <button class="country-btn" id="btnES" onclick="switchCountry('ES')" data-tooltip="Spain (Spanish + English)">
-                🇪🇸 ES
+                🇪🇸 西班牙
            </button>
             <button class="country-btn" id="btnFR" onclick="switchCountry('FR')" data-tooltip="France (French + English)">
-               🇫🇷 FR
+               🇫🇷 法国
            </button>
 <button class="country-btn" id="btnJP" onclick="switchCountry('JP')" data-tooltip="Japan (Japanese + English)">
-    🇯🇵 JP
+    🇯🇵 日本
 </button>
         </div>
 
@@ -483,12 +485,12 @@
                         <i class="fa-solid fa-times"></i>
                     </button>
                 </div>
-                <p id="selectionCount">0 items</p>
+                <p id="selectionCount">0 kws</p>
             </div>
             <ul class="selected-list" id="selectedList">
                 <li style="padding:30px 20px; text-align:center; color:#999; font-size:0.9rem;">
                     <i class="fa-regular fa-square-check" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>
-                    Select keywords to build your list.
+                    选择并批量复制你所需要的关键词<br>Select keywords to build your list.
                 </li>
             </ul>
             <div class="panel-footer">
@@ -1116,7 +1118,7 @@
                 <div class="stats-label">Total Keywords</div>
                 <div class="stats-number" style="color: var(--primary)">
                     ${totalKeywords}
-                    <small>items</small>
+                    <small>kws</small>
                 </div>
             `;
             sidebar.appendChild(statsDiv);
